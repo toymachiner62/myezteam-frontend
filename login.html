@@ -20,18 +20,21 @@
     <script src="js/login.js"></script>
   </head>
 
-  <body ng-app>
+  <body ng-app="loginModule">
 
     <div class="container" ng-controller="LoginController">
 
-      <form class="form-signin" ng-submit="login()">
+      <form class="form-signin" name="form" ng-submit="login()">
+        
         <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="text" class="form-control" placeholder="Email address" ng-model="username" value="{{user.username}}" required autofocus>
-        <input type="password" class="form-control" placeholder="Password" ng-model="password" value="{{user.password}}" required>
+
+        <span ng-show="loginError != null">The following error occurred: {{loginError}}</span>
+        <input type="text" name="email" class="form-control" placeholder="Email address" ng-model="user.email" value="{{user.email}}" required autofocus>
+        <input type="password" name="password" class="form-control" placeholder="Password" ng-model="user.password" value="{{user.password}}" required>
         <label class="checkbox">
-          <input type="checkbox" value="remember-me"> Remember me
+          <input type="checkbox" value="remember-me" ng-model="user.remember"> Remember me
         </label>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" >Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-disabled="form.$invalid">Sign in</button>
       </form>
 
     </div> <!-- /container -->
