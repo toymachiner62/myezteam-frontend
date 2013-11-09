@@ -1,7 +1,7 @@
 var token = sessionStorage.getItem("token");
 var baseUrl = 'http://myezteam-webservices.herokuapp.com/';
 
-var loginModule = angular.module('loginModule', []);
+var loginModule = angular.module('loginModule', ['ui.bootstrap']);
 
 // Controller for the login page
 loginModule.controller('LoginController', ['$scope', '$http', function($scope, $http) {
@@ -13,11 +13,11 @@ loginModule.controller('LoginController', ['$scope', '$http', function($scope, $
 			password: localStorage.getItem("password"),
 			remember: localStorage.getItem("remember")
 		}
-	}
+	} 
 
 	// Login method when the form is submitted
 	$scope.login = function() {
-
+	
 		// Authenticate the user
 		$http.post(baseUrl+'v1/auth/login?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d', $scope.user)
 			.success(function(response) {
