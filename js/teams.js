@@ -18,25 +18,40 @@ teamsModule.controller('TeamsController', ['$scope', '$http', function($scope, $
 			$scope.profile = 'An error occurred looking for your info. Please try again later.';
 		});	
 
-	// Get all of a users teams teams
-	$http.get(baseUrl+'v1/teams?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+	// Get all of a users teams
+	$http.get(baseUrl+'v1/teams/all?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
 		.success(function(response) {
-	
+		
 			$scope['teams'] = response;
+			var players = null;
+			
+			// Get the details and players of the first team in the list.
+			if(response.manager.length > 0) {
+				players = response.manager;
+				$scope.getPlayers(players[0].id, players[0].name, players[0].type, players[0].default_location, players[0].description);
+			} else if(response.player.length > 0) {
+				players = response.player;
+				$scope.getPlayers(players[0].id, players[0].name, players[0].type, players[0].default_location, players[0].description);
+			}
+			
 		})
 		.error(function(response) {
 			$scope['teams'] = 'An error occurred looking for your teams. Please try again later.';
 		});
 		
 	// Get all the players of a specific team
-	$scope.getPlayers = function(team_id, team_name) {
+	$scope.getPlayers = function(team_id, team_name, team_type, team_location, team_description) {
+	
 		$http.get(baseUrl+'v1/players/team/'+team_id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
 		.success(function(response) {
 			$scope.teamName = team_name;
+			$scope.teamType = team_type;
+			$scope.teamLocation = team_location;
+			$scope.teamDescription = team_description;
 			$scope['players'] = response;
 		})
 		.error(function(response) {
-			$scope['players'] = 'An error occurred looking for your teams. Please try again later.';
+			$scope['players'] = 'An error occurred looking for your players. Please try again later.';
 		});
 
 	}
