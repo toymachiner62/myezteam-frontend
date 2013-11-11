@@ -9,40 +9,51 @@ myezteam.config(function($routeProvider) {
 			{
 				title: 'My Profile',
 				controller: 'ProfileController',
-				templateUrl: 'partials/profile.html'
+				templateUrl: 'partials/profile.html',
+				activetab: 'profile'
 			})
 		.when('/teams',
 			{
 				title: 'My Teams',
 				controller: 'TeamsController',
-				templateUrl: 'partials/teams.html'
+				templateUrl: 'partials/teams.html',
+				activetab: 'teams'
 			})
-		.when('/teams/:team_id',
+		.when('/teams/create',
 			{
-				title: 'My Teams',
-				controller: 'TeamsController',
-				templateUrl: 'partials/teams.html'
+				title: 'Create Team',
+				controller: 'CreateTeamController',
+				templateUrl: 'partials/create-team.html',
+				activetab: 'teams'
 			})
-		.otherwise({redirectTo: '/profile'});
+		.when('/teams/add-player',
+			{
+				title: 'Add Player',
+				controller: 'AddPlayerToTeamController',
+				templateUrl: 'partials/add-player-to-team.html',
+				activetab: 'teams'
+			})
+		.otherwise({redirectTo: '/teams'});
 });
 
 // Sets the page title
 myezteam.run(['$location', '$rootScope', function($location, $rootScope) {
+	
+	// This sets the page title
 	$rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
 		if(typeof current.$$route !== 'undefined') {
 			$rootScope.title = current.$$route.title;
 		}
 	});
+	
+	// This gives the nav link that the user is currently on, the class 'active'
+	var path = function() {
+		return $location.path();
+	};
+	$rootScope.$watch(path, function(newVal, oldVal) {
+		$rootScope.activetab = newVal;
+	});
 }]);
-
-// This factory allows us to set the page title and the active nav menu
-/*myezteam.factory('templateFactory', function(){
-	var title = 'default';
-  	return {
-    	getTitle: function() { return title; },
-    	setTitle: function(newTitle) { title = newTitle; }
-  	};
-}); */
 
 // This gets the basic information that is needed for every page like the user's information, etc
 myezteam.service('myezteamBase', function($http) {
@@ -65,10 +76,11 @@ myezteam.service('myezteamBase', function($http) {
 	
 });
 
-// This controller is used to set some elements in the actual template like the page title, active menu item, etc
-/*myezteam.controller('TemplateController', ['$scope', 'templateFactory', function($scope, templateFactory) {
+// This controller is used to set the user profile links
+myezteam.controller('TemplateProfileController', ['$scope', 'myezteamBase', function($scope, myezteamBase) {
 
-	$scope.pageTitle = templateFactory;
-	
-	console.log($scope.pageTitle.getTitle());
-}]); */
+	myezteamBase.getAuthHeader();
+	myezteamBase.getProfile(function(response) {
+		$scope.profile = response;
+	});
+}]);

@@ -38,9 +38,10 @@
 		<div class="col-lg-6">
 			<div class="panel panel-info">
 				<div class="panel-heading">
-                	<button class="btn btn-default btn-xs pull-right" type="button">Create Team</button>
+                	<a href="#/teams/create" class="btn btn-default btn-xs pull-right" type="button">Create Team</a>
                 	<h3 class="panel-title">Teams</h3>
               	</div>
+              	
               	<div class="panel-body">
               		<div class="list-group" ng-repeat="team in teams.manager">
 						<a class="list-group-item" ng-class="activeClass(team)" ng-click="getPlayers(team.id, team.name, team.type, team.default_location, team.description); activateTeam(team)">
@@ -74,7 +75,7 @@
 		<div class="col-lg-6" ng-show="teamName != null">
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<button class="btn btn-default btn-xs pull-right" type="button">Add Player</button>
+					<a href="#/teams/add-player" class="btn btn-default btn-xs pull-right" type="button">Add Player</a>
                 	<h3 class="panel-title">Players on {{teamName}}</h3>
               	</div>
               	<div class="panel-body">

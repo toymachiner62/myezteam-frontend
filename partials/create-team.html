@@ -1,0 +1,65 @@
+<div id="page-wrapper">
+	<div class="row">
+		<div class="col-lg-12">
+			<h1>New Team</h1>
+			<ol class="breadcrumb">
+				<li><a href="index.html"><i class="icon-dashboard"></i> Dashboard</a></li>
+				<li><a href="#/teams">Teams</a></li>
+	            <li class="active"><i class="icon-file-alt"></i> New Team</li>
+	        </ol>
+		</div>
+	</div><!-- /.row -->
+	
+	<div class="row">
+		<div class="col-lg-12">
+		
+			<div class="alert alert-success" ng-show="success != null">
+				{{success}}
+			</div>
+			
+			<div class="alert alert-danger" ng-show="error != null">
+				{{error}}
+			</div>
+		
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">New Team</h3>
+	            </div>
+				<div class="panel-body">
+	              
+					<form role="form" name="form" ng-submit="createTeam()">
+	
+	              		<div class="form-group">
+	                		<label for="name">Team Name</label>
+	                		<input type="text" name="name" class="form-control" ng-model="team.name">
+							<span ng-show="form.name.$dirty && form.name.$error.required">Team Name is required</	span>	
+     	         		</div>
+     	         
+     	         		<div class="form-group">
+     	      	     		<label for="type">Type</label>
+     	      	     		<input type="text" name="type" class="form-control" placeholder="e.g. Broomball" ng-model="team.type">
+     	      	     		<span ng-show="form.type.$dirty && form.type.$error.required">Last Name is required</span>
+     	         		</div>
+     	         
+     	         		<div class="form-group">
+     	      	     		<label for="default_location">Default Location</label>
+     	      	     		<input type="text" name="default_location" class="form-control" ng-model="team.default_location">
+     	      	     		<span ng-show="form.default_location.$dirty && form.default_location.$error.required">Last Name is required</span>
+     	         		</div>
+     	         		
+     	         		<div class="form-group">
+     	      	     		<label for="description">Description</label>
+     	      	     		<input type="text" name="description" class="form-control" ng-model="team.description">
+     	      	     		<span ng-show="form.description.$dirty && form.description.$error.required">Last Name is required</span>
+     	         		</div>
+    	          		
+    	          		<button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">Save</button>
+    	          		<a href="#/teams" class="btn btn-default">Cancel</a>
+    	      
+    	          	</form>
+    	          
+				</div>
+			</div>
+		</div>
+	</div><!-- /.row -->
+</div><!-- /#page-wrapper -->
