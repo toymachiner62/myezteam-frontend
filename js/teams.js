@@ -1,40 +1,33 @@
-var token = sessionStorage.getItem("token");
-var baseUrl = 'http://myezteam-webservices.herokuapp.com/';
-
-var teamsModule = angular.module('teamsModule', ['ui.bootstrap', 'profileModule']);
-
 // Controller for the teams page
-teamsModule.controller('TeamsController', ['$scope', '$http', function($scope, $http) {
+myezteam.controller('TeamsController', ['$scope', '$http', 'myezteamBase', function($scope, $http, myezteamBase) {
 
-	// Set authorization token so we know the user has logged in.
-	$http.defaults.headers.common.Authorization = 'Bearer ' + token;
-	
-	// Get the logged in users info
-	$http.get(baseUrl+'v1/users?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
-		.success(function(response) {
-			$scope.profile = response;
-		})
-		.error(function(response) {
-			$scope.profile = 'An error occurred looking for your info. Please try again later.';
-		});	
-
-	
+	myezteamBase.getAuthHeader();
+	myezteamBase.getProfile(function(response) {
+		$scope.profile = response;
+	});
+	//templateFactory.setTitle('My Teams');
 
 	// Get all of a users teams
 	$scope.getTeams = function() {
+	
 		$http.get(baseUrl+'v1/teams/all?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
 			.success(function(response) {
 		
 				$scope['teams'] = response;
 				var players = null;
 			
+				
+				//$scope.selected = $scope['teams'][0];
+			
 				// Get the details and players of the first team in the list.
 				if(response.manager.length > 0) {
 					players = response.manager;
 					$scope.getPlayers(players[0].id, players[0].name, players[0].type, players[0].default_location, players[0].description);
+					$scope.selected = players[0];
 				} else if(response.player.length > 0) {
 					players = response.player;
 					$scope.getPlayers(players[0].id, players[0].name, players[0].type, players[0].default_location, players[0].description);
+					$scope.selected = players[0];
 				}
 			
 			})
@@ -55,10 +48,6 @@ teamsModule.controller('TeamsController', ['$scope', '$http', function($scope, $
 			$scope.teamLocation = team_location;
 			$scope.teamDescription = team_description;
 			$scope['players'] = response;
-			
-
-			
-			
 		})
 		.error(function(response) {
 			$scope['players'] = 'An error occurred looking for your players. Please try again later.';
@@ -78,6 +67,16 @@ teamsModule.controller('TeamsController', ['$scope', '$http', function($scope, $
 			$scope['players'] = 'An error occurred looking for your players. Please try again later.';
 		});
 
+	}
+	
+	
+	
+    $scope.activateTeam = function(team) {
+       $scope.selected = team; 
+    };
+	
+	$scope.activeClass = function(team) {
+		return team === $scope.selected ? 'active' : undefined;
 	}
 	
 	$scope.getTeams();	// Call on page load
