@@ -40,6 +40,13 @@ myezteam.config(function($routeProvider) {
 				templateUrl: 'partials/add-player-to-team.html',
 				activetab: 'teams'
 			})
+		.when('/events', 
+			{
+				title: 'My Events',
+				controller: 'EventsController',
+				templateUrl: 'partials/events.html',
+				activetab: 'events'
+			})
 		.otherwise({redirectTo: '/teams'});
 });
 
