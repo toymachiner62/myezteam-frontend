@@ -4,3 +4,10 @@
     color: #555555;
     z-index: 2 !important;
 }
+.inline {
+    display: inline;
+}
+/* select an element that has both classes .inline and .form-control */
+.inline.form-control {
+    width: 30%;
+}

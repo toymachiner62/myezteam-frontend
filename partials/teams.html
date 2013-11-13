@@ -39,11 +39,12 @@
 			<div class="panel panel-info">
 				<div class="panel-heading">
                 	<a href="#/teams/create" class="btn btn-default btn-xs pull-right" type="button">Create Team</a>
-                	<h3 class="panel-title">Teams</h3>
+                	<h3 class="panel-title inline">Teams</h3>&nbsp;&nbsp;<input ng-model="searchTeam" class="inline form-control" placeholder="Search For Team" />
               	</div>
               	
               	<div class="panel-body">
-              		<div class="list-group" ng-repeat="team in teams.manager">
+              		<div class="list-group" ng-repeat="team in teams.manager | filter:searchTeam">
+              		
 						<a class="list-group-item" ng-class="activeClass(team)" ng-click="getPlayers(team.id, team.name, team.type, team.default_location, team.description); activateTeam(team)">
                     		<!-- <span class="badge">just now</span> -->
                     		<strong>{{team.name}}</strong>
@@ -51,7 +52,7 @@
 						</a>
 					</div>
                 
-                	<div class="list-group" ng-repeat="team in teams.player">
+                	<div class="list-group" ng-repeat="team in teams.player | filter:searchTeam">
                   		<a  class="list-group-item" ng-class="activeClass(team)" ng-click="getPlayers(team.id, team.name, team.type, team.default_location, team.description); activateTeam(team)">
                     		<!-- <span class="badge">just now</span> -->
                     		<strong>{{team.name}}</strong>
@@ -59,7 +60,7 @@
                   		</a>
                 	</div>
                 
-                	<div class="list-group" ng-repeat="team in teams.owner">
+                	<div class="list-group" ng-repeat="team in teams.owner | filter:searchTeam">
                   		<a  class="list-group-item" ng-class="activeClass(team)" ng-click="getPlayers(team.id, team.name, team.type, team.default_location, team.description); activateTeam(team)">
                     		<strong>{{team.name}}</strong>
                     		<span class="label label-success pull-right">Owner</span>
