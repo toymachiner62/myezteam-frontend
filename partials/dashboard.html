@@ -1,0 +1,97 @@
+<div id="page-wrapper">
+	<div class="row">
+		<div class="col-lg-12">
+			<h1>My Teams</h1>
+            <ol class="breadcrumb">
+              <li class="active"><i class="icon-dashboard"></i> Dashboard</li>
+            </ol>
+		</div>
+	</div><!-- /.row -->
+
+	<div class="row">
+		<div class="col-lg-12" ng-show="teamName != null">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<div ng-repeat="team in teams.owner">
+						<button class="btn btn-danger btn-xs pull-right" type="button" ng-show="team.id == teamId" ng-click="deleteTeam(team.id)">Delete Team</button>
+					</div>
+                	<h3 class="panel-title">Team Info</h3>
+				</div>
+              	<div class="panel-body">
+					<div class="list-group">
+                		<h3>{{teamName}}</h3>
+                		<p><strong>Type:</strong> {{teamType}}</p>
+                		<p><strong>Default Location:</strong> {{teamLocation}}</p>
+                		<p><strong>Description:</strong> {{teamDescription}}</p>
+                		<p><strong>Managers:</strong></p>
+                		<ul>
+                			<li ng-repeat="player in players | filter:player.player_type == 'Manager'">{{player.first_name}} {{player.last_name}}</li>
+                		</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div><!-- /.row -->
+
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+                	<a href="#/teams/create" class="btn btn-default btn-xs pull-right" type="button">Create Team</a>
+                	<h3 class="panel-title inline">Teams</h3>&nbsp;&nbsp;<input ng-model="searchTeam" class="inline form-control" placeholder="Search For Team" />
+              	</div>
+              	
+              	<div class="panel-body">
+              		<div class="list-group" ng-repeat="team in teams.manager | filter:searchTeam">
+              		
+						<a class="list-group-item" ng-class="activeClass(team)" ng-click="getPlayers(team.id, team.name, team.type, team.default_location, team.description); activateTeam(team)">
+                    		<!-- <span class="badge">just now</span> -->
+                    		<strong>{{team.name}}</strong>
+                    		<span class="label label-warning pull-right">Manager</span>
+						</a>
+					</div>
+                
+                	<div class="list-group" ng-repeat="team in teams.player | filter:searchTeam">
+                  		<a  class="list-group-item" ng-class="activeClass(team)" ng-click="getPlayers(team.id, team.name, team.type, team.default_location, team.description); activateTeam(team)">
+                    		<!-- <span class="badge">just now</span> -->
+                    		<strong>{{team.name}}</strong>
+                    		<span class="label label-primary pull-right">Player</span>
+                  		</a>
+                	</div>
+                
+                	<div class="list-group" ng-repeat="team in teams.owner | filter:searchTeam">
+                  		<a  class="list-group-item" ng-class="activeClass(team)" ng-click="getPlayers(team.id, team.name, team.type, team.default_location, team.description); activateTeam(team)">
+                    		<strong>{{team.name}}</strong>
+                    		<span class="label label-success pull-right">Owner</span>
+                  		</a>
+                	</div>
+               		<!-- <div class="text-right">
+                  		<a href="#">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
+                	</div> -->
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-6" ng-show="teamName != null">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<a href="#/teams/add-player" class="btn btn-default btn-xs pull-right" type="button">Add Player</a>
+                	<h3 class="panel-title">Players on {{teamName}}</h3>
+              	</div>
+              	<div class="panel-body">
+                	<div class="list-group" ng-repeat="player in players">
+                  		<a href="#/{{player.id}}" class="list-group-item">
+							<span class="label label-primary pull-right" ng-show="player.player_type == 'Regular'">Regular</span>
+							<span class="label label-warning pull-right" ng-show="player.player_type == 'Member'">Member</span>
+                    		<!-- <span class="badge">just now</span> -->
+                    		<i class="fa fa-user"></i> <strong>{{player.user.first_name}} {{player.user.last_name}}</strong>
+                  		</a>
+                	</div>
+                	<!-- <div class="text-right">
+                  		<a href="#">View All Teams <i class="fa fa-arrow-circle-right"></i></a>
+                	</div> -->
+				</div>
+			</div>
+		</div>
+	</div><!-- /.row -->
+</div><!-- /#page-wrapper -->

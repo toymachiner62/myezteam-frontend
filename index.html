@@ -24,6 +24,7 @@
     <script src="js/profile.js"></script>
     <script src="js/create-team.js"></script>
     <script src="js/add-player-to-team.js"></script>
+    <script src="js/dashboard.js"></script>
   </head>
 
   <body>
@@ -46,7 +47,8 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
-          	<li ng-class="{active: activetab == '/teams'}"><a href="#/teams"><i class="fa fa-dashboard"></i> Teams</a></li>
+            <li ng-class="{active: activetab == '/dashboard'}"><a href="#/dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+          	<li ng-class="{active: activetab == '/teams'}"><a href="#/teams"><i class="fa fa-th-large"></i> Teams</a></li>
           	
             <!-- <li><a href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a></li>
             <li><a href="charts.html"><i class="fa fa-bar-chart-o"></i> Charts</a></li>

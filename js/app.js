@@ -5,6 +5,13 @@ var myezteam = angular.module('myezteam', []);
 
 myezteam.config(function($routeProvider) {
 	$routeProvider
+	    .when('/dashboard', 
+			{
+				title: 'My Dashboard',
+				controller: 'DashboardController',
+				templateUrl: 'partials/dashboard.html',
+				activetab: 'dashboard'
+			})
 		.when('/profile', 
 			{
 				title: 'My Profile',
