@@ -21,6 +21,7 @@
     
     <script src="js/app.js"></script>
     <script src="js/teams.js"></script>
+    <script src="js/team.js"></script>
     <script src="js/profile.js"></script>
     <script src="js/create-team.js"></script>
     <script src="js/add-player-to-team.js"></script>
@@ -63,19 +64,19 @@
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-certificate"></i> Teams I Own <b class="caret"></b></a>
               <ul class="dropdown-menu" ng-repeat="team in teams.owner">
-              	<li><a href="#/teams/team.id"><i class="fa fa-barcode"></i> {{team.name}}</a></li>
+              	<li><a href="#/teams/{{team.id}}"><i class="fa fa-barcode"></i> {{team.name}}</a></li>
               </ul>
             </li>
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-search"></i> Teams I Manage <b class="caret"></b></a>
               <ul class="dropdown-menu" ng-repeat="team in teams.manager">
-              	<li><a href="#/teams/team.id"><i class="fa fa-barcode"></i> {{team.name}}</a></li>
+              	<li><a href="#/teams/{{team.id}}"><i class="fa fa-barcode"></i> {{team.name}}</a></li>
               </ul>
             </li>
            <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Teams I Play For <b class="caret"></b></a>
               <ul class="dropdown-menu" ng-repeat="team in teams.player">
-              	<li><a href="#/teams/team.id"><i class="fa fa-barcode"></i> {{team.name}}</a></li>
+              	<li><a href="#/teams/{{team.id}}"><i class="fa fa-barcode"></i> {{team.name}}</a></li>
               </ul>
             </li>
           </ul>

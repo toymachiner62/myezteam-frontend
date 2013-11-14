@@ -13,7 +13,7 @@ myezteam.controller('EventsController', ['$scope', '$http', 'myezteamBase', func
 		$http.get(baseUrl+'v1/events?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
 			.success(function(response) {
 		
-				$scope['events'] = response;
+				$scope.events = response;
 				//var players = null;
 			
 				// Get the details and players of the first team in the list.
@@ -29,7 +29,7 @@ myezteam.controller('EventsController', ['$scope', '$http', 'myezteamBase', func
 			
 			})
 			.error(function(response) {
-				$scope['events'] = 'An error occurred looking for your events. Please try again later.';
+				$scope.events = 'An error occurred looking for your events. Please try again later.';
 			});
 		}
 		
