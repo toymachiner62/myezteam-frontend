@@ -26,6 +26,13 @@ myezteam.config(function($routeProvider) {
 				templateUrl: 'partials/teams.html',
 				activetab: 'teams'
 			})
+		.when('/teams/:id',
+			{
+				title: 'Team',
+				controller: 'TeamController',
+				templateUrl: 'partials/team.html',
+				activetab: 'team'
+			})
 		.when('/teams/create',
 			{
 				title: 'Create Team',
@@ -78,7 +85,7 @@ myezteam.service('myezteamBase', function($http) {
 	}
 	
 	this.getProfile = function(callback) {
-		// Get the logge din users info
+		// Get the logged in users info
 		$http.get(baseUrl+'v1/users?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
 			.success(function(response) {
 				callback(response);
@@ -90,11 +97,35 @@ myezteam.service('myezteamBase', function($http) {
 	
 });
 
+// This gets the teams that a user is associated with
+myezteam.service('teams', function($http) {
+    
+    // Get the teams associated with the logged in user
+    this.getTeams = function(callback) {
+        
+        $http.get(baseUrl+'v1/teams/all?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+			.success(function(response) {
+				callback(response);
+			})
+			.error(function(response) {
+				return 'An error occurred looking for your teams. Please try again later.';
+			});
+		
+    }
+    
+    
+});
+
 // This controller is used to set the user profile links
-myezteam.controller('TemplateProfileController', ['$scope', 'myezteamBase', function($scope, myezteamBase) {
+myezteam.controller('TemplateProfileController', ['$scope', 'myezteamBase', 'teams', function($scope, myezteamBase, teams) {
 
 	myezteamBase.getAuthHeader();
 	myezteamBase.getProfile(function(response) {
 		$scope.profile = response;
 	});
+	
+	teams.getTeams(function(response) {
+	    $scope.teams = response;    
+	});
+	
 }]);

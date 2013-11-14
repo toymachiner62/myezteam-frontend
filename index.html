@@ -49,8 +49,8 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
             <li ng-class="{active: activetab == '/dashboard'}"><a href="#/dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li ng-class="{active: activetab == '/events'}"><a href="#/events"><i class="fa fa-road"></i> Events</a></li>
-          	<li ng-class="{active: activetab == '/teams'}"><a href="#/teams"><i class="fa fa-th-large"></i> Teams</a></li>
+            <li ng-class="{active: activetab == '/events'}"><a href="#/events"><i class="fa fa-calendar"></i> Events</a></li>
+          	<li ng-class="{active: activetab == '/teams'}"><a href="#/teams"><i class="fa fa-th-large"></i> All Teams</a></li>
           	
             <!-- <li><a href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a></li>
             <li><a href="charts.html"><i class="fa fa-bar-chart-o"></i> Charts</a></li>
@@ -60,10 +60,22 @@
             <li><a href="bootstrap-elements.html"><i class="fa fa-desktop"></i> Bootstrap Elements</a></li>
             <li><a href="bootstrap-grid.html"><i class="fa fa-wrench"></i> Bootstrap Grid</a></li>
             <li class="active"><a href="blank-page.html"><i class="fa fa-file"></i> Blank Page</a></li> -->
-            <li>
-              <a href="#" ><i class="fa fa-caret-square-o-down"></i> My Teams <b class="caret"></b></a>
-              <ul ng-repeat="team in teams">
-              	<li><a href="#">{{team.name}}</a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-certificate"></i> Teams I Own <b class="caret"></b></a>
+              <ul class="dropdown-menu" ng-repeat="team in teams.owner">
+              	<li><a href="#/teams/team.id"><i class="fa fa-barcode"></i> {{team.name}}</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-search"></i> Teams I Manage <b class="caret"></b></a>
+              <ul class="dropdown-menu" ng-repeat="team in teams.manager">
+              	<li><a href="#/teams/team.id"><i class="fa fa-barcode"></i> {{team.name}}</a></li>
+              </ul>
+            </li>
+           <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Teams I Play For <b class="caret"></b></a>
+              <ul class="dropdown-menu" ng-repeat="team in teams.player">
+              	<li><a href="#/teams/team.id"><i class="fa fa-barcode"></i> {{team.name}}</a></li>
               </ul>
             </li>
           </ul>

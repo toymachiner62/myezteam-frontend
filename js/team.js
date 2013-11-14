@@ -1,5 +1,5 @@
-// Controller for the teams page
-myezteam.controller('TeamsController', ['$scope', '$http', 'myezteamBase', 'teams', function($scope, $http, myezteamBase, teams) {
+// Controller for the team page
+myezteam.controller('TeamsController', ['$scope', '$http', '$routeParams', 'myezteamBase', function($scope, $http, $routeParams, myezteamBase) {
 
 	myezteamBase.getAuthHeader();
 	myezteamBase.getProfile(function(response) {
@@ -7,7 +7,22 @@ myezteam.controller('TeamsController', ['$scope', '$http', 'myezteamBase', 'team
 	});
 	//templateFactory.setTitle('My Teams');
 
-    teams.getTeams(function(response) {
+    $scope.getTeam = function() {
+        
+        
+        	// Get all the players of a specific team
+		$http.get(baseUrl+'v1/players/team/'+$routeParams.id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+		.success(function(response) {
+			$scope.teamId = team_id;
+			$scope.teamName = team_name;
+			$scope.teamType = team_type;
+			$scope.teamLocation = team_location;
+			$scope.teamDescription = team_description;
+			$scope['players'] = response;
+		})
+		.error(function(response) {
+			$scope['players'] = 'An error occurred looking for your team. Please try again later.';
+		});
 	    $scope.teams = response;   
 	    
 	    //$scope['teams'] = teams.getTeams();
@@ -25,7 +40,8 @@ myezteam.controller('TeamsController', ['$scope', '$http', 'myezteamBase', 'team
 			$scope.getPlayers(players[0].id, players[0].name, players[0].type, players[0].default_location, players[0].description);
 			$scope.selected = players[0];
 		}
-	});
+	
+    }
 
 	// Get all of a users teams
 	$scope.getTeams = function() {
@@ -77,6 +93,6 @@ myezteam.controller('TeamsController', ['$scope', '$http', 'myezteamBase', 'team
 		return team === $scope.selected ? 'active' : undefined;
 	}
 	
-	$scope.getTeams();	// Call on page load
+	$scope.getTeam();	// Call on page load
 	
 }]);

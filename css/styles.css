@@ -12,3 +12,11 @@
     width: 30%;
 }
 
+/* These styles overwrite some of the bootstrap styles */
+.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+    background-color: transparent !important;
+}
+.side-nav>li.dropdown>ul.dropdown-menu>li>a {
+    padding: 5px 15px 5px 40px !important;
+}
+
