@@ -7,7 +7,25 @@ body {
   max-width: 330px;
   padding: 15px;
   margin: 0 auto;
+  
+  /* Fallback for web browsers that doesn't support RGBa */
+  background: rgb(0, 0, 0) transparent;
+  /* RGBa with 0.6 opacity */
+  background: rgba(0, 0, 0, 0.3);
+  /* For IE 5.5 - 7*/
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+  /* For IE 8*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)"; 
+  
+  width:330px;
+  min-height:330px;
+    position:absolute;
+    left:50%;
+    top:50%;
+    margin:-220px 0 0 -165px;
 }
+
+
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
   margin-bottom: 10px;
@@ -40,7 +58,45 @@ body {
 h1 {
 	text-align: center;
 	margin-bottom: 40px;
+	color: #F5F5F5;
+	/*background-color: #666666;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: rgba(255,255,255,0.5) 0px 3px 3px; */
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+             0px 8px 13px rgba(0,0,0,0.1),
+             0px 18px 23px rgba(0,0,0,0.1);
+}
+h1, 
+h3,
+label {
+    color: #F5F5F5;
+    /*text-shadow: 0px 2px #9E9E9E;
+    text-shadow: 0px -2px #cccccc; */
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+             0px 8px 13px rgba(0,0,0,0.1),
+             0px 18px 23px rgba(0,0,0,0.1);
 }
 .login-form-error {
 
 }
+
+/* These styles are for the full screen background image */
+html{
+    /* This image will be displayed fullscreen */
+    background:url('../images/login-background.jpg') no-repeat center center;
+
+    /* Ensure the html element always takes up the full height of the browser window */
+    min-height:100%;
+
+    /* The Magic */
+    background-size:cover;
+}
+body{
+    /* Workaround for some mobile browsers */
+    min-height:100%;
+    background: none;
+}
+/* End full screen background image styles */
