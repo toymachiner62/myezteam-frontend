@@ -47,7 +47,7 @@ myezteam.config(function($routeProvider) {
 				templateUrl: 'partials/events.html',
 				activetab: 'events'
 			})
-		.otherwise({redirectTo: '/teams'});
+		.otherwise({redirectTo: '/dashboard'});
 });
 
 // Sets the page title

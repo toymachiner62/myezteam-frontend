@@ -1,7 +1,7 @@
 <div id="page-wrapper">
 	<div class="row">
 		<div class="col-lg-12">
-			<h1>My Teams</h1>
+			<h1>My Events</h1>
             <ol class="breadcrumb">
               <li><a href="index.html"><i class="icon-dashboard"></i> Dashboard</a></li>
               <li class="active"><i class="icon-file-alt"></i> My Events</li>
@@ -10,20 +10,20 @@
 	</div><!-- /.row -->
 
 	<div class="row">
-		<div class="col-lg-12" ng-show="teamName != null">
+		<div class="col-lg-12" ng-show="eventName != null">
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<div ng-repeat="team in teams.owner">
-						<button class="btn btn-danger btn-xs pull-right" type="button" ng-show="team.id == teamId" ng-click="deleteTeam(team.id)">Delete Team</button>
+					<div ng-repeat="event in events">
+						<!-- <button class="btn btn-danger btn-xs pull-right" type="button" ng-show="event.id == eventId" ng-click="deleteTeam(team.id)">Delete Team</button> -->
 					</div>
-                	<h3 class="panel-title">Team Info</h3>
+                	<h3 class="panel-title">Event Info</h3>
 				</div>
               	<div class="panel-body">
 					<div class="list-group">
-                		<h3>{{teamName}}</h3>
-                		<p><strong>Type:</strong> {{teamType}}</p>
-                		<p><strong>Default Location:</strong> {{teamLocation}}</p>
-                		<p><strong>Description:</strong> {{teamDescription}}</p>
+                		<h3>{{eventName}}</h3>
+                		<p><strong>Type:</strong> {{eventType}}</p>
+                		<p><strong>Default Location:</strong> {{eventLocation}}</p>
+                		<p><strong>Description:</strong> {{eventDescription}}</p>
                 		<p><strong>Managers:</strong></p>
                 		<ul>
                 			<li ng-repeat="player in players | filter:player.player_type == 'Manager'">{{player.first_name}} {{player.last_name}}</li>
