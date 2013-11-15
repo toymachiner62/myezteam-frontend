@@ -1,7 +1,7 @@
 var token = sessionStorage.getItem("token");
 var baseUrl = 'http://myezteam-webservices.herokuapp.com/';
 
-var myezteam = angular.module('myezteam', []);
+var myezteam = angular.module('myezteam', ['highcharts-ng']);
 
 myezteam.config(function($routeProvider) {
 	$routeProvider
