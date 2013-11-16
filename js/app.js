@@ -129,3 +129,4 @@ myezteam.controller('TemplateProfileController', ['$scope', 'myezteamBase', 'tea
 	});
 	
 }]);
+
