@@ -1,8 +1,13 @@
 var token = sessionStorage.getItem("token");
 var baseUrl = 'http://myezteam-webservices.herokuapp.com/';
 
+// Module for the login page
+var myezteamLogin = angular.module('myezteam-login', []);
+
+// Module for the rest of the pages
 var myezteam = angular.module('myezteam', ['highcharts-ng']);
 
+// Set some configs
 myezteam.config(function($routeProvider) {
 	$routeProvider
 	    .when('/dashboard', 
@@ -57,7 +62,7 @@ myezteam.config(function($routeProvider) {
 		.otherwise({redirectTo: '/dashboard'});
 });
 
-// Sets the page title
+// Set some actions to be performed when running the app
 myezteam.run(['$location', '$rootScope', function($location, $rootScope) {
 	
 	// This sets the page title
@@ -66,6 +71,18 @@ myezteam.run(['$location', '$rootScope', function($location, $rootScope) {
 			$rootScope.title = current.$$route.title;
 		}
 	});
+    
+    // Register listener to watch route changes. 
+    // We use this to make sure a user is logged in when they try to retrieve data
+    $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+        
+        // If there is no token, that means the user is not logged in.
+        if(sessionStorage.getItem("token") == null) {
+           
+            // Redirect to login page
+            window.location.href = "login.html";
+        }         
+    });
 	
 	// This gives the nav link that the user is currently on, the class 'active'
 	var path = function() {
@@ -76,14 +93,15 @@ myezteam.run(['$location', '$rootScope', function($location, $rootScope) {
 	});
 }]);
 
-// This gets the basic information that is needed for every page like the user's information, etc
+// This gets the basic information that is needed for every page like the user's information, logout method, etc
 myezteam.service('myezteamBase', function($http) {
 
+    // Set authorization token so we know the user has logged in.
 	this.getAuthHeader = function() {
-		// Set authorization token so we know the user has logged in.
 		return $http.defaults.headers.common.Authorization = 'Bearer ' + token;
 	}
 	
+    // Get some profile information
 	this.getProfile = function(callback) {
 		// Get the logged in users info
 		$http.get(baseUrl+'v1/users?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
@@ -94,6 +112,12 @@ myezteam.service('myezteamBase', function($http) {
 				return 'An error occurred looking for your info. Please try again later.';
 			});	
 	}
+    
+    // Logs the user out and redirects to the login page
+    this.logout = function() {
+        sessionStorage.removeItem("token");
+        window.location = "login.html";
+    }
 	
 });
 
@@ -109,11 +133,8 @@ myezteam.service('teams', function($http) {
 			})
 			.error(function(response) {
 				return 'An error occurred looking for your teams. Please try again later.';
-			});
-		
+			});	
     }
-    
-    
 });
 
 // This controller is used to set the user profile links
@@ -123,6 +144,10 @@ myezteam.controller('TemplateProfileController', ['$scope', 'myezteamBase', 'tea
 	myezteamBase.getProfile(function(response) {
 		$scope.profile = response;
 	});
+    
+    $scope.logout = function() {
+        myezteamBase.logout();   
+    }
 	
 	teams.getTeams(function(response) {
 	    $scope.teams = response;    

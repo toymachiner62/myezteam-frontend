@@ -5,6 +5,8 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
 	myezteamBase.getProfile(function(response) {
 		$scope.profile = response;
 	});
+    
+    //this.$inject = ['highcharts-ng'];
 	//templateFactory.setTitle('My Teams');
 
 	// Get all of a users upcoming events

@@ -4,7 +4,7 @@
 //var  = angular.module('loginModule', ['ui.bootstrap']);
 
 // Controller for the login page
-myezteam.controller('LoginController', ['$scope', '$http', function($scope, $http) {
+myezteamLogin.controller('LoginController', ['$scope', '$http', function($scope, $http) {
 
 	// If a user has check the "remember me" box previously and the email/password is in localStorage, set the email/password
 	if(localStorage.getItem("email") != null && localStorage.getItem("password") != null) {

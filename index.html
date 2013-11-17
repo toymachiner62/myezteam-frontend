@@ -20,7 +20,7 @@
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//code.highcharts.com/highcharts.js"></script>
-    <script src="//raw.github.com/pablojim/highcharts-ng/master/src/directives/highcharts-ng.js"></script>
+    <script src="js/highcharts-ng.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/app.js"></script>
     <script src="js/teams.js"></script>
@@ -140,7 +140,7 @@
                 <!-- <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge">7</span></a></li> -->
                 <!-- <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li> -->
                 <li class="divider"></li>
-                <li><a href="#"><i class="fa fa-power-off"></i> Log Out</a></li>
+                <li><a ng-click="logout()"><i class="fa fa-power-off"></i> Log Out</a></li>
               </ul>
             </li>
           </ul>
