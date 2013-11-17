@@ -1,4 +1,3 @@
-var token = sessionStorage.getItem("token");
 var baseUrl = 'http://myezteam-webservices.herokuapp.com/';
 
 // Module for the login page
@@ -98,7 +97,7 @@ myezteam.service('myezteamBase', function($http) {
 
     // Set authorization token so we know the user has logged in.
 	this.getAuthHeader = function() {
-		return $http.defaults.headers.common.Authorization = 'Bearer ' + token;
+		return $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.getItem('token');
 	}
 	
     // Get some profile information

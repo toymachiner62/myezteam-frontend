@@ -1,8 +1,3 @@
-//var token = sessionStorage.getItem("token");
-//var baseUrl = 'http://myezteam-webservices.herokuapp.com/';
-
-//var  = angular.module('loginModule', ['ui.bootstrap']);
-
 // Controller for the login page
 myezteamLogin.controller('LoginController', ['$scope', '$http', function($scope, $http) {
 
@@ -22,7 +17,6 @@ myezteamLogin.controller('LoginController', ['$scope', '$http', function($scope,
 		$http.post(baseUrl+'v1/auth/login?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d', $scope.user)
 			.success(function(response) {
 				sessionStorage.setItem("token", response.token);
-				console.log(response.token);
 				$scope.loginError = null;
 
 				// If a user checked the "remember me" box, set their email/password in localStorage
