@@ -25,7 +25,7 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
 	}
 	
 	// The rsvp responses data
-	data = [
+	var data = [
 		{
 			name: 'Yes',
 			y: 6,
@@ -54,7 +54,7 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
 	];
                 
 	// The colors to be used for the respones in the pie chart
-	colors = [
+	var colors = [
 		"#2EE619", "#F0F03C", "#FAA200", "#F24129", "#737373"
 	]
                 

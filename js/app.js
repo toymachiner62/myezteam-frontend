@@ -7,7 +7,9 @@ var myezteamLogin = angular.module('myezteam-login', []);
 var myezteam = angular.module('myezteam', ['highcharts-ng']);
 
 // Set some configs
-myezteam.config(function($routeProvider) {
+myezteam.config(function($routeProvider, $httpProvider) {
+    
+    // Setup the routing
 	$routeProvider
 	    .when('/dashboard', 
 			{
@@ -59,6 +61,40 @@ myezteam.config(function($routeProvider) {
 				activetab: 'events'
 			})
 		.otherwise({redirectTo: '/dashboard'});
+		
+		// This loads the ajax loading image when necessary
+		var $http,
+        interceptor = ['$q', '$injector', function ($q, $injector) {
+            var error;
+
+            function success(response) {
+                // get $http via $injector because of circular dependency problem
+                $http = $http || $injector.get('$http');
+                if($http.pendingRequests.length < 1) {
+                    $('#loadingWidget').hide();
+                    $('#loadingBackdrop').hide();
+                }
+                return response;
+            }
+
+            function error(response) {
+                // get $http via $injector because of circular dependency problem
+                $http = $http || $injector.get('$http');
+                if($http.pendingRequests.length < 1) {
+                    $('#loadingWidget').hide();
+                    $('#loadingBackdrop').hide();
+                }
+                return $q.reject(response);
+            }
+
+            return function (promise) {
+                $('#loadingWidget').show();
+                $('#loadingBackdrop').show();
+                return promise.then(success, error);
+            }
+        }];
+
+    $httpProvider.responseInterceptors.push(interceptor);
 });
 
 // Set some actions to be performed when running the app
@@ -119,6 +155,7 @@ myezteam.service('myezteamBase', function($http) {
     }
 	
 });
+
 
 // This gets the teams that a user is associated with
 myezteam.service('teams', function($http) {
