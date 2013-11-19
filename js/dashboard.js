@@ -6,68 +6,85 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
 		$scope.profile = response;
 	});
     
-    //this.$inject = ['highcharts-ng'];
-	//templateFactory.setTitle('My Teams');
-
 	// Get all of a users upcoming events
-	$scope.getEvents = function() {
+	$scope.getEvents = function(event_id) {
 	
 		$http.get(baseUrl+'v1/events?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
 			.success(function(response) {
 		
 				$scope.events = response;
 
-			
-			})
-			.error(function(response) {
-				$scope.events = 'An error occurred looking for your events. Please try again later.';
-			});
-	}
-	
-	// The rsvp responses data
+			    event_id = event_id == null ? response[0].id : event_id
+			    
+			    // TODO remove this hard coded value and use event_id
+			    $http.get(baseUrl+'v1/events/' + event_id + '/responses?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+			.success(function(event_responses) {
+		console.log(event_responses);
+				$scope.responses = event_responses;
+				
+				// initially set the no_responses to the total number of responses. We'll change this as we loop through the responses
+				var no_response = $scope.responses.length;  
+				var yes = 0;
+				var probably = 0;
+				var maybe = 0;
+				var no = 0;
+				
+				// count the response types (2 yes's, 3 maybe's, etc)
+				for(response in $scope.responses) {
+				    switch (parseInt(response))
+                    {
+                    case 1:
+                      // do nothing
+                      break;
+                    case 2:
+                      yes++;
+                      no_response--;
+                      break;
+                    case 3:
+                      probably++;
+                      no_response--;
+                      break;
+                    case 4:
+                      maybe++;
+                      no_response--;
+                      break;
+                    case 5:
+                        no++;
+                      no_response--;
+                      break;
+                    }
+				}
+
+                	// The rsvp responses data
 	var data = [
 		{
-			name: 'Yes',
-			y: 6,
+			name: 'Yes (' + yes + ')',
+			y: yes,
 			url: '#/team/id'
 		},
 		{
-			name: 'Probably',
-			y: 4,
+			name: 'Probably (' + probably + ')',
+			y: probably,
 			url: '#/team/id'
 		},
 		{
-			name: 'Maybe',
-			y: 2,
+			name: 'Maybe (' + maybe + ')',
+			y: maybe,
 			url: '#/team/id'
 		},
 		{
-			name: 'No',
-			y: 1,
+			name: 'No (' + no + ')',
+			y: no,
 			url: '#/team/id'
 		},
 		{
-			name: 'No Response',
-			y: 2,
+			name: 'No Response (' + no_response + ')',
+			y: no_response,
 			url: '#/team/id'
 		}
 	];
                 
-	// The colors to be used for the respones in the pie chart
-	var colors = [
-		"#2EE619", "#F0F03C", "#FAA200", "#F24129", "#737373"
-	]
-                
-	// Add a gradient to the pie chart - http://www.highcharts.com/demo/pie-gradient
-	Highcharts.getOptions().colors = Highcharts.map(colors, function(color) {
-		return {
-			radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
-				stops: [
-					[0, color],
-					[1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
-				]
-		};
-	});
+	
 	
 	// Pie chart configs
 	$scope.chartConfig = {
@@ -108,8 +125,35 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
                 data: data
             }]
 	}
+			
+			})
+			.error(function(response) {
+				$scope.events = 'An error occurred looking for your events. Please try again later.';
+			});
+			
+			})
+			.error(function(response) {
+				$scope.events = 'An error occurred looking for your events. Please try again later.';
+			});
+	}
 	
+
 	
+	// The colors to be used for the respones in the pie chart
+	var colors = [
+		"#2EE619", "#F0F03C", "#FAA200", "#F24129", "#737373"
+	]
+                
+	// Add a gradient to the pie chart - http://www.highcharts.com/demo/pie-gradient
+	Highcharts.getOptions().colors = Highcharts.map(colors, function(color) {
+		return {
+			radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+				stops: [
+					[0, color],
+					[1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+				]
+		};
+	});
 
 		
 	// Get all the players of a specific team
