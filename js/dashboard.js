@@ -13,14 +13,25 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
 			.success(function(response) {
 		
 				$scope.events = response;
-
+				
+				// if no event_id is passed in, get the responses for the first event in the list
 			    event_id = event_id == null ? response[0].id : event_id
-			    
-			    // TODO remove this hard coded value and use event_id
-			    $http.get(baseUrl+'v1/events/' + event_id + '/responses?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+				$scope.getResponses(event_id);
+			})
+			.error(function(response) {
+				$scope.events = 'An error occurred looking for your events. Please try again later.';
+			});
+	}
+	
+	// Get all of the responses for a particular event
+	$scope.getResponses = function(event_id) {
+	    
+	    $http.get(baseUrl+'v1/events/' + event_id + '/responses?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
 			.success(function(event_responses) {
-		console.log(event_responses);
+				
 				$scope.responses = event_responses;
+				
+				
 				
 				// initially set the no_responses to the total number of responses. We'll change this as we loop through the responses
 				var no_response = $scope.responses.length;  
@@ -130,11 +141,6 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
 			.error(function(response) {
 				$scope.events = 'An error occurred looking for your events. Please try again later.';
 			});
-			
-			})
-			.error(function(response) {
-				$scope.events = 'An error occurred looking for your events. Please try again later.';
-			});
 	}
 	
 
@@ -191,13 +197,13 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
 	
 	
 	
-    //$scope.activateTeam = function(team) {
-    //    $scope.selected = team; 
-    //};
+    $scope.activateEvent = function(event) {
+       $scope.selected = event; 
+    };
 	
-	//$scope.activeClass = function(team) {
-	//	return team === $scope.selected ? 'active' : undefined;
-	//}
+	$scope.activeClass = function(event) {
+		return event === $scope.selected ? 'active' : undefined;
+	}
 	
 	$scope.getEvents();	// Call on page load
 	

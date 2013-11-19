@@ -60,7 +60,7 @@
               	<div class="panel-body">
               		<div class="list-group" ng-repeat="event in events">
               		
-						<a class="list-group-item" ng-class="activeClass(event)" ng-click="activateTeam(event)">
+						<a class="list-group-item" ng-class="activeClass(event)" ng-click="getResponses(event.id); activateEvent(event)">
                     		<!-- <span class="badge">just now</span> -->
                     	<h3>{{event.name}} <small class="text-danger">- {{event.start}}</small></h3>
                 		<p><strong>Description:</strong> {{event.description}}</p>
