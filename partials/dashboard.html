@@ -48,7 +48,7 @@
 			</div>
 		</div>
 	</div><!-- /.row -->
-
+<pre>{{responses}}</pre>
 	<div class="row">
 		<div class="col-lg-6">
 			<div class="panel panel-info">
@@ -57,10 +57,13 @@
                 	<h3 class="panel-title inline">Upcoming Events</h3>
               	</div>
               	
+              	
+              	
               	<div class="panel-body">
               		<div class="list-group" ng-repeat="event in events">
               		
-						<a class="list-group-item" ng-class="activeClass(event)" ng-click="getResponses(event.id); activateEvent(event)">
+						<a class="list-group-item" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name); activateEvent(event)">
+						{{event.name}}
                     		<!-- <span class="badge">just now</span> -->
                     	<h3>{{event.name}} <small class="text-danger">- {{event.start}}</small></h3>
                 		<p><strong>Description:</strong> {{event.description}}</p>
@@ -78,8 +81,7 @@
 		<div class="col-lg-6">
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<a href="#/teams/add-player" class="btn btn-default btn-xs pull-right" type="button">Add Player</a>
-                	<h3 class="panel-title">Players on {{teamName}}</h3>
+                	<h3 class="panel-title">RSVP's</h3>
               	</div>
               	<div class="panel-body">
                 	<highchart id="chart" config="chartConfig"></highchart>
