@@ -14,6 +14,19 @@ myezteam.controller('EventsController', ['$scope', '$http', 'myezteamBase', func
 			.success(function(response) {
 		
 				$scope.events = response;
+				
+				console.log($scope.events);
+				
+				for(var i = 0; i < $scope.events.length; i++) {
+				//for(event in $scope.events) {
+				    console.log($scope.events[i]);
+				    console.log($scope.events[i].start);
+				    $scope.events[i].start = new Date($scope.events[i].start).toLocaleString();
+				    console.log(new Date($scope.events[i].start).toLocaleString());
+				    console.log(event.start);
+				    event.end = $scope.events[i].end.toLocaleString();
+				}
+				
 				//var players = null;
 			
 				// Get the details and players of the first team in the list.

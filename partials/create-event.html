@@ -1,0 +1,87 @@
+<div id="page-wrapper">
+	<div class="row">
+		<div class="col-lg-12">
+			<h1>New Team</h1>
+			<ol class="breadcrumb">
+				<li><a href="index.html"><i class="icon-dashboard"></i> Dashboard</a></li>
+				<li><a href="#/events">Events</a></li>
+	            <li class="active"><i class="icon-file-alt"></i> New Event</li>
+	        </ol>
+		</div>
+	</div><!-- /.row -->
+	
+	<div class="modal" id="loadingWidget" style="position:absolute; top: 45%;" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-body">
+                <div id="loadingWidget" class="row-fluid ui-corner-all" style="padding: 0 .7em;">
+                    <div class="loadingContent">
+                        <p>
+                            <img alt="MyEZTeam" src="images/ajax-loading.gif" /> Thinking
+                        </p>
+                    </div>
+                </div>
+              </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+	
+	<div class="row">
+		<div class="col-lg-12">
+		
+			<div class="alert alert-success" ng-show="success != null">
+				{{success}}
+			</div>
+			
+			<div class="alert alert-danger" ng-show="error != null">
+				{{error}}
+			</div>
+		
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">New Event</h3>
+	            </div>
+				<div class="panel-body">
+	              
+					<form role="form" name="form" ng-submit="createEvent()">
+	
+	              		<div class="form-group">
+	                		<label for="name">Event Name</label>
+	                		<input type="text" name="name" class="form-control" ng-model="event.name">
+							<span ng-show="form.name.$dirty && form.name.$error.required">Event Name is required</span>	
+     	         		</div>
+
+     	         		<div class="form-group">
+     	      	     		<label for="description">Description</label>
+     	      	     		<input type="text" name="description" class="form-control" ng-model="event.description">
+     	      	     		<span ng-show="form.description.$dirty && form.description.$error.required">Description is required</span>
+     	         		</div>
+     	         		
+     	         		<div class="form-group">
+     	      	     		<label for="location">Location</label>
+     	      	     		<input type="text" name="location" class="form-control" ng-model="event.location">
+     	      	     		<span ng-show="form.location.$dirty && form.location.$error.required">Location is required</span>
+     	         		</div>
+     	         		
+     	         		<div class="form-group">
+     	      	     		<label for="start">Start Date</label>
+     	      	     		<input type="text" name="start" class="form-control" ng-model="event.start">
+     	      	     		<span ng-show="form.start.$dirty && form.start.$error.required">Start Date is required</span>
+     	         		</div>
+     	         		
+     	         		<div class="form-group">
+     	      	     		<label for="end">End Date</label>
+     	      	     		<input type="text" name="end" class="form-control" ng-model="event.end">
+     	      	     		<span ng-show="form.end.$dirty && form.end.$error.required">End Date is required</span>
+     	         		</div>
+    	          		
+    	          		<button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">Save</button>
+    	          		<a href="#/teams" class="btn btn-default">Cancel</a>
+    	      
+    	          	</form>
+    	          
+				</div>
+			</div>
+		</div>
+	</div><!-- /.row -->
+</div><!-- /#page-wrapper -->

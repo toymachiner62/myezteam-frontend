@@ -55,11 +55,18 @@
 		<div class="col-lg-6">
 			<div class="panel panel-info">
 				<div class="panel-heading">
-                	<a href="#/events/create" class="btn btn-default btn-xs pull-right" type="button">Create Event</a>
+				
+				
+                	<a href="#/teams/{{teamId}}/events/create" class="btn btn-default btn-xs pull-right" type="button" >Create Event</a>
                 	<h3 class="panel-title inline">Events</h3>
               	</div>
               	
               	<div class="panel-body">
+              	<pre>
+              	    {{team|json}}
+              	</pre>
+              	
+              	<pre>{{players}}</pre>
               		<div class="list-group" ng-repeat="event in events">
               		
 						<a class="list-group-item">
