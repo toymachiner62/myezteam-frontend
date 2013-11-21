@@ -14,10 +14,10 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
 		
 				$scope.events = response;
 				
-				// if no event_id or event_name is passed in, get the responses for the first event in the list
 			    var event_id = response[0].id;
 			    var event_name = response[0].name;
-				$scope.getResponses(event_id, event_name);
+			    var team_id = response[0].team_id;
+				$scope.getResponses(event_id, event_name, team_id);
 			})
 			.error(function(response) {
 				$scope.events = 'An error occurred looking for your events. Please try again later.';
@@ -25,7 +25,7 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
 	}
 	
 	// Get all of the responses for a particular event
-	$scope.getResponses = function(event_id, event_name) {
+	$scope.getResponses = function(event_id, event_name, team_id) {
 	    
 	    console.log(event_name);
 	    
@@ -33,6 +33,8 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
 			.success(function(event_responses) {
 				
 				$scope.responses = event_responses;
+				
+				console.log($scope.responses);
 				
 				// initially set the no_responses to the total number of responses. We'll change this as we loop through the responses
 				var no_response = $scope.responses.length;  
@@ -74,27 +76,27 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
                     {
                         name: 'Yes (' + yes + ')',
                         y: yes,
-                        url: '#/team/id'
+                        url: '#/team/'+team_id
                     },
                     {
                         name: 'Probably (' + probably + ')',
                         y: probably,
-                        url: '#/team/id'
+                        url: '#/team/'+team_id
                     },
                     {
                         name: 'Maybe (' + maybe + ')',
                         y: maybe,
-                        url: '#/team/id'
+                        url: '#/team/'+team_id
                     },
                     {
                         name: 'No (' + no + ')',
                         y: no,
-                        url: '#/team/id'
+                        url: '#/team/'+team_id
                     },
                     {
                         name: 'No Response (' + no_response + ')',
                         y: no_response,
-                        url: '#/team/id'
+                        url: '#/team/'+team_id
                     }
                 ];
                 
@@ -130,8 +132,8 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
                         name: 'RSVPs',
                         events: {
                             click: function(e) {
-            				    console.log(e.point.options.url);
-            				    //location.href = e.point.options.url;
+            				    //console.log(e.point.options.url);
+            				    location.href = e.point.options.url;
                             }	
                         },
                         data: data

@@ -20,3 +20,20 @@
     padding: 5px 15px 5px 40px !important;
 }
 
+/* these styles represent the colors of the rsvp responses */
+.yes {
+    background-color: rgba(46, 230, 25, 0.5);
+}
+.probably {
+    background-color: rgba(250, 240, 60, 0.5);
+}
+.maybe {
+    background-color: rgba(250, 162, 0, 0.5);
+}
+.no {
+    background-color: rgba(242, 65, 41, 0.5);
+}
+.no.response {
+    background-color: rgba(115, 115, 115, 0.5);
+}
+
