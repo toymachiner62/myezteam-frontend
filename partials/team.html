@@ -4,8 +4,8 @@
 			<h1>Team {{team.name}}</h1>
             <ol class="breadcrumb">
               <li><a href="index.html">Dashboard</a></li>
-              <li><a href="#/teams.html">Dashboard</a></li>
-              <li class="active">Team</li>
+              <li><a href="#/teams.html">Teams</a></li>
+              <li class="active">{{team.name}}</li>
             </ol>
 		</div>
 	</div><!-- /.row -->
@@ -62,16 +62,20 @@
               	</div>
               	
               	<div class="panel-body">
-              	<pre>
+              	<!--<pre>
               	    {{team|json}}
-              	</pre>
+              	</pre>-->
               	
-              	<pre>{{players}}</pre>
+              	<!--<pre>{{players}}</pre>-->
               		<div class="list-group" ng-repeat="event in events">
               		
-						<a class="list-group-item">
+						<a class="list-group-item" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name); activateEvent(event)">
                     		<!-- <span class="badge">just now</span> -->
-                    		<strong>{{event.name}}</strong>
+                    	
+                    	<h3>{{event.name}} <small class="text-danger pull-right">{{event.start | date:'EEEE, MMMM d,y @ h:mm:ss a'}}</small></h3>
+                    	
+                		<p><strong>Description:</strong> {{event.description}}</p>
+                		<p><strong>Location:</strong> {{event.location}}</p>
                     		<!-- <span class="label label-warning pull-right">Manager</span> -->
 						</a>
 					</div>

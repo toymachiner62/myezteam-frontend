@@ -42,3 +42,8 @@
     height: 507px;
 }
 
+/* Used on datepicker for prev/next month dates when viewing a month */
+.muted {
+    color: #999999;
+}
+

@@ -3360,9 +3360,9 @@ angular.module("template/datepicker/datepicker.html", []).run(["$templateCache",
     "<table>\n" +
     "  <thead>\n" +
     "    <tr class=\"text-center\">\n" +
-    "      <th><button type=\"button\" class=\"btn pull-left\" ng-click=\"move(-1)\"><i class=\"icon-chevron-left\"></i></button></th>\n" +
+    "      <th><button type=\"button\" class=\"btn pull-left\" ng-click=\"move(-1)\"><i class=\"fa fa-chevron-left\"></i></button></th>\n" +
     "      <th colspan=\"{{rows[0].length - 2 + showWeekNumbers}}\"><button type=\"button\" class=\"btn btn-block\" ng-click=\"toggleMode()\"><strong>{{title}}</strong></button></th>\n" +
-    "      <th><button type=\"button\" class=\"btn pull-right\" ng-click=\"move(1)\"><i class=\"icon-chevron-right\"></i></button></th>\n" +
+    "      <th><button type=\"button\" class=\"btn pull-right\" ng-click=\"move(1)\"><i class=\"fa fa-chevron-right\"></i></button></th>\n" +
     "    </tr>\n" +
     "    <tr class=\"text-center\" ng-show=\"labels.length > 0\">\n" +
     "      <th ng-show=\"showWeekNumbers\">#</th>\n" +
@@ -3529,21 +3529,21 @@ angular.module("template/timepicker/timepicker.html", []).run(["$templateCache",
   $templateCache.put("template/timepicker/timepicker.html",
     "<table class=\"form-inline\">\n" +
     "	<tr class=\"text-center\">\n" +
-    "		<td><a ng-click=\"incrementHours()\" class=\"btn btn-link\"><i class=\"icon-chevron-up\"></i></a></td>\n" +
+    "		<td><a ng-click=\"incrementHours()\" class=\"btn btn-link\"><i class=\"fa fa-chevron-up\"></i></a></td>\n" +
     "		<td>&nbsp;</td>\n" +
-    "		<td><a ng-click=\"incrementMinutes()\" class=\"btn btn-link\"><i class=\"icon-chevron-up\"></i></a></td>\n" +
+    "		<td><a ng-click=\"incrementMinutes()\" class=\"btn btn-link\"><i class=\"fa fa-chevron-up\"></i></a></td>\n" +
     "		<td ng-show=\"showMeridian\"></td>\n" +
     "	</tr>\n" +
     "	<tr>\n" +
-    "		<td class=\"control-group\" ng-class=\"{'error': invalidHours}\"><input type=\"text\" ng-model=\"hours\" ng-change=\"updateHours()\" class=\"span1 text-center\" ng-mousewheel=\"incrementHours()\" ng-readonly=\"readonlyInput\" maxlength=\"2\" /></td>\n" +
+    "		<td class=\"control-group\" ng-class=\"{'error': invalidHours}\"><input type=\"text\" ng-model=\"hours\" ng-change=\"updateHours()\" class=\"span1 text-center form-control\" ng-mousewheel=\"incrementHours()\" ng-readonly=\"readonlyInput\" maxlength=\"2\" /></td>\n" +
     "		<td>:</td>\n" +
-    "		<td class=\"control-group\" ng-class=\"{'error': invalidMinutes}\"><input type=\"text\" ng-model=\"minutes\" ng-change=\"updateMinutes()\" class=\"span1 text-center\" ng-readonly=\"readonlyInput\" maxlength=\"2\"></td>\n" +
+    "		<td class=\"control-group\" ng-class=\"{'error': invalidMinutes}\"><input type=\"text\" ng-model=\"minutes\" ng-change=\"updateMinutes()\" class=\"span1 text-center form-control\" ng-readonly=\"readonlyInput\" maxlength=\"2\"></td>\n" +
     "		<td ng-show=\"showMeridian\"><button type=\"button\" ng-click=\"toggleMeridian()\" class=\"btn text-center\">{{meridian}}</button></td>\n" +
     "	</tr>\n" +
     "	<tr class=\"text-center\">\n" +
-    "		<td><a ng-click=\"decrementHours()\" class=\"btn btn-link\"><i class=\"icon-chevron-down\"></i></a></td>\n" +
+    "		<td><a ng-click=\"decrementHours()\" class=\"btn btn-link\"><i class=\"fa fa-chevron-down\"></i></a></td>\n" +
     "		<td>&nbsp;</td>\n" +
-    "		<td><a ng-click=\"decrementMinutes()\" class=\"btn btn-link\"><i class=\"icon-chevron-down\"></i></a></td>\n" +
+    "		<td><a ng-click=\"decrementMinutes()\" class=\"btn btn-link\"><i class=\"fa fa-chevron-down\"></i></a></td>\n" +
     "		<td ng-show=\"showMeridian\"></td>\n" +
     "	</tr>\n" +
     "</table>");

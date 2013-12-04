@@ -5,6 +5,13 @@ myezteam.controller('CreateEventController', ['$scope', '$http', '$routeParams',
 	myezteamBase.getProfile(function(response) {
 		$scope.profile = response;
 	});
+	
+
+    
+    $scope.today = function() {
+        $scope.dt = new Date();
+    };
+    $scope.today();
 
 	// Get all of a users teams
 	$scope.createEvent = function() {

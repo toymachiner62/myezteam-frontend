@@ -7,7 +7,6 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	});
 
     $scope.getTeam = function() {
-        console.log('in getTeam');
         
         // Get all the players of a specific team
 	    $http.get(baseUrl+'v1/teams/'+$routeParams.id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
@@ -21,6 +20,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
             
                 
                     $scope.getPlayers(response.id, response.name, response.type, response.default_location, response.description);
+                    $scope.getEvents(response.id);
                     //$scope.selected = players[0];
                // } else if(response.player.length > 0) {
                //     $scope.getPlayers(players[0].id, players[0].name, players[0].type, players[0].default_location, players[0].description);
@@ -49,6 +49,26 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			$scope['players'] = 'An error occurred looking for your players. Please try again later.';
 		});
 
+	}
+	
+	// Get all of a users upcoming events
+	$scope.getEvents = function() {
+	
+		$http.get(baseUrl+'v1/events?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+			.success(function(response) {
+		
+				$scope.events = response;
+				
+			
+				
+			    var event_id = response[0].id;
+			    var event_name = response[0].name;
+			    var team_id = response[0].team_id;
+				$scope.getResponses(event_id, event_name, team_id);
+			})
+			.error(function(response) {
+				$scope.events = 'An error occurred looking for your events. Please try again later.';
+			});
 	}
 	
 	// Get all the players of a specific team
