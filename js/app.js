@@ -53,13 +53,6 @@ myezteam.config(function($routeProvider, $httpProvider) {
 				templateUrl: 'partials/add-player-to-team.html',
 				activetab: 'teams'
 			})
-		.when('/events', 
-			{
-				title: 'My Events',
-				controller: 'EventsController',
-				templateUrl: 'partials/events.html',
-				activetab: 'events'
-			})
 		.when('/teams/:id/events/create', 
 			{
 				title: 'Create Event',
