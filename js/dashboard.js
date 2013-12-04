@@ -14,6 +14,11 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
 		
 				$scope.events = response;
 				
+				// If there are at least 3 events, we want to give the rsvp graph a specific class so the height matches the events panel
+				if($scope.events.length > 2) {
+				    $scope.full_height = 'full-height'
+				}
+				
 			    var event_id = response[0].id;
 			    var event_name = response[0].name;
 			    var team_id = response[0].team_id;
@@ -26,9 +31,7 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
 	
 	// Get all of the responses for a particular event
 	$scope.getResponses = function(event_id, event_name, team_id) {
-	    
-	    console.log(event_name);
-	    
+
 	    $http.get(baseUrl+'v1/events/' + event_id + '/responses?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
 			.success(function(event_responses) {
 				
@@ -54,7 +57,6 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
                     case 2:
                       yes++;
                       no_response--;
-                      console.log()
                       break;
                     case 3:
                       probably++;
@@ -65,7 +67,7 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
                       no_response--;
                       break;
                     case 5:
-                        no++;
+                      no++;
                       no_response--;
                       break;
                     }

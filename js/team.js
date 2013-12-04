@@ -36,7 +36,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	$scope.getPlayers = function(team_id, team_name, team_type, team_location, team_description) {
 	
 		// Get all the players of a specific team
-		$http.get(baseUrl+'v1/players/team/'+team_id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+		$http.get(baseUrl+'v1/teams/'+team_id+'/players?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
 		.success(function(response) {
 			$scope.teamId = team_id;
 			$scope.teamName = team_name;

@@ -37,3 +37,8 @@
     background-color: rgba(115, 115, 115, 0.5);
 }
 
+/* Used to make the RSVP graph full height if there are 3 upcoming events */
+.full-height {
+    height: 507px;
+}
+

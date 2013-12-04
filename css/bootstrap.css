@@ -462,7 +462,7 @@ h3 small,
 .h3 small,
 h4 small,
 .h4 small {
-  font-size: 14px;
+  font-size: 16px;
 }
 .page-header {
   padding-bottom: 9px;
@@ -4050,11 +4050,14 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .label:empty {
   display: none;
 }
-.label-default {
+.label-default,
+.label-no.response {
   background-color: #999999;
 }
 .label-default[href]:hover,
-.label-default[href]:focus {
+.label-default[href]:focus,
+.label-no[href]:hover.response,
+.label-no[href]:focus.response {
   background-color: #808080;
 }
 .label-primary {
@@ -4064,11 +4067,14 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .label-primary[href]:focus {
   background-color: #3071a9;
 }
-.label-success {
+.label-success,
+.label-yes {
   background-color: #5cb85c;
 }
 .label-success[href]:hover,
-.label-success[href]:focus {
+.label-success[href]:focus,
+.label-yes[href]:hover,
+.label-yes[href]:focus{
   background-color: #449d44;
 }
 .label-info {
@@ -4078,18 +4084,34 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .label-info[href]:focus {
   background-color: #31b0d5;
 }
-.label-warning {
+.label-warning,
+.label-probably {
   background-color: #f0ad4e;
 }
 .label-warning[href]:hover,
-.label-warning[href]:focus {
+.label-warning[href]:focus,
+.label-probably[href]:hover,
+.label-probably[href]:focus {
   background-color: #ec971f;
 }
-.label-danger {
+
+.label-maybe {
+  background-color: #F0AA4E;
+}
+
+.label-maybe[href]:hover,
+.label-maybe[href]:focus {
+  background-color: #F0AA4E;
+}
+
+.label-danger,
+.label-no {
   background-color: #d9534f;
 }
 .label-danger[href]:hover,
-.label-danger[href]:focus {
+.label-danger[href]:focus,
+.label-no[href]:hover,
+.label-no[href]:focus{
   background-color: #c9302c;
 }
 .badge {
