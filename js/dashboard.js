@@ -1,5 +1,5 @@
 // Controller for the teams page
-myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', function($scope, $http, myezteamBase) {
+myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'myezteamBase', function($scope, $http, $location, myezteamBase) {
 
 	myezteamBase.getAuthHeader();
 	myezteamBase.getProfile(function(response) {
@@ -11,8 +11,9 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
 	
 		$http.get(baseUrl+'v1/events?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
 			.success(function(response) {
-		
+				$scope.error = null;
 				$scope.events = response;
+				$scope.teamId = response[0].team_id;
 				
 				// If there are at least 3 events, we want to give the rsvp graph a specific class so the height matches the events panel
 				if($scope.events.length > 2) {
@@ -22,10 +23,14 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
 			    var event_id = response[0].id;
 			    var event_name = response[0].name;
 			    var team_id = response[0].team_id;
+			    
+			    console.log('team_id = '+team_id);
+			    
 				$scope.getResponses(event_id, event_name, team_id);
 			})
 			.error(function(response) {
-				$scope.events = 'An error occurred looking for your events. Please try again later.';
+				$scope.success = null;
+				$scope.error = 'An error occurred looking for your events. Please try again later.';
 			});
 	}
 	
@@ -34,10 +39,9 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
 
 	    $http.get(baseUrl+'v1/events/' + event_id + '/responses?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
 			.success(function(event_responses) {
-				
+				$scope.error = null;
 				$scope.responses = event_responses;
-				
-				console.log($scope.responses);
+				$scope.teamId = team_id;
 				
 				// initially set the no_responses to the total number of responses. We'll change this as we loop through the responses
 				var no_response = $scope.responses.length;  
@@ -135,7 +139,8 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
                         events: {
                             click: function(e) {
             				    //console.log(e.point.options.url);
-            				    location.href = e.point.options.url;
+            				    //location.href = e.point.options.url;
+            				    $location.path(e.point.options.url);
                             }	
                         },
                         data: data
@@ -144,7 +149,8 @@ myezteam.controller('DashboardController', ['$scope', '$http', 'myezteamBase', f
 			
 			})
 			.error(function(response) {
-				$scope.events = 'An error occurred looking for your events. Please try again later.';
+				$scope.success = null;
+				$scope.error = 'An error occurred looking for your events. Please try again later.';
 			});
 	}
 	

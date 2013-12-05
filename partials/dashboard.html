@@ -5,6 +5,15 @@
             <ol class="breadcrumb">
               <li class="active"><i class="icon-dashboard"></i> Dashboard</li>
             </ol>
+            
+            <div class="alert alert-success" ng-show="success != null">
+				{{success}}
+			</div>
+			
+			<div class="alert alert-danger" ng-show="error != null">
+				{{error}}
+			</div>
+            
 		</div>
 	</div><!-- /.row -->
 	
@@ -38,7 +47,7 @@
               	<div class="panel-body">
               		<div class="list-group" ng-repeat="event in events">
               		
-						<a class="list-group-item" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name); activateEvent(event)">
+						<a class="list-group-item" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name, teamId); activateEvent(event)">
                     		<!-- <span class="badge">just now</span> -->
                     	
                     	<h3>{{event.name}} <small class="text-danger pull-right">{{event.start | date:'EEEE, MMMM d,y @ h:mm:ss a'}}</small></h3>

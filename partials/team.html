@@ -4,7 +4,7 @@
 			<h1>Team {{team.name}}</h1>
             <ol class="breadcrumb">
               <li><a href="index.html">Dashboard</a></li>
-              <li><a href="#/teams.html">Teams</a></li>
+              <li><a href="#/teams">Teams</a></li>
               <li class="active">{{team.name}}</li>
             </ol>
 		</div>
@@ -67,6 +67,14 @@
               	</pre>-->
               	
               	<!--<pre>{{players}}</pre>-->
+              		
+              		<div class="list-group" ng-show="events.length == 0">
+              		
+              			<a class="list-group-item">
+              				There are no upcoming events for this team
+						</a>
+					</div>
+              	
               		<div class="list-group" ng-repeat="event in events">
               		
 						<a class="list-group-item" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name); activateEvent(event)">

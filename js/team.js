@@ -52,14 +52,14 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	}
 	
 	// Get all of a users upcoming events
-	$scope.getEvents = function() {
+	$scope.getEvents = function(team_id) {
 	
-		$http.get(baseUrl+'v1/events?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+		console.log('team_id = ' + team_id);
+	
+		$http.get(baseUrl+'v1/teams/' + team_id + '/events?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
 			.success(function(response) {
 		
 				$scope.events = response;
-				
-			
 				
 			    var event_id = response[0].id;
 			    var event_name = response[0].name;
@@ -71,12 +71,28 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			});
 	}
 	
+	// Get all of the responses for a particular event
+	$scope.getResponses = function(event_id, event_name, team_id) {
+
+	    $http.get(baseUrl+'v1/events/' + event_id + '/responses?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+			.success(function(event_responses) {
+				$scope.error = null;
+				$scope.responses = event_responses;
+				$scope.teamId = team_id;
+			})
+			.error(function(response) {
+				$scope.success = null;
+				$scope.error = 'An error occurred looking for your events. Please try again later.';
+			});
+	}
+	
 	// Get all the players of a specific team
 	$scope.deleteTeam = function(team_id) {
 	
+		//delete $http.defaults.headers.common['X-Requested-With'];
 		// Get all the players of a specific team
-		//$http.delete(baseUrl+'v1/team/'+team_id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
-		$http({method: 'DELETE', url: baseUrl+'v1/team/'+team_id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d'})
+		$http.delete(baseUrl+'v1/team/'+team_id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+		//$http({method: 'DELETE', url: baseUrl+'v1/team/'+team_id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d'})
 		.success(function(response) {
 			
 		})
