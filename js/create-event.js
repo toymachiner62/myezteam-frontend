@@ -19,14 +19,11 @@ myezteam.controller('CreateEventController', ['$scope', '$http', '$routeParams',
 	    // Convert dates to correct format that api call expects
 	    var start = new Date($scope.event.start.date);
 	    var end = new Date($scope.event.end.date);
-	    
+
 	    // This just formats the date to yyyy-mm-dd. The slicing stuff just makes sure that single digit values are padded with zeros
-	    $scope.event.start = start.getFullYear() + "-" + ("0" + (start.getMonth() + 1)).slice(-2) + "-" + ("0" + start.getDay()).slice(-2);
-	    $scope.event.end = end.getFullYear() + "-" + ("0" + (end.getMonth() + 1)).slice(-2) + "-" + ("0" + end.getDay()).slice(-2);
-	    
-	    console.log(start);
-	    console.log(end);
-	    
+	    $scope.event.start = start.getFullYear() + "-" + ("0" + (start.getMonth() + 1)).slice(-2) + "-" + ("0" + start.getDate()).slice(-2);
+	    $scope.event.end = end.getFullYear() + "-" + ("0" + (end.getMonth() + 1)).slice(-2) + "-" + ("0" + end.getDate()).slice(-2);
+
 		$http.post(baseUrl+'v1/events?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d', $scope.event)
 			.success(function(response) {
 		        $scope.error = null;

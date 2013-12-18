@@ -41,6 +41,7 @@
                 		<p><strong>Type:</strong> {{teamType}}</p>
                 		<p><strong>Default Location:</strong> {{teamLocation}}</p>
                 		<p><strong>Description:</strong> {{teamDescription}}</p>
+                		<p><strong>Owner:</strong> {{teamOwner}}</p>
                 		<p><strong>Managers:</strong></p>
                 		<ul>
                 			<li ng-repeat="player in players | filter:player.player_type == 'Manager'">{{player.first_name}} {{player.last_name}}</li>
@@ -57,7 +58,7 @@
 				<div class="panel-heading">
 				    
                 	<a href="#/teams/{{teamId}}/events/create" ng-show="profile.id == team.owner_id" class="btn btn-default btn-xs pull-right" type="button" >Create Event</a>
-                	<h3 class="panel-title inline">Events</h3>
+                	<h3 class="panel-title inline">Upcoming Events</h3>
               	</div>
               	
               	<div class="panel-body">
