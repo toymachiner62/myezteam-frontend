@@ -3,9 +3,11 @@
 		<div class="col-lg-12">
 			<h1>New Event</h1>
 			<ol class="breadcrumb">
-				<li><a href="index.html"><i class="icon-dashboard"></i> Dashboard</a></li>
+				<li><a href="index.html">Dashboard</a></li>
+				<li><a href="#/teams">Teams</a></li>
+				<li><a href="#/team/{{event.team_id}}">{{team_name}}</a></li>
 				<li><a href="#/events">Events</a></li>
-	            <li class="active"><i class="icon-file-alt"></i> New Event</li>
+	            <li class="active">New Event</li>
 	        </ol>
 		</div>
 	</div><!-- /.row -->
@@ -69,32 +71,32 @@
      	         		    <div class="row">
                                 <div class="col-xs-2">
      	      	     		        <label for="start">Start Date</label>
-     	      	     		        <input type="text" name="start" class="form-control" datepicker-popup ng-model="event.start" show-weeks="false" ng-required="true" />
+     	      	     		        <input type="text" name="start" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="event.start.date" show-weeks="false" ng-required="true" />
                                     
-     	      	     		        <div ng-model="event.start">
-     	      	     		            <timepicker hour-step="1" minute-step="5" show-meridian="true"></timepicker>
+     	      	     		        <div ng-model="event.start.time">
+     	      	     		            <timepicker hour-step="1" minute-step="1" show-meridian="true"></timepicker>
      	      	     		        </div>
      	      	     		        
-     	      	     		        <span ng-show="form.start.$dirty && form.start.$error.required">Start Date is required</span>
+     	      	     		        <span ng-show="form.start.date.$dirty && form.start.date.$error.required && form.start.time.$dirty && form.start.time.$error.required">Start Date is required</span>
      	      	     		    </div>
      	      	     		</div>
-     	      	     		<pre>Start Time: {{event.start | date:'shortTime' }}</pre>
+     	      	     		<div class="well well-sm"><strong>Start Time:</strong> {{event.start.date | date:'EEEE, MMMM d,y'}} @ {{event.start.time | date:'h:mm:ss a'}}</div>
      	         		</div>
      	         		
      	         		<div class="form-group">
      	      	     		<div class="row">
                                 <div class="col-xs-2">
      	      	     		        <label for="end">End Date</label>
-     	      	     		        <input type="text" name="end" class="form-control" datepicker-popup ng-model="event.end" show-weeks="false" ng-required="true" />
+     	      	     		        <input type="text" name="end" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="event.end.date" show-weeks="false" ng-required="true" />
                                     
-     	      	     		        <div ng-model="event.start">
-     	      	     		            <timepicker hour-step="1" minute-step="5" show-meridian="true"></timepicker>
+     	      	     		        <div ng-model="event.end.time">
+     	      	     		            <timepicker hour-step="1" minute-step="1" show-meridian="true"></timepicker>
      	      	     		        </div>
      	      	     		        
-     	      	     		        <span ng-show="form.end.$dirty && form.end.$error.required">End Date is required</span>
+     	      	     		        <span ng-show="form.end.date.$dirty && form.end.date.$error.required && form.end.time.$dirty && form.end.time.$error.required">End Date is required</span>
      	      	     		    </div>
      	      	     		</div>
-     	      	     		<pre>End Time: {{event.end | date:'shortTime' }}</pre>
+     	      	     		<div class="well well-sm"><strong>End Time:</strong> {{event.end.date | date:'EEEE, MMMM d,y'}} @ {{event.end.time | date:'h:mm:ss a'}}</div>
      	         		</div>
     	          		
     	          		<button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">Save</button>

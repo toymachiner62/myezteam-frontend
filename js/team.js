@@ -72,6 +72,8 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			.error(function(response) {
 				$scope.events = 'An error occurred looking for your events. Please try again later.';
 			});
+			
+			console.log($scope.events);
 	}
 	
 	// Get all of the responses for a particular event
