@@ -55,9 +55,8 @@
 		<div class="col-lg-6">
 			<div class="panel panel-info">
 				<div class="panel-heading">
-				
-				
-                	<a href="#/teams/{{teamId}}/events/create" class="btn btn-default btn-xs pull-right" type="button" >Create Event</a>
+				    
+                	<a href="#/teams/{{teamId}}/events/create" ng-show="profile.id == team.owner_id" class="btn btn-default btn-xs pull-right" type="button" >Create Event</a>
                 	<h3 class="panel-title inline">Events</h3>
               	</div>
               	

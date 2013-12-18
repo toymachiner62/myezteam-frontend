@@ -12,7 +12,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	    $http.get(baseUrl+'v1/teams/'+$routeParams.id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
             .success(function(response) {
                 $scope.team = response;
-                
+                console.log(response);
                 $rootScope.title = 'Team ' + response.name;
 		    
                 // Get the players of the team.
@@ -58,13 +58,16 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	
 		$http.get(baseUrl+'v1/teams/' + team_id + '/events?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
 			.success(function(response) {
-		
+		        
 				$scope.events = response;
-				
-			    var event_id = response[0].id;
-			    var event_name = response[0].name;
-			    var team_id = response[0].team_id;
-				$scope.getResponses(event_id, event_name, team_id);
+
+                // If there are events, get the players responses
+				if($scope.events != '') {
+                    var event_id = response[0].id;
+                    var event_name = response[0].name;
+                    var team_id = response[0].team_id;
+				    $scope.getResponses(event_id, event_name, team_id);
+				}
 			})
 			.error(function(response) {
 				$scope.events = 'An error occurred looking for your events. Please try again later.';
