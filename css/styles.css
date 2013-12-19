@@ -47,3 +47,23 @@
     color: #999999;
 }
 
+.side-nav hr {
+    clear: both;
+}
+
+/* Used for the teams in the sidenav */
+.side-nav li.team a {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+#searchTeam {
+    margin: 5px 5px 10px 5px;
+    width: 210px;
+}
+#newTeam {
+    margin: 5px 5px 10px 5px;
+    width: 210px;
+}
+
+
