@@ -4,7 +4,7 @@ var baseUrl = 'http://myezteam-webservices.herokuapp.com/';
 var myezteamLogin = angular.module('myezteam-login', []);
 
 // Module for the rest of the pages
-var myezteam = angular.module('myezteam', ['highcharts-ng', 'ui.bootstrap']);
+var myezteam = angular.module('myezteam', ['highcharts-ng', 'ui.bootstrap', 'md5', 'ui-gravatar']);
 
 // Set some configs
 myezteam.config(function($routeProvider, $httpProvider) {
