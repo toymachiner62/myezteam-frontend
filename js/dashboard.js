@@ -19,9 +19,7 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
 			    var event_name = response[0].name;
 			    var team_id = response[0].team_id;
 			    
-			    console.log('team_id = '+team_id);
 			    $scope.selected = response[0];
-			    
 				$scope.getResponses(event_id, event_name, team_id);
 			})
 			.error(function(response) {
@@ -134,8 +132,6 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
                         name: 'RSVPs',
                         events: {
                             click: function(e) {
-            				    //console.log(e.point.options.url);
-            				    //location.href = e.point.options.url;
             				    $location.path(e.point.options.url);
                             }	
                         },
@@ -170,6 +166,7 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
        $scope.selected = event; 
     };
 	
+	// Sets the active class when an event is clicked
 	$scope.activeClass = function(event) {
 		return event === $scope.selected ? 'active' : undefined;
 	}
