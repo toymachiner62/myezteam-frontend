@@ -6,7 +6,8 @@ myezteam.controller('TeamsController', ['$scope', '$http', 'myezteamBase', 'team
 		$scope.profile = response;
 	});
 	//templateFactory.setTitle('My Teams');
-
+    
+    // Called on page load
     teams.getTeams(function(response) {
 	    $scope.teams = response;   
 	    
@@ -26,13 +27,6 @@ myezteam.controller('TeamsController', ['$scope', '$http', 'myezteamBase', 'team
 			$scope.selected = players[0];
 		}
 	});
-
-	// Get all of a users teams
-	$scope.getTeams = function() {
-	
-		
-		
-	}
 		
 	// Get all the players of a specific team
 	$scope.getPlayers = function(team_id, team_name, team_type, team_location, team_description) {
@@ -76,7 +70,5 @@ myezteam.controller('TeamsController', ['$scope', '$http', 'myezteamBase', 'team
 	$scope.activeClass = function(team) {
 		return team === $scope.selected ? 'active' : undefined;
 	}
-	
-	$scope.getTeams();	// Call on page load
 	
 }]);

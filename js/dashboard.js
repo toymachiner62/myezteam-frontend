@@ -15,16 +15,12 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
 				$scope.events = response;
 				$scope.teamId = response[0].team_id;
 				
-				// If there are at least 3 events, we want to give the rsvp graph a specific class so the height matches the events panel
-				if($scope.events.length > 2) {
-				    $scope.full_height = 'full-height'
-				}
-				
 			    var event_id = response[0].id;
 			    var event_name = response[0].name;
 			    var team_id = response[0].team_id;
 			    
 			    console.log('team_id = '+team_id);
+			    $scope.selected = response[0];
 			    
 				$scope.getResponses(event_id, event_name, team_id);
 			})

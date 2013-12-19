@@ -4086,7 +4086,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 .label-warning,
 .label-probably {
-  background-color: #f0ad4e;
+  /*background-color: #f0ad4e;*/
+  background-color: #E8E83F;
 }
 .label-warning[href]:hover,
 .label-warning[href]:focus,

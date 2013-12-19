@@ -37,11 +37,6 @@
     background-color: rgba(115, 115, 115, 0.5);
 }
 
-/* Used to make the RSVP graph full height if there are 3 upcoming events */
-.full-height {
-    height: 507px;
-}
-
 /* Used on datepicker for prev/next month dates when viewing a month */
 .muted {
     color: #999999;
@@ -57,13 +52,16 @@
     padding-bottom: 2px;
 }
 
+/* Search box in sidenav */
 #searchTeam {
     margin: 5px 5px 10px 5px;
     width: 210px;
 }
+/* New team button in sidenav */
 #newTeam {
     margin: 5px 5px 10px 5px;
     width: 210px;
 }
+
 
 
