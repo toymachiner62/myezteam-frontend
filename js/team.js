@@ -59,6 +59,8 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			$scope.teamLocation = team_location;
 			$scope.teamDescription = team_description;
 			$scope.players = response;
+			
+			console.log($scope.players);
 		})
 		.error(function(response) {
 			$scope['players'] = 'An error occurred looking for your players. Please try again later.';

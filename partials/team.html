@@ -69,7 +69,7 @@
             			<div class="panel panel-info">
             				<div class="panel-heading">
             				    <div ng-repeat="team in teams.owner">
-            					    <a href="#/teams/add-player" ng-show="team.id == teamId" class="btn btn-default btn-xs pull-right" type="button">Add Player</a>
+            					    <a href="#/teams/{{team.id}}/add-player" ng-show="team.id == teamId" class="btn btn-default btn-xs pull-right" type="button">Add Player</a>
             					</div>
                             	<h3 class="panel-title">Players on {{teamName}}</h3>
                           	</div>
@@ -173,6 +173,7 @@
             		</div>
                 
                 </tab>
+                
             </tabset>
         </div>
 	</div><!-- /.row -->

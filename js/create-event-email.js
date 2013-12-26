@@ -1,5 +1,5 @@
-// Controller for the create team page
-myezteam.controller('CreateEventController', ['$scope', '$http', '$routeParams', '$filter', 'myezteamBase', function($scope, $http, $routeParams, $filter, myezteamBase) {
+// Controller for the create email page for a particular event
+myezteam.controller('CreateEventEmailController', ['$scope', '$http', '$routeParams', '$filter', 'myezteamBase', function($scope, $http, $routeParams, $filter, myezteamBase) {
 
 	myezteamBase.getAuthHeader();
 	myezteamBase.getProfile(function(response) {

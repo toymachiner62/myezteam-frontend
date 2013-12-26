@@ -4,7 +4,7 @@
 			<h1>Add Player To {{teamName}}</h1>
 			<ol class="breadcrumb">
 				<li><a href="index.html"><i class="icon-dashboard"></i> Dashboard</a></li>
-				<li><a href="#/teams">Teams</a></li>
+				<li><a href="#/teams/{{team_id}}">{{team_name}}</a></li>
 	            <li class="active"><i class="icon-file-alt"></i> New Team</li>
 	        </ol>
 		</div>
@@ -45,7 +45,7 @@
 	              
 					<form role="form" name="form" ng-submit="addPlayer()">
 					
-	              		<div class="form-group">
+	              		<!-- <div class="form-group">
 	                		<label for="firstName">First Name</label>
 	                		<input type="text" name="firstName" class="form-control" ng-model="player.first_name">
 							<span ng-show="form.firstName.$dirty && form.firstName.$error.required">First Name is required</	span>	
@@ -55,14 +55,14 @@
      	      	     		<label for="lastName">Last Name</label>
      	      	     		<input type="text" name="lastName" class="form-control" ng-model="player.last_name">
      	      	     		<span ng-show="form.lastName.$dirty && form.lastName.$error.required">Last Name is required</span>
-     	         		</div>
+     	         		</div> -->
      	         		
      	         		<div class="form-group">
 							<label for="type">Player Type</label>
-								<select class="form-control" name="type" ng-model="player.type">
-								<option value="regular">Regular</option>
-								<option value="sub">Sub</option>
-								<option value="member">Member</option>
+								<select class="form-control" name="type" ng-model="player.player_type_id">
+								<option value="1">Regular</option>
+								<option value="2">Sub</option>
+								<option value="3">Member</option>
 							</select>
 						</div>
      	         

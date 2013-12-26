@@ -46,7 +46,7 @@ myezteam.config(function($routeProvider, $httpProvider) {
 				templateUrl: 'partials/create-team.html',
 				activetab: 'teams'
 			})
-		.when('/teams/add-player',
+		.when('/teams/:id/add-player',
 			{
 				title: 'Add Player',
 				controller: 'AddPlayerToTeamController',
@@ -60,6 +60,13 @@ myezteam.config(function($routeProvider, $httpProvider) {
 				templateUrl: 'partials/create-event.html',
 				activetab: 'events'
 			})
+		.when('/teams/:id/events/emails/create',
+		    {
+		        title: 'Create Email',
+		        controller: 'CreateEventEmailController',
+		        templateUrl: 'partials/create-event-email.html',
+		        activetab: 'teams'
+		    })
 		.otherwise({redirectTo: '/dashboard'});
 		
 		// This loads the ajax loading image when necessary
