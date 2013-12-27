@@ -27,9 +27,9 @@ myezteam.config(function($routeProvider, $httpProvider) {
 			})
 		.when('/teams',
 			{
-				title: 'My Teams',
-				controller: 'TeamsController',
-				templateUrl: 'partials/teams.html',
+				title: 'Create Team',
+				controller: 'CreateTeamController',
+				templateUrl: 'partials/create-team.html',
 				activetab: 'teams'
 			})
 		.when('/teams/:id',
@@ -38,13 +38,6 @@ myezteam.config(function($routeProvider, $httpProvider) {
 				controller: 'TeamController',
 				templateUrl: 'partials/team.html',
 				activetab: 'team'
-			})
-		.when('/teams/create',
-			{
-				title: 'Create Team',
-				controller: 'CreateTeamController',
-				templateUrl: 'partials/create-team.html',
-				activetab: 'teams'
 			})
 		.when('/teams/:id/add-player',
 			{

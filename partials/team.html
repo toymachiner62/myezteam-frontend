@@ -146,10 +146,42 @@
             		<div class="col-lg-4">
             			<div class="panel panel-info">
             				<div class="panel-heading">
-                            	<h3 class="panel-title">RSVP Breakdown</h3>
+                            	<a href="#/teams/{{teamId}}/events/create" ng-show="profile.id == team.owner_id" class="btn btn-default btn-xs pull-right" type="button" >Create RSVP Email</a>
+                            	<h3 class="panel-title inline">RSVP Emails</h3>
+                          	</div>
+                          	
+                          	<div class="panel-body">
+                          		<div class="list-group" ng-show="events.length == 0">
+                          			<a class="list-group-item">
+                          				There are no RSVP emails for this event
+            						</a>
+            					</div>
+                          	
+                          		<div class="list-group" ng-repeat="event in events">
+                          		
+            						<a class="list-group-item" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name); activateEvent(event)">
+                                		<!-- <span class="badge">just now</span> -->
+                                	
+                                	<h3>{{event.name}} <small class="text-danger pull-right">{{event.start | date:'EEEE, MMMM d,y @ h:mm:ss a'}}</small></h3>
+                                	
+                            		<p><strong>Description:</strong> {{event.description}}</p>
+                            		<p><strong>Location:</strong> {{event.location}}</p>
+                                		<!-- <span class="label label-warning pull-right">Manager</span> -->
+            						</a>
+            					</div>
+                            
+            				</div>
+            			</div>
+            		</div>
+            		
+            		<!-- RSVP Email -->
+            		<div class="col-lg-4">
+            			<div class="panel panel-info">
+            				<div class="panel-heading">
+                            	<h3 class="panel-title">RSVP Emails</h3>
                           	</div>
                           	<div class="panel-body">
-                                <h3>RSVP's for {{selected.name}}</h3>
+                                <h3>RSVP Email for {{selected.name}}</h3>
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover tablesorter">
                                         <thead>
