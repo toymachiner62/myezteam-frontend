@@ -75,12 +75,12 @@
                           	</div>
                           	<div class="panel-body">
                             	<div class="list-group" ng-repeat="player in players">
-                              		<a href="#/{{player.id}}" class="list-group-item">
+                              		<div class="list-group-item">
             							<span class="label label-primary pull-right center-vertical" ng-show="player.player_type == 'Regular'">Regular</span>
             							<span class="label label-warning pull-right center-vertical" ng-show="player.player_type == 'Sub'">Sub</span>
                                 		<gravatar-image data-gravatar-email="player.user.email" data-gravatar-size="36" data-gravatar-default="mm"></gravatar-image>
                                 		<strong>{{player.user.first_name}} {{player.user.last_name}}</strong> <small>({{player.user.email}})</small>
-                              		</a>
+                              		</div>
                             	</div>
                             	<!-- <div class="text-right">
                               		<a href="#">View All Teams <i class="fa fa-arrow-circle-right"></i></a>
