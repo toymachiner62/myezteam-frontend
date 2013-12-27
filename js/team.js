@@ -215,8 +215,28 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			.success(function(response) {
 		        $scope.error = null;
 				$scope.emails = response;
-
-                
+			})
+			.error(function(response) {
+				$scope.success = null;
+			    $scope.error = 'An error occurred looking for your event\'s emails. Please try again later.';
+			});
+	}
+	
+	// RSVP to an event
+	$scope.rsvp = function(event_id, response_id) {
+	    
+	    console.log($scope.profile);
+	    
+	    var rsvp = {
+            "response_type_id":response_id,
+            "event_id":event_id,
+            "player_id":$scope.profile.id
+        }
+	    
+	    $http.post(baseUrl+'v1/responses?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d', rsvp)
+			.success(function(response) {
+		        $scope.error = null;
+				$scope.success = 'Your response has been saved';
 			})
 			.error(function(response) {
 				$scope.success = null;
