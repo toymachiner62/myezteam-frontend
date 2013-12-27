@@ -74,6 +74,13 @@
                             	<h3 class="panel-title">Players on {{teamName}}</h3>
                           	</div>
                           	<div class="panel-body">
+                          	
+                          	    <div class="list-group" ng-show="players.length == 0">
+                          			<div class="list-group-item">
+                          				There are no players on this team
+            						</div>
+            					</div>
+                          	
                             	<div class="list-group" ng-repeat="player in players">
                               		<div class="list-group-item">
             							<span class="label label-primary pull-right center-vertical" ng-show="player.player_type == 'Regular'">Regular</span>
@@ -103,9 +110,9 @@
                           	<div class="panel-body">
 
                           		<div class="list-group" ng-show="events.length == 0">
-                          			<a class="list-group-item">
+                          			<div class="list-group-item">
                           				There are no upcoming events for this team
-            						</a>
+            						</div>
             					</div>
                           	
                           		<div class="list-group" ng-repeat="event in events">
@@ -160,9 +167,9 @@
                           	
                           	<div class="panel-body">
                           		<div class="list-group" ng-show="events.length == 0">
-                          			<a class="list-group-item">
-                          				There are no RSVP emails for this event
-            						</a>
+                          			<div class="list-group-item">
+                          				There are no RSVP responses for this event
+            						</div>
             					</div>
                           	
                           		<div class="list-group" ng-repeat="email in emails">
@@ -185,10 +192,10 @@
             		<div class="col-lg-4">
             			<div class="panel panel-info">
             				<div class="panel-heading">
-                            	<h3 class="panel-title">RSVP Emails</h3>
+                            	<h3 class="panel-title">RSVP Breakdown</h3>
                           	</div>
                           	<div class="panel-body">
-                                <h3>RSVP Email for {{selected.name}}</h3>
+                                <h3>RSVP Responses for {{selected.name}}</h3>
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover tablesorter">
                                         <thead>
