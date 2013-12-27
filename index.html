@@ -59,7 +59,7 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
             <li ng-class="{active: activetab == '/dashboard'}"><a href="#/dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-          	<li ng-class="{active: activetab == '/teams'}"><a href="#/teams"><i class="fa fa-th-large"></i> My Teams</a></li>
+          	<!-- <li ng-class="{active: activetab == '/teams'}"><a href="#/teams"><i class="fa fa-th-large"></i> My Teams</a></li> -->
 
           
             <hr/>
@@ -67,7 +67,6 @@
             <a id="newTeam" href="#/teams" class="btn btn-success btn-sm">New Team</a>
             
             <input id="searchTeam" ng-model="searchTeam" class="form-control" placeholder="Search For Team" />
-            
             <li ng-repeat="team in teams.owner | filter:searchTeam" ng-class="{active: activetab == '/teams'}" class="team">
               <a href="#/teams/{{team.id}}"><i class="fa fa-barcode"></i> {{team.name}}</a>
             </li>

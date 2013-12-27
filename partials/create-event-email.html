@@ -43,29 +43,102 @@
 	            </div>
 				<div class="panel-body">
 	              
-					<form role="form" name="form" ng-submit="createEvent()">
+					<form role="form" name="form" ng-submit="createEventEmail()">
 	
 	              		<div class="form-group">
 	              		    
-	                		        <label for="name">Event Name</label>
-	                		        <input type="text" name="name" class="form-control" ng-model="event.name">
-							        <span ng-show="form.name.$dirty && form.name.$error.required">Event Name is required</span>	
+                            <label for="title">Title</label>
+                            <input type="text" name="title" class="form-control" ng-model="email.title">
+                            <span ng-show="form.title.$dirty && form.title.$error.required">Title is required</span>	
 					        
      	         		</div>
 
      	         		<div class="form-group">
-     	      	     		<label for="description">Description</label>
-     	      	     		<input type="text" name="description" class="form-control" ng-model="event.description">
-     	      	     		<span ng-show="form.description.$dirty && form.description.$error.required">Description is required</span>
+     	      	     		<label for="content">Content</label>
+     	      	     		<input type="text" name="content" class="form-control" ng-model="email.content">
+     	      	     		<span ng-show="form.content.$dirty && form.content.$error.required">Content is required</span>
+     	         		</div>
+     	         		
+     	         		<!-- <div class="form-group">
+     	      	     		<label for="days_before">Days Before</label>
+     	      	     		<input type="text" name="days_before" class="form-control" ng-model="email.days_before">
+     	      	     		<span ng-show="form.days_before.$dirty && form.days_before.$error.required">Days Before is required</span>
+     	         		</div> -->
+     	         		
+     	         		<div class="form-group">
+     	      	     		<label for="send_type">When to Send?</label>
+     	      	     		<select class="form-control" name="send_type" ng-model="email.send_type">
+								<option value="now">Now</option>
+								<option value="days_before">X Days Before Event</option>
+								<option valud="send_on">Send on X Date</option>
+							</select>
+     	      	     		<!-- <input type="text" name="include_rsvp" class="form-control" ng-model="email.include_rsvp"> -->
+     	      	     		<span ng-show="form.include_rsvp.$dirty && form.include_rsvp.$error.required">Days Before is required</span>
      	         		</div>
      	         		
      	         		<div class="form-group">
-     	      	     		<label for="location">Location</label>
-     	      	     		<input type="text" name="location" class="form-control" ng-model="event.location">
-     	      	     		<span ng-show="form.location.$dirty && form.location.$error.required">Location is required</span>
+     	      	     		<label for="include_rsvp">Include RSVP Form</label>
+     	      	     		<select class="form-control" name="include_rsvp" ng-model="email.include_rsvp">
+								<option value="true">Yes</option>
+								<option value="false">No</option>
+							</select>
+     	      	     		<!-- <input type="text" name="include_rsvp" class="form-control" ng-model="email.include_rsvp"> -->
+     	      	     		<span ng-show="form.include_rsvp.$dirty && form.include_rsvp.$error.required">Days Before is required</span>
      	         		</div>
      	         		
      	         		<div class="form-group">
+     	      	     		<label for="player_types">Player Types</label>
+     	      	     		<!-- <select class="form-control" name="player_types" ng-model="email.player_types">
+								<option value="1">Regular</option>
+								<option value="2">Sub</option>
+								<option value="3">Member</option>
+							</select> -->
+							
+							<input type="checkbox" name="player_types[]" class="form-control" value="1" ng-model="email.player_types.1" />Regular
+							<input type="checkbox" name="player_types[]" class="form-control" value="2" ng-model="email.player_types.2" />Sub
+							<input type="checkbox" name="player_types[]" class="form-control" value="3" ng-model="email.player_types.3" />Member
+     	      	     		<!-- <input type="text" name="include_rsvp" class="form-control" ng-model="email.include_rsvp"> -->
+     	      	     		<span ng-show="form.player_types.$dirty && form.player_types.$error.required">Days Before is required</span>
+     	         		</div>
+     	         		
+     	         		<div class="form-group">
+     	      	     		<label for="response_types">Response Types</label>
+     	      	     		<!-- <select class="form-control" name="response_types" ng-model="email.response_types">
+								<option value="1">No Response</option>
+								<option value="2">Yes</option>
+								<option value="3">Probably</option>
+								<option value="4">Maybe</option>
+								<option value="5">No</option>
+							</select> -->
+							<input type="checkbox" name="response_types[]" class="form-control" value="1" ng-model="email.response_types.1" />No Response
+							<input type="checkbox" name="response_types[]" class="form-control" value="2" ng-model="email.response_types.2" />Yes
+							<input type="checkbox" name="response_types[]" class="form-control" value="3" ng-model="email.response_types.3" />Probably
+							<input type="checkbox" name="response_types[]" class="form-control" value="4" ng-model="email.response_types.4" />Maybe
+							<input type="checkbox" name="response_types[]" class="form-control" value="5" ng-model="email.response_types.5" />No
+     	      	     		<!-- <input type="text" name="include_rsvp" class="form-control" ng-model="email.include_rsvp"> -->
+     	      	     		<span ng-show="form.response_types.$dirty && form.response_types.$error.required">Days Before is required</span>
+     	         		</div>
+     	         		
+     	         		<div class="form-group">
+     	      	     		<label for="default">Make This The Default Email?</label>
+     	      	     		<select class="form-control" name="include_rsvp" ng-model="email.default">
+								<option value="true">Yes</option>
+								<option value="false">No</option>
+							</select>
+     	      	     		<!-- <input type="text" name="include_rsvp" class="form-control" ng-model="email.include_rsvp"> -->
+     	      	     		<span ng-show="form.default.$dirty && form.default.$error.required">Days Before is required</span>
+     	         		</div>
+     	         		
+     	         		
+     	         		
+     	         		
+     	         		
+     	         		
+     	         		
+     	         		
+     	         		
+     	         		
+     	         		<!-- <div class="form-group">
      	         		    <div class="row">
                                 <div class="col-xs-2">
      	      	     		        <label for="start">Start Date</label>
@@ -95,7 +168,7 @@
      	      	     		    </div>
      	      	     		</div>
      	      	     		<div class="well well-sm"><strong>End Time:</strong> {{event.end.date | date:'EEEE, MMMM d,y'}} @ {{event.end.time | date:'h:mm:ss a'}}</div>
-     	         		</div>
+     	         		</div> -->
     	          		
     	          		<button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">Save</button>
     	          		<a href="#/teams" class="btn btn-default">Cancel</a>

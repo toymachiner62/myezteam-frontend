@@ -46,14 +46,14 @@ myezteam.config(function($routeProvider, $httpProvider) {
 				templateUrl: 'partials/add-player-to-team.html',
 				activetab: 'teams'
 			})
-		.when('/teams/:id/events/create', 
+		.when('/teams/:id/events', 
 			{
 				title: 'Create Event',
 				controller: 'CreateEventController',
 				templateUrl: 'partials/create-event.html',
 				activetab: 'events'
 			})
-		.when('/teams/:id/events/emails/create',
+		.when('/teams/:id/events/:event_id/emails',
 		    {
 		        title: 'Create Email',
 		        controller: 'CreateEventEmailController',

@@ -96,7 +96,7 @@
             			<div class="panel panel-info">
             				<div class="panel-heading">
             				    
-                            	<a href="#/teams/{{teamId}}/events/create" ng-show="profile.id == team.owner_id" class="btn btn-default btn-xs pull-right" type="button" >Create Event</a>
+                            	<a href="#/teams/{{teamId}}/events" ng-show="profile.id == team.owner_id" class="btn btn-default btn-xs pull-right" type="button" >Create Event</a>
                             	<h3 class="panel-title inline">Upcoming Events</h3>
                           	</div>
                           	
@@ -112,7 +112,7 @@
                           	
                           		<div class="list-group" ng-repeat="event in events">
                           		
-            						<a class="list-group-item" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name); activateEvent(event)">
+            						<a class="list-group-item" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name); activateEvent(event) getEmails(event.id)">
                                 		<!-- <span class="badge">just now</span> -->
                                 	
                                 	<h3>{{event.name}} <small class="text-danger pull-right">{{event.start | date:'EEEE, MMMM d,y @ h:mm:ss a'}}</small></h3>
@@ -146,7 +146,7 @@
             		<div class="col-lg-4">
             			<div class="panel panel-info">
             				<div class="panel-heading">
-                            	<a href="#/teams/{{teamId}}/events/create" ng-show="profile.id == team.owner_id" class="btn btn-default btn-xs pull-right" type="button" >Create RSVP Email</a>
+                            	<a href="#/teams/{{teamId}}/events/{{selected.id}}/emails" ng-show="profile.id == team.owner_id" class="btn btn-default btn-xs pull-right" type="button" >Create RSVP Email</a>
                             	<h3 class="panel-title inline">RSVP Emails</h3>
                           	</div>
                           	
@@ -157,15 +157,14 @@
             						</a>
             					</div>
                           	
-                          		<div class="list-group" ng-repeat="event in events">
+                          		<div class="list-group" ng-repeat="email in emails">
                           		
-            						<a class="list-group-item" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name); activateEvent(event)">
+            						<a class="list-group-item">
                                 		<!-- <span class="badge">just now</span> -->
                                 	
-                                	<h3>{{event.name}} <small class="text-danger pull-right">{{event.start | date:'EEEE, MMMM d,y @ h:mm:ss a'}}</small></h3>
+                                    	<h3>{{email.title}}</h3>
                                 	
-                            		<p><strong>Description:</strong> {{event.description}}</p>
-                            		<p><strong>Location:</strong> {{event.location}}</p>
+                            		    <p><strong>Description:</strong> {{email.content}}</p>
                                 		<!-- <span class="label label-warning pull-right">Manager</span> -->
             						</a>
             					</div>
