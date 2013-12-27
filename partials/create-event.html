@@ -78,7 +78,7 @@
      	      	     		        <span ng-show="form.start.date.$dirty && form.start.date.$error.required && form.start.time.$dirty && form.start.time.$error.required">Start Date is required</span>
      	      	     		    </div>
      	      	     		</div>
-     	      	     		<div class="well well-sm"><strong>Start Time:</strong> {{event.start.date | date:'EEEE, MMMM d,y'}} @ {{event.start.time | date:'h:mm:ss a'}}</div>
+     	      	     		<div class="well well-sm"><strong>Start Time:</strong> {{event.start.date | date:'EEEE, MMMM d,y'}} @ {{event.start.time | date:'h:mm a'}}</div>
      	         		</div>
      	         		
      	         		<div class="form-group">
@@ -94,11 +94,11 @@
      	      	     		        <span ng-show="form.end.date.$dirty && form.end.date.$error.required && form.end.time.$dirty && form.end.time.$error.required">End Date is required</span>
      	      	     		    </div>
      	      	     		</div>
-     	      	     		<div class="well well-sm"><strong>End Time:</strong> {{event.end.date | date:'EEEE, MMMM d,y'}} @ {{event.end.time | date:'h:mm:ss a'}}</div>
+     	      	     		<div class="well well-sm"><strong>End Time:</strong> {{event.end.date | date:'EEEE, MMMM d,y'}} @ {{event.end.time | date:'h:mm a'}}</div>
      	         		</div>
     	          		
     	          		<button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">Save</button>
-    	          		<a href="#/teams" class="btn btn-default">Cancel</a>
+    	          		<a href="javascript:history.back()" class="btn btn-default">Cancel</a>
     	      
     	          	</form>
     	          

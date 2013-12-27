@@ -28,16 +28,8 @@ myezteam.controller('CreateEventEmailController', ['$scope', '$http', '$routePar
 	        response_types[response_types.length] = type;
 	    }
 	    
-	    //console.log($scope.email.player_types);
-	    //console.log($scope.email.response_types);
-	    
 	    $scope.email.player_types = player_types;
 	    $scope.email.response_types = response_types;
-	    
-	    console.log($scope.email.player_types);
-	    console.log($scope.email.response_types);
-	    
-	    //console.log($scope.email.player_types);
 	    
 	    // Convert dates to correct format that api call expects
 	   // var start = new Date($scope.event.start.date);
@@ -71,8 +63,23 @@ myezteam.controller('CreateEventEmailController', ['$scope', '$http', '$routePar
 				$scope.error = 'An error occurred trying to get some data. Please try again later.';
             });
     } 
+    
+    // Gets a particular event's details
+    $scope.getEvent = function() {
+        
+        // Get the details of a specific event
+	    $http.get(baseUrl+'v1/events/'+$routeParams.event_id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+            .success(function(response) {
+                $scope.event_name = response.name;
+            })
+            .error(function(response) {
+                $scope.success = null;
+				$scope.error = 'An error occurred trying to get some data. Please try again later.';
+            });
+    } 
 		
     // Initially get the team name for the breadcrumbs
 	$scope.getTeam();
+	$scope.getEvent();
 
 }]);
