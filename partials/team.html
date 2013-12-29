@@ -133,7 +133,7 @@
                                     	</ul>
                                     </div>
                           		
-            						<a class="list-group-item" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name); activateEvent(event); getEmails(event.id)">
+            						<a class="list-group-item" id="{{event.id}}" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name); activateEvent(event); getEmails(event.id)">
                                     	<h3>{{event.name}}</h3>
                     	                <p><span class="text-danger">{{event.start | date:'EEEE, MMMM d,y @ h:mm a'}}</span></p>
                     	                <p><strong>Your Response:</strong> <span class="label label-{{event.my_response | lowercase}}">{{event.my_response}}</span></p>

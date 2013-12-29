@@ -21,6 +21,28 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
 			    
 			    $scope.selected = response[0];
 				$scope.getResponses(event_id, event_name, team_id);
+				
+				// Loop through all the events to set the logged in user's response on the event object
+				// Note: Using angular .forEach instead of javascript for loop because it handles async in a for loop out of the box.
+				angular.forEach($scope.events, function(event, i) {
+
+				    // Get the logged in user's response for the current event
+                    $http.get(baseUrl+'v1/responses/' + event.id + '?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+			            .success(function(response2) {
+			                    
+			                // If any responses exist, set the logged in user's response to the current event object, 
+			                // else set their response as the default response
+			                if(response2.length > 0) {
+			                    $scope.events[i].my_response = response2[0].response.label;
+			                } else {
+			                    $scope.events[i].my_response = event.default_response.label;
+			                }
+			            })
+			            .error(function(response2) {
+			                $scope.success = null;
+			                $scope.error = 'An error occurred retrieving your rsvp responses for the events. Please try again later.';
+			            });
+				});
 			})
 			.error(function(response) {
 				$scope.success = null;
@@ -143,6 +165,42 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
 			.error(function(response) {
 				$scope.success = null;
 				$scope.error = 'An error occurred looking for your events. Please try again later.';
+			});
+	}
+	
+	// RSVP to an event
+	$scope.rsvp = function(event_id, response_id) {
+	    
+	    var me = null;
+	    
+	    // Get the logged in user's player_id for the particular team page that the user is on
+	    $http.get(baseUrl+'v1/players/team/' + $routeParams.id + '/me?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+			.success(function(response) {
+		        $scope.error = null;
+				me = response;
+				
+				// The rsvp response data to be posted
+                var rsvp = {
+                    "response_type_id":response_id,
+                    "event_id":event_id,
+                    "player_id":me.id
+                }
+				
+				// Rsvp the selected event with the logged in user
+                $http.post(baseUrl+'v1/responses?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d', rsvp)
+                    .success(function(response) {
+                        $scope.error = null;
+				        $scope.success = 'Your response has been saved';
+                    })
+			        .error(function(response) {
+				        $scope.success = null;
+			            $scope.error = 'An error occurred looking for your event\'s emails. Please try again later.';
+			        });
+			
+			})
+			.error(function(response) {
+				$scope.success = null;
+			    $scope.error = 'An error occurred looking for your player info. Please try again later.';
 			});
 	}
 	

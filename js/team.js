@@ -64,7 +64,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	}
 	
 	// Get all of a users upcoming events
-	$scope.getEvents = function(team_id) {
+	$scope.getEvents = function(team_id, callback) {
 	
 		$http.get(baseUrl+'v1/teams/' + team_id + '/events?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
 			.success(function(response) {
@@ -95,6 +95,10 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			                    } else {
 			                        $scope.events[i].my_response = event.default_response.label;
 			                    }
+			                    
+			                    // Somehow this magic little number only calls the callback if it's actually a function
+				                // http://stackoverflow.com/questions/6792663/javascript-style-optional-callbacks
+				                typeof callback === 'function' && callback();
 			                })
 			                .error(function(response2) {
 				                $scope.success = null;
@@ -243,23 +247,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			    $scope.error = 'An error occurred looking for your event\'s emails. Please try again later.';
 			});
 	}
-	
-	// Get the logged in user's RSVP for the event passed in
-	/*$scope.getMyRsvp = function(event_id) {
-	    
-	    $http.get(baseUrl+'v1/players/team/' + $routeParams.id + '/me?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
-			.success(function(response) {
-		        $scope.error = null;
-				$scope.emails = response;
-				
-				return 
-			})
-			.error(function(response) {
-				$scope.success = null;
-			    $scope.error = 'An error occurred looking for your event\'s emails. Please try again later.';
-			});
-	} */
-	
+
 	// RSVP to an event
 	$scope.rsvp = function(event_id, response_id) {
 	    
@@ -281,6 +269,17 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 				// Rsvp the selected event with the logged in user
                 $http.post(baseUrl+'v1/responses?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d', rsvp)
                     .success(function(response) {
+                        
+                        // Refresh the responses and the chart
+                        var selected = $scope.selected;
+                        $scope.getEvents($routeParams.id, function() {
+                            $scope.getResponses(selected.id, selected.name); 
+                            $scope.activateEvent(selected);
+                            $scope.getEmails(selected.id);
+                            
+                            $('#'+selected.id).addClass('active');
+                        }); 
+                        
                         $scope.error = null;
 				        $scope.success = 'Your response has been saved';
                     })
@@ -340,7 +339,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	
 	// Sets the active class when an event is clicked
 	$scope.activeClass = function(event) {
-		return event === $scope.selected ? 'active' : undefined;
+		return event === $scope.selected ? 'active' : '';
 	}
 	
 	$scope.getTeam();	// Call on page load
