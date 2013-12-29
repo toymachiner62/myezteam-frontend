@@ -55,15 +55,15 @@
                             </button>
                         	<ul class="dropdown-menu">
                                 <li>
-                                    <a href="" ng-click="rsvp(event.id, 2)" >Yes</a>
-                                    <a href="" ng-click="rsvp(event.id, 3)" >Probably</a>
-                                    <a href="" ng-click="rsvp(event.id, 4)" >Maybe</a>
-                                    <a href="" ng-click="rsvp(event.id, 5)" >No</a>
+                                    <a href="" ng-click="rsvp(event.id, event.team_id, 2)" >Yes</a>
+                                    <a href="" ng-click="rsvp(event.id, event.team_id, 3)" >Probably</a>
+                                    <a href="" ng-click="rsvp(event.id, event.team_id, 4)" >Maybe</a>
+                                    <a href="" ng-click="rsvp(event.id, event.team_id, 5)" >No</a>
                         	    </li>
                         	</ul>
                         </div>
               		
-						<a class="list-group-item" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name, teamId); activateEvent(event)">
+						<a class="list-group-item" id="{{event.id}}" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name, teamId); activateEvent(event)">
                             <h3>{{event.name}}</h3>
                             <p><span class="text-danger">{{event.start | date:'EEEE, MMMM d,y @ h:mm a'}}</span></p>
                             <p><strong>Your Response:</strong> <span class="label label-{{event.my_response | lowercase}}">{{event.my_response}}</span></p>

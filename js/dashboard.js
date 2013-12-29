@@ -7,7 +7,7 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
 	});
     
 	// Get all of a users upcoming events
-	$scope.getEvents = function() {
+	$scope.getEvents = function(callback) {
 	
 		$http.get(baseUrl+'v1/events?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
 			.success(function(response) {
@@ -37,6 +37,10 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
 			                } else {
 			                    $scope.events[i].my_response = event.default_response.label;
 			                }
+			                
+			                // Somehow this magic little number only calls the callback if it's actually a function
+				            // http://stackoverflow.com/questions/6792663/javascript-style-optional-callbacks
+				            typeof callback === 'function' && callback();
 			            })
 			            .error(function(response2) {
 			                $scope.success = null;
@@ -169,12 +173,12 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
 	}
 	
 	// RSVP to an event
-	$scope.rsvp = function(event_id, response_id) {
+	$scope.rsvp = function(event_id, team_id, response_id) {
 	    
 	    var me = null;
 	    
 	    // Get the logged in user's player_id for the particular team page that the user is on
-	    $http.get(baseUrl+'v1/players/team/' + $routeParams.id + '/me?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+	    $http.get(baseUrl+'v1/players/team/' + team_id + '/me?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
 			.success(function(response) {
 		        $scope.error = null;
 				me = response;
@@ -189,6 +193,16 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
 				// Rsvp the selected event with the logged in user
                 $http.post(baseUrl+'v1/responses?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d', rsvp)
                     .success(function(response) {
+                        
+                        // Refresh the responses and the chart
+                        var selected = $scope.selected;
+                        $scope.getEvents(function() {
+                            $scope.getResponses(selected.id, selected.name); 
+                            $scope.activateEvent(selected);
+                            
+                            $('#'+selected.id).addClass('active');
+                        }); 
+                        
                         $scope.error = null;
 				        $scope.success = 'Your response has been saved';
                     })
