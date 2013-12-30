@@ -51,6 +51,14 @@
     padding-top: 2px;
     padding-bottom: 2px;
 }
+/* Used for the teams in the sidenav */
+.side-nav li.team a.pull-right {
+    width: auto;
+}
+/* Used for the edit/delete team buttons */
+.side-nav .btn-group .dropdown-toggle {
+    z-index: 10;
+}
 
 /* Search box in sidenav */
 #searchTeam {
@@ -58,7 +66,7 @@
     width: 210px;
 }
 /* New team button in sidenav */
-#newTeam {
+.side-nav .full-btn {
     margin: 5px 5px 10px 5px;
     width: 210px;
 }

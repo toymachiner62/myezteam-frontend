@@ -29,7 +29,7 @@
     <script src="js/players/add-player-to-team.js"></script>
     <script src="js/players/edit-team-player.js"></script>
     <script src="js/dashboard.js"></script>
-    <script src="js/create-event.js"></script>
+    <script src="js/events/create-event.js"></script>
     <script src="js/create-event-email.js"></script>
     <script src="js/md5-service.js"></script>
     <script src="js/gravatar-directive.js"></script>
@@ -57,21 +57,46 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
             <li ng-class="{active: activetab == '/dashboard'}"><a href="#/dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-          	<!-- <li ng-class="{active: activetab == '/teams'}"><a href="#/teams"><i class="fa fa-th-large"></i> My Teams</a></li> -->
-
-          
+          	
             <hr/>
             
-            <a id="newTeam" href="#/teams" class="btn btn-success btn-sm">New Team</a>
+            <a href="#/teams" class="btn btn-success btn-sm full-btn">New Team</a>
+            <a href="" ng-click="toggleTeamButtons()" class="btn btn-danger btn-sm full-btn"><i class="fa fa-cog"></i> Toggle Team Settings</a>
             
             <input id="searchTeam" ng-model="searchTeam" class="form-control" placeholder="Search For Team" />
-            <li ng-repeat="team in teams.owner | filter:searchTeam" ng-class="{active: activetab == '/teams'}" class="team">
+            
+            <li ng-repeat="team in teams.owner | filter:searchTeam" class="team">
+            
+                <div class="btn-group pull-right" ng-show="profile.id == team.owner_id && team.showDelete">
+                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-cog"></i><span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#/teams/{{team.id}}/edit">Edit</a></li>
+                        <li><a href="" ng-click="delete(team)">Delete</a></li>
+                    </ul>
+                </div>
+                
+                <a href="#/teams/{{team.id}}">
+                    <i class="fa fa-barcode"></i> {{team.name}}
+                </a>   
+                    
+                
+                
+                <!-- Delete button when hovered -->
+                <!--<a class="btn btn-danger btn-xs pull-right" href="" ng-click="delete(team)" ng-show="profile.id == team.owner_id && team.showDelete">
+                    <i class="fa fa-trash-o"></i> Delete
+                </a>-->
+                                        
+                <!-- Edit button when hovered -->
+               <!-- <a class="btn btn-default btn-xs pull-right" href="#/teams/{{team.id}}/edit" ng-show="profile.id == team.owner_id && team.showDelete">
+                    <i class="fa fa-pencil"></i> Edit
+                </a>-->
+            </li>
+            <li ng-repeat="team in teams.manager | filter:searchTeam" class="team">
               <a href="#/teams/{{team.id}}"><i class="fa fa-barcode"></i> {{team.name}}</a>
             </li>
-            <li ng-repeat="team in teams.manager | filter:searchTeam" ng-class="{active: activetab == '/teams'"} class="team">
-              <a href="#/teams/{{team.id}}"><i class="fa fa-barcode"></i> {{team.name}}</a>
-            </li>
-            <li ng-repeat="team in teams.player | filter:searchTeam" ng-class="{active: activetab == '/teams'}" class="team">
+            <li ng-repeat="team in teams.player | filter:searchTeam"  class="team">
               <a href="#/teams/{{team.id}}"><i class="fa fa-barcode"></i> {{team.name}}</a>
             </li>
           </ul>

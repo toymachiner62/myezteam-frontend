@@ -1,4 +1,6 @@
 var baseUrl = 'http://myezteam-webservices.herokuapp.com/';
+var apiKey = '?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d';
+var token = sessionStorage.getItem("token");
 
 // Module for the login page
 var myezteamLogin = angular.module('myezteam-login', []);
@@ -75,7 +77,14 @@ myezteam.config(function($routeProvider, $httpProvider) {
 				title: 'Team',
 				controller: 'TeamController',
 				templateUrl: 'partials/team.html',
-				activetab: 'team'
+				activetab: 'teams'
+			})
+		.when('/teams/:id/edit',
+			{
+				title: 'Edit Team',
+				controller: 'EditTeamController',
+				templateUrl: 'partials/teams/edit.html',
+				activetab: 'teams'
 			})
 		.when('/teams/:id/add-player',
 			{
@@ -184,7 +193,7 @@ myezteam.service('myezteamBase', function($http) {
     // Get some profile information
 	this.getProfile = function(callback) {
 		// Get the logged in users info
-		$http.get(baseUrl+'v1/users?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+		$http.get(baseUrl+'v1/users' + apiKey)
 			.success(function(response) {
 				callback(response);
 			})
@@ -208,7 +217,7 @@ myezteam.service('teams', function($http) {
     // Get the teams associated with the logged in user
     this.getTeams = function(callback) {
         
-        $http.get(baseUrl+'v1/teams/all?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+        $http.get(baseUrl+'v1/teams/all' + apiKey)
 			.success(function(response) {
 				callback(response);
 			})
@@ -219,20 +228,67 @@ myezteam.service('teams', function($http) {
 });
 
 // This controller is used to set the user profile links
-myezteam.controller('TemplateProfileController', ['$scope', 'myezteamBase', 'teams', function($scope, myezteamBase, teams) {
+myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBase', 'teams', function($scope, $http, myezteamBase, teams) {
+
+    var showTeamButtons = false;
 
 	myezteamBase.getAuthHeader();
 	myezteamBase.getProfile(function(response) {
 		$scope.profile = response;
 	});
     
+    // Logs a user out
     $scope.logout = function() {
         myezteamBase.logout();   
     }
 	
-	teams.getTeams(function(response) {
-	    $scope.teams = response;    
-	});
+	// Gets all of a user's teams
+	getTeams = function() {
+	    teams.getTeams(function(response) {
+	        $scope.teams = response;    
+	        
+	        // Loop through all the teams to set a default flag to show the edit/delete buttons
+			// Note: Using angular .forEach instead of javascript for loop because it handles async in a for loop out of the box.
+			angular.forEach($scope.teams, function(team, index) {
+			    for(var i = 0; i < $scope.teams[index].length; i++) {
+			        $scope.teams[index][i].showDelete = showTeamButtons;
+			    }
+			});
+	    });
+	}
+    
+    // Shows/hides the edit/delete buttons
+    $scope.toggleTeamButtons = function() {
+        showTeamButtons = !showTeamButtons;
+        // Loop through all the teams to set a default flag to show the edit/delete buttons
+		// Note: Using angular .forEach instead of javascript for loop because it handles async in a for loop out of the box.
+		angular.forEach($scope.teams, function(team, index) {
+		    for(var i = 0; i < $scope.teams[index].length; i++) {
+		        $scope.teams[index][i].showDelete = showTeamButtons;
+		    }
+		});
+    }
+
+    // Deletes a team
+    $scope.delete = function(team) {
+        
+        // Get all the players of a specific team
+		$http.delete(baseUrl+'v1/teams/' + team.id + apiKey)
+		//$http({method: 'DELETE', url: baseUrl+'v1/team/'+team_id + apiKey})
+            .success(function(response) {
+			    
+			    $scope.error = null;
+				$scope.success = team.name + ' has been deleted';
+            })
+            .error(function(response) {
+			    $scope.success = null;
+			    $scope.error = 'An error occurred trying to delete ' + team.name + '. Please try again later.';
+		    });
+        
+        $scope.teams = getTeams();   // Reload all the info so the players get updated
+    };
+    
+    $scope.teams = getTeams();  // Call on page load
 	
 }]);
 

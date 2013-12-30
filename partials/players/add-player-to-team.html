@@ -1,11 +1,11 @@
 <div id="page-wrapper">
 	<div class="row">
 		<div class="col-lg-12">
-			<h1>Add Player To {{teamName}}</h1>
+			<h1>Add Player</h1>
 			<ol class="breadcrumb">
 				<li><a href="index.html"><i class="icon-dashboard"></i> Dashboard</a></li>
 				<li><a href="#/teams/{{team_id}}">{{team_name}}</a></li>
-	            <li class="active"><i class="icon-file-alt"></i> New Team</li>
+	            <li class="active">{{team_name}}</li>
 	        </ol>
 	        
 	        <div class="alert alert-success" ng-show="success != null">
@@ -40,7 +40,7 @@
 		
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<h3 class="panel-title">Add Player to {{teamName}}</h3>
+					<h3 class="panel-title">Add Player to {{team_name}}</h3>
 	            </div>
 				<div class="panel-body">
 	              

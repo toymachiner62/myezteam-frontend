@@ -9,7 +9,7 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
 	// Get all of a users upcoming events
 	$scope.getEvents = function(callback) {
 	
-		$http.get(baseUrl+'v1/events?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+		$http.get(baseUrl+'v1/events' + apiKey)
 			.success(function(response) {
 				$scope.error = null;
 				$scope.events = response;
@@ -27,7 +27,7 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
 				angular.forEach($scope.events, function(event, i) {
 
 				    // Get the logged in user's response for the current event
-                    $http.get(baseUrl+'v1/responses/' + event.id + '?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+                    $http.get(baseUrl+'v1/responses/' + event.id + apiKey)
 			            .success(function(response2) {
 			                    
 			                // If any responses exist, set the logged in user's response to the current event object, 
@@ -57,7 +57,7 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
 	// Get all of the responses for a particular event
 	$scope.getResponses = function(event_id, event_name, team_id) {
 
-	    $http.get(baseUrl+'v1/events/' + event_id + '/responses?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+	    $http.get(baseUrl+'v1/events/' + event_id + '/responses' + apiKey)
 			.success(function(event_responses) {
 				$scope.error = null;
 				$scope.responses = event_responses;
@@ -178,7 +178,7 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
 	    var me = null;
 	    
 	    // Get the logged in user's player_id for the particular team page that the user is on
-	    $http.get(baseUrl+'v1/players/team/' + team_id + '/me?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+	    $http.get(baseUrl+'v1/players/team/' + team_id + '/me' + apiKey)
 			.success(function(response) {
 		        $scope.error = null;
 				me = response;
@@ -191,7 +191,7 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
                 }
 				
 				// Rsvp the selected event with the logged in user
-                $http.post(baseUrl+'v1/responses?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d', rsvp)
+                $http.post(baseUrl+'v1/responses' + apiKey, rsvp)
                     .success(function(response) {
                         
                         // Refresh the responses and the chart

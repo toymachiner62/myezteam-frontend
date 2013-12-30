@@ -9,7 +9,7 @@ myezteam.controller('CreateTeamController', ['$scope', '$http', 'teams', 'myezte
 	// Get all of a users teams
 	$scope.createTeam = function() {
 	
-		$http.post(baseUrl+'v1/teams/?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d', $scope.team)
+		$http.post(baseUrl+'v1/teams' + apiKey, $scope.team)
 			.success(function(response) {
 				$scope.error = null;
 				$scope.success = 'Team ' + $scope.team.name + ' created successfully!';

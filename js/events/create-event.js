@@ -24,7 +24,7 @@ myezteam.controller('CreateEventController', ['$scope', '$http', '$routeParams',
 	    $scope.event.start = start.getFullYear() + "-" + ("0" + (start.getMonth() + 1)).slice(-2) + "-" + ("0" + start.getDate()).slice(-2);
 	    $scope.event.end = end.getFullYear() + "-" + ("0" + (end.getMonth() + 1)).slice(-2) + "-" + ("0" + end.getDate()).slice(-2);
 
-		$http.post(baseUrl+'v1/events?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d', $scope.event)
+		$http.post(baseUrl+'v1/events' + apiKey, $scope.event)
 			.success(function(response) {
 		        $scope.error = null;
 		        $scope.success = 'Event ' + $scope.event.name + ' created successfully!';
@@ -38,7 +38,7 @@ myezteam.controller('CreateEventController', ['$scope', '$http', '$routeParams',
 	$scope.getTeam = function() {
         
         // Get all the players of a specific team
-	    $http.get(baseUrl+'v1/teams/'+$routeParams.id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+	    $http.get(baseUrl+'v1/teams/'+$routeParams.id + apiKey)
             .success(function(response) {
                 $scope.team_name = response.name;
                 $scope.team_id = $routeParams.id;

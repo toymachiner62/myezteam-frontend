@@ -14,7 +14,7 @@ myezteamLogin.controller('LoginController', ['$scope', '$http', function($scope,
 	$scope.login = function() {
 	
 		// Authenticate the user
-		$http.post(baseUrl+'v1/auth/login?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d', $scope.user)
+		$http.post(baseUrl+'v1/auth/login' + apiKey, $scope.user)
 			.success(function(response) {
 				sessionStorage.setItem("token", response.token);
 				$scope.loginError = null;

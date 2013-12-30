@@ -55,7 +55,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			$scope.teamDescription = team_description;
 			$scope.players = response;
 			
-			// Loop through all the events to set the logged in user's response on the event object
+			// Loop through all the teams to set a default flag to show the edit/delete buttons
 			// Note: Using angular .forEach instead of javascript for loop because it handles async in a for loop out of the box.
 			angular.forEach($scope.players, function(player, index) {
 			    $scope.players[index].showDelete = false;
@@ -301,25 +301,6 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			    $scope.error = 'An error occurred looking for your player info. Please try again later.';
 			});
 	}
-	
-	// Get all the players of a specific team
-	/*$scope.deleteTeam = function(team_id) {
-	
-		//delete $http.defaults.headers.common['X-Requested-With'];
-		// Get all the players of a specific team
-		$http.delete(baseUrl+'v1/team/'+team_id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
-		//$http({method: 'DELETE', url: baseUrl+'v1/team/'+team_id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d'})
-		.success(function(response) {
-			
-			$scope.error = null;
-			$scope.success = 'The team has been deleted successfully';
-		})
-		.error(function(response) {
-			$scope.success = null;
-			$scope.error = 'An error occurred looking for your player info. Please try again later.';
-		});
-
-	} */
 	
 	// Hack/Fix to resize the highcharts graph when the tab is displayed - http://stackoverflow.com/questions/16216722/highcharts-hidden-charts-dont-get-re-size-properly
 	$scope.onEventTabClick = function() {

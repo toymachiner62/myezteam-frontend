@@ -13,7 +13,7 @@ myezteam.controller('AddPlayerToTeamController', ['$scope', '$http', '$routePara
 	    
 	    console.log($scope.player);
 	    
-		$http.post(baseUrl+'v1/players?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d', $scope.player)
+		$http.post(baseUrl+'v1/players' + apiKey, $scope.player)
 			.success(function(response) {
 		        $scope.error = null;
 		        $scope.success = 'Player ' + $scope.player.email + ' added to team successfully!';
@@ -28,7 +28,7 @@ myezteam.controller('AddPlayerToTeamController', ['$scope', '$http', '$routePara
 	$scope.getTeam = function() {
         
         // Get all the players of a specific team
-	    $http.get(baseUrl+'v1/teams/'+$routeParams.id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+	    $http.get(baseUrl+'v1/teams/'+$routeParams.id + apiKey)
             .success(function(response) {
                 $scope.team_name = response.name;
                 $scope.team_id = $routeParams.id;
