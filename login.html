@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="css/login.css">
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/login.js"></script>
   </head>
@@ -45,7 +45,7 @@
                 <div id="loadingWidget" class="row-fluid ui-corner-all" style="padding: 0 .7em;">
                     <div class="loadingContent">
                         <p>
-                            <img alt="MyEZTeam" src="images/ajax-loading.gif" /> Thinking
+                            <i class="fa fa-spinner fa-spin fa-2x"></i> Working..
                         </p>
                     </div>
                 </div>
@@ -68,6 +68,6 @@
     </div> <!-- /container -->
 
 
-    
+    <div id="loadingBackdrop" class="modal-backdrop in" style="display:none;"></div>
   </body>
 </html>

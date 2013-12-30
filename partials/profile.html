@@ -6,6 +6,15 @@
 				<li><a href="index.html"><i class="icon-dashboard"></i> Dashboard</a></li>
 	            <li class="active"><i class="icon-file-alt"></i> My Profile</li>
 	        </ol>
+	        
+			<div class="alert alert-success" ng-show="success != null">
+				{{success}}
+			</div>
+			
+			<div class="alert alert-danger" ng-show="error != null">
+				{{error}}
+			</div>
+	        
 		</div>
 	</div><!-- /.row -->
 	
@@ -16,7 +25,7 @@
                 <div id="loadingWidget" class="row-fluid ui-corner-all" style="padding: 0 .7em;">
                     <div class="loadingContent">
                         <p>
-                            <img alt="MyEZTeam" src="images/ajax-loading.gif" /> Thinking
+                            <i class="fa fa-spinner fa-spin fa-2x"></i> Working..
                         </p>
                     </div>
                 </div>
