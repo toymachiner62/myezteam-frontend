@@ -24,6 +24,7 @@ myezteam.controller('AddPlayerToTeamController', ['$scope', '$http', '$routePara
 			});
 	}
 	
+	// Get team id and name for the breadcrumbs
 	$scope.getTeam = function() {
         
         // Get all the players of a specific team

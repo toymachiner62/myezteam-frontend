@@ -44,7 +44,7 @@
 			            <div class="panel panel-info">
 				            <div class="panel-heading">
 					            <div ng-repeat="team in teams.owner">
-					            	<button class="btn btn-danger btn-xs pull-right" type="button" ng-show="team.id == teamId" ng-click="deleteTeam(team.id)">Delete Team</button>
+					            	<button class="btn btn-danger btn-xs pull-right" type="button" ng-show="profile.id == team.owner_id && team.id == teamId" ng-click="deleteTeam(team.id)">Delete Team</button>
 					            </div>
                 	            <h3 class="panel-title">Team Info</h3>
 				            </div>
@@ -56,8 +56,8 @@
                                     <p><strong>Description:</strong> {{teamDescription}}</p>
                                     <p><strong>Owner:</strong> {{teamOwner}}</p>
                                     <p><strong>Managers:</strong></p>
-                                    <ul>
-                                        <li ng-repeat="player in players | filter:player.player_type == 'Manager'">{{player.first_name}} {{player.last_name}}</li>
+                                    <ul> <!--<pre>{{players|json}}</pre>-->
+                                        <li ng-repeat="player in players | filter:{ player_type: Manager }">{{player.user.first_name}} {{player.user.last_name}}</li>
                                     </ul>
 					            </div>
 				            </div>
@@ -81,8 +81,18 @@
             						</div>
             					</div>
                           	
-                            	<div class="list-group" ng-repeat="player in players">
+                            	<div class="list-group" ng-repeat="player in players" ng-mouseenter="hover(player)" ng-mouseleave="hover(player)">
                               		<div class="list-group-item">
+
+                                        <!-- Delete button when hovered -->
+                                        <a class="btn btn-danger btn-xs pull-right" href="" ng-click="delete(player)" ng-show="profile.id == team.owner_id && player.showDelete">
+                                            <i class="fa fa-trash-o"></i> Delete
+                                        </a>
+                                        
+                                        <a class="btn btn-default btn-xs pull-right" href="#/teams/{{team.id}}/players/{{player.id}}/edit" ng-show="profile.id == team.owner_id && player.showDelete">
+                                            <i class="fa fa-pencil"></i> Edit
+                                        </a>
+                                        
             							<span class="label label-primary pull-right center-vertical" ng-show="player.player_type == 'Regular'">Regular</span>
             							<span class="label label-warning pull-right center-vertical" ng-show="player.player_type == 'Sub'">Sub</span>
                                 		<gravatar-image data-gravatar-email="player.user.email" data-gravatar-size="36" data-gravatar-default="mm"></gravatar-image>
@@ -119,7 +129,7 @@
                           		
                           		    <!-- RSVP Button -->
                           		    <div class="btn-group pull-right rsvp-pill">
-                          		        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                          		        <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
                                             RSVP
                                             <span class="caret"></span>
                                         </button>
@@ -158,18 +168,18 @@
             			</div>
             		</div>
             		
-            		<!-- RSVP Breakdown -->
-            		<div class="col-lg-4">
+            		<!-- RSVP Emails -->
+            		<div class="col-lg-4" ng-show="profile.id == team.owner_id">
             			<div class="panel panel-info">
             				<div class="panel-heading">
-                            	<a href="#/teams/{{teamId}}/events/{{selected.id}}/emails" ng-show="profile.id == team.owner_id" class="btn btn-default btn-xs pull-right" type="button" >Create RSVP Email</a>
+                            	<a href="#/teams/{{teamId}}/events/{{selected.id}}/emails" class="btn btn-default btn-xs pull-right" type="button" >Create RSVP Email</a>
                             	<h3 class="panel-title inline">RSVP Emails</h3>
                           	</div>
                           	
                           	<div class="panel-body">
-                          		<div class="list-group" ng-show="events.length == 0">
+                          		<div class="list-group" ng-show="!emails || emails.length == 0">
                           			<div class="list-group-item">
-                          				There are no RSVP responses for this event
+                          				There are no emails for this event
             						</div>
             					</div>
                           	
@@ -189,13 +199,20 @@
             			</div>
             		</div>
             		
-            		<!-- RSVP Email -->
+            		<!-- RSVP Breakdown -->
             		<div class="col-lg-4">
             			<div class="panel panel-info">
             				<div class="panel-heading">
                             	<h3 class="panel-title">RSVP Breakdown</h3>
                           	</div>
                           	<div class="panel-body">
+                          	    <div class="list-group" ng-show="!responses || responses.length == 0">
+                          			<div class="list-group-item">
+                          				There are no RSVP responses for this event
+            						</div>
+            					</div>
+                          	    
+                          	    <div ng-show="responses.length > 0">
                                 <h3>RSVP Responses for {{selected.name}}</h3>
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover tablesorter">
@@ -214,6 +231,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                </div>
                                 </div>
             				</div>
             			</div>

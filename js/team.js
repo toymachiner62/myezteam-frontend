@@ -54,6 +54,13 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			$scope.teamLocation = team_location;
 			$scope.teamDescription = team_description;
 			$scope.players = response;
+			
+			// Loop through all the events to set the logged in user's response on the event object
+			// Note: Using angular .forEach instead of javascript for loop because it handles async in a for loop out of the box.
+			angular.forEach($scope.players, function(player, index) {
+			    $scope.players[index].showDelete = false;
+			});
+			
 			$scope.error = null;
 		})
 		.error(function(response) {
@@ -296,7 +303,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	}
 	
 	// Get all the players of a specific team
-	$scope.deleteTeam = function(team_id) {
+	/*$scope.deleteTeam = function(team_id) {
 	
 		//delete $http.defaults.headers.common['X-Requested-With'];
 		// Get all the players of a specific team
@@ -304,12 +311,15 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 		//$http({method: 'DELETE', url: baseUrl+'v1/team/'+team_id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d'})
 		.success(function(response) {
 			
+			$scope.error = null;
+			$scope.success = 'The team has been deleted successfully';
 		})
 		.error(function(response) {
-			$scope['players'] = 'An error occurred looking for your players. Please try again later.';
+			$scope.success = null;
+			$scope.error = 'An error occurred looking for your player info. Please try again later.';
 		});
 
-	}
+	} */
 	
 	// Hack/Fix to resize the highcharts graph when the tab is displayed - http://stackoverflow.com/questions/16216722/highcharts-hidden-charts-dont-get-re-size-properly
 	$scope.onEventTabClick = function() {
@@ -341,6 +351,30 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	$scope.activeClass = function(event) {
 		return event === $scope.selected ? 'active' : '';
 	}
+	
+	// Shows/hides the delete button when hovering over a player
+	$scope.hover = function(player) {
+        return player.showDelete = ! player.showDelete;
+    };
+
+    // Removes a player from a team
+    $scope.delete = function(player) {
+        
+        // Get all the players of a specific team
+		$http.delete(baseUrl+'v1/players/' + player.id + '?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+		//$http({method: 'DELETE', url: baseUrl+'v1/team/'+team_id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d'})
+            .success(function(response) {
+			    
+			    $scope.error = null;
+				$scope.success = player.first_name + ' ' + player.last_name + ' has been removed from this team';
+            })
+            .error(function(response) {
+			    $scope.success = null;
+			    $scope.error = 'An error occurred trying to delete ' + player.first_name + ' ' + player.last_name + '. Please try again later.';
+		    });
+        
+        $scope.getTeam();   // Reload all the info so the players get updated
+    };
 	
 	$scope.getTeam();	// Call on page load
 	

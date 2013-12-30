@@ -74,6 +74,13 @@
     position: relative;
     z-index: 10;
 }
-
+/* Give margin to all buttons that are floated right */
+.pull-right.btn {
+    margin-left: 5px;
+}
+/* Adjust margin on event h3's */
+.list-group-item h3 {
+    margin-top: 5px;
+}
 
 
