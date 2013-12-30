@@ -43,9 +43,9 @@
                     <div class="col-lg-6" ng-show="teamName != null">
 			            <div class="panel panel-info">
 				            <div class="panel-heading">
-					            <div ng-repeat="team in teams.owner">
+					            <!-- <div ng-repeat="team in teams.owner">
 					            	<button class="btn btn-danger btn-xs pull-right" type="button" ng-show="profile.id == team.owner_id && team.id == teamId" ng-click="deleteTeam(team.id)">Delete Team</button>
-					            </div>
+					            </div> -->
                 	            <h3 class="panel-title">Team Info</h3>
 				            </div>
               	            <div class="panel-body">
@@ -69,7 +69,7 @@
             			<div class="panel panel-info">
             				<div class="panel-heading">
             				    <div ng-repeat="team in teams.owner">
-            					    <a href="#/teams/{{team.id}}/add-player" ng-show="team.id == teamId" class="btn btn-default btn-xs pull-right" type="button">Add Player</a>
+            					    <a href="#/teams/{{team.id}}/add-player" ng-show="team.id == teamId" class="btn btn-default btn-xs pull-right" type="button"><i class="fa fa-user"></i> Add Player</a>
             					</div>
                             	<h3 class="panel-title">Players on {{teamName}}</h3>
                           	</div>
@@ -114,7 +114,7 @@
             			<div class="panel panel-info">
             				<div class="panel-heading">
             				    
-                            	<a href="#/teams/{{teamId}}/events" ng-show="profile.id == team.owner_id" class="btn btn-default btn-xs pull-right" type="button" >Create Event</a>
+                            	<a href="#/teams/{{teamId}}/events" ng-show="profile.id == team.owner_id" class="btn btn-default btn-xs pull-right" type="button" ><i class="fa fa-calendar-o"></i> Create Event</a>
                             	<h3 class="panel-title inline">Upcoming Events</h3>
                           	</div>
                           	
@@ -131,7 +131,7 @@
                           		    <!-- RSVP Button -->
                           		    <div class="btn-group pull-right rsvp-pill">
                           		        <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
-                                            RSVP
+                                            <i class="fa fa-check"></i> RSVP
                                             <span class="caret"></span>
                                         </button>
                                     	<ul class="dropdown-menu">
@@ -173,7 +173,7 @@
             		<div class="col-lg-4" ng-show="profile.id == team.owner_id">
             			<div class="panel panel-info">
             				<div class="panel-heading">
-                            	<a href="#/teams/{{teamId}}/events/{{selected.id}}/emails" class="btn btn-default btn-xs pull-right" type="button" >Create RSVP Email</a>
+                            	<a href="#/teams/{{teamId}}/events/{{selected.id}}/emails" class="btn btn-default btn-xs pull-right" type="button" ><i class="fa fa-envelope"></i> Create RSVP Email</a>
                             	<h3 class="panel-title inline">RSVP Emails</h3>
                           	</div>
                           	

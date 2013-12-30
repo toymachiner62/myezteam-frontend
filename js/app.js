@@ -69,7 +69,7 @@ myezteam.config(function($routeProvider, $httpProvider) {
 			{
 				title: 'Create Team',
 				controller: 'CreateTeamController',
-				templateUrl: 'partials/create-team.html',
+				templateUrl: 'partials/teams/create.html',
 				activetab: 'teams'
 			})
 		.when('/teams/:id',
@@ -212,19 +212,27 @@ myezteam.service('myezteamBase', function($http) {
 
 
 // This gets the teams that a user is associated with
-myezteam.service('teams', function($http) {
+myezteam.factory('teams', function($http) {
+    
+    //var teams = {};
     
     // Get the teams associated with the logged in user
-    this.getTeams = function(callback) {
+    return {
+        getTeams: function(callback) {
         
-        $http.get(baseUrl+'v1/teams/all' + apiKey)
-			.success(function(response) {
-				callback(response);
-			})
-			.error(function(response) {
-				return 'An error occurred looking for your teams. Please try again later.';
-			});	
-    }
+            $http.get(baseUrl+'v1/teams/all' + apiKey)
+		    	.success(function(response) {
+		    		callback(response);
+		    		//return response;
+			    })
+			    .error(function(response) {
+			    	return 'An error occurred looking for your teams. Please try again later.';
+			    });	
+        }
+    } 
+    
+    
+    
 });
 
 // This controller is used to set the user profile links
@@ -245,6 +253,8 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
 	// Gets all of a user's teams
 	getTeams = function() {
 	    teams.getTeams(function(response) {
+	    //$scope.teams = teams.getTeams;
+	    
 	        $scope.teams = response;    
 	        
 	        // Loop through all the teams to set a default flag to show the edit/delete buttons
@@ -256,6 +266,14 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
 			});
 	    });
 	}
+	
+
+    // watch current page for updates and set page value
+    /*$scope.$watch(teams.getTeams, function(newValue, oldValue, scope) {
+        if (newValue && newValue !== oldValue) {
+            $scope.teams = newVal;
+        }
+    });*/
     
     // Shows/hides the edit/delete buttons
     $scope.toggleTeamButtons = function() {
