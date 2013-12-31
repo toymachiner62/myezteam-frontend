@@ -343,7 +343,6 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
         console.log(player);
         // Get all the players of a specific team
 		$http.delete(baseUrl+'v1/players/' + player.id + apiKey)
-		//$http({method: 'DELETE', url: baseUrl+'v1/team/'+team_id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d'})
             .success(function(response) {
 			    
 			    // Set the player first/last name to empty strings if they are null

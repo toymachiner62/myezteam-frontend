@@ -212,7 +212,7 @@ myezteam.service('myezteamBase', function($http) {
 
 
 // This gets the teams that a user is associated with
-myezteam.factory('teams', function($http) {
+myezteam.service('teams', function($http) {
     
     //var teams = {};
     
@@ -223,16 +223,12 @@ myezteam.factory('teams', function($http) {
             $http.get(baseUrl+'v1/teams/all' + apiKey)
 		    	.success(function(response) {
 		    		callback(response);
-		    		//return response;
 			    })
 			    .error(function(response) {
 			    	return 'An error occurred looking for your teams. Please try again later.';
 			    });	
         }
-    } 
-    
-    
-    
+    }
 });
 
 // This controller is used to set the user profile links
@@ -251,19 +247,17 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
     }
 	
 	// Gets all of a user's teams
-	getTeams = function() {
-	    teams.getTeams(function(response) {
-	    //$scope.teams = teams.getTeams;
+	function getTeams() {
 	    
-	        $scope.teams = response;    
+	    teams.getTeams(function(response) {
 	        
-	        // Loop through all the teams to set a default flag to show the edit/delete buttons
-			// Note: Using angular .forEach instead of javascript for loop because it handles async in a for loop out of the box.
-			angular.forEach($scope.teams, function(team, index) {
-			    for(var i = 0; i < $scope.teams[index].length; i++) {
-			        $scope.teams[index][i].showDelete = showTeamButtons;
-			    }
-			});
+	        var all_teams = response; 
+	        $scope.teams = [];
+	        
+	        // Add the teams to $scope.teams, without adding duplicates
+	        $scope.teams = add_teams($scope.teams, all_teams.owner, "owner", showTeamButtons);
+	        $scope.teams = add_teams($scope.teams, all_teams.manager, "manager", showTeamButtons);
+	        $scope.teams = add_teams($scope.teams, all_teams.player, "player", showTeamButtons);
 	    });
 	}
 	
@@ -277,14 +271,13 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
     
     // Shows/hides the edit/delete buttons
     $scope.toggleTeamButtons = function() {
+        
         showTeamButtons = !showTeamButtons;
+        
         // Loop through all the teams to set a default flag to show the edit/delete buttons
-		// Note: Using angular .forEach instead of javascript for loop because it handles async in a for loop out of the box.
-		angular.forEach($scope.teams, function(team, index) {
-		    for(var i = 0; i < $scope.teams[index].length; i++) {
-		        $scope.teams[index][i].showDelete = showTeamButtons;
-		    }
-		});
+		for(var i = 0; i < $scope.teams.length; i++) {
+            $scope.teams[i].showDelete = showTeamButtons;
+        }
     }
 
     // Deletes a team
@@ -292,8 +285,25 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
         
         // Get all the players of a specific team
 		$http.delete(baseUrl+'v1/teams/' + team.id + apiKey)
-		//$http({method: 'DELETE', url: baseUrl+'v1/team/'+team_id + apiKey})
             .success(function(response) {
+			    
+			    console.log("delete response = ");
+			    console.log(response);
+			    
+			    $http.get(baseUrl+'v1/teams/all' + apiKey)
+		    	.success(function(response) {
+		    	    console.log("factory response = ");
+	                console.log(response);
+	                console.log("end factory response");
+		    		
+		    		$scope.teams = response;
+		    		//return response;
+			    })
+			    .error(function(response) {
+			    	return 'An error occurred looking for your teams. Please try again later.';
+			    });
+			    
+			    getTeams();   // Reload all the info so the players get updated
 			    
 			    $scope.error = null;
 				$scope.success = team.name + ' has been deleted';
@@ -302,11 +312,53 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
 			    $scope.success = null;
 			    $scope.error = 'An error occurred trying to delete ' + team.name + '. Please try again later.';
 		    });
-        
-        $scope.teams = getTeams();   // Reload all the info so the players get updated
     };
     
-    $scope.teams = getTeams();  // Call on page load
+    getTeams();  // Call on page load
+    
 	
 }]);
+
+/*#################################
+* Helpers
+*#################################*/
+
+/**
+ * Adds an array of teams to another array. Does NOT add duplicate teams
+ * 
+ * @param team_list  - The list of teams to be added to
+ * @param teams_to_add - The list of teams to add
+ * @param association    - The logged in user's association to the team (owner, manager, or player)
+ * @param buttons_visible_flag   - A flag on whether the show the edit/delete buttons 
+ */
+function add_teams(team_list, teams_to_add, association, buttons_visible_flag) {
+    
+    // Loop through all the teams to be added
+    for(var i = 0; i < teams_to_add.length; i++) {
+
+        // Add a flag to show the edit/delete buttons and a user association (player, owner, manager) to these objects
+        teams_to_add[i].showDelete = buttons_visible_flag;
+        teams_to_add[i].association = association;
+			        
+        // If the array doesn't already contain the team, add it
+        if(!contains(team_list, teams_to_add[i].id)) {
+            team_list.push(teams_to_add[i]);
+        }
+    }
+			
+    return team_list;
+}
+
+/**
+ * Checks if an object exists in an array of objects. They are considered equal if the id's of the objects match
+ * @param arr   - The array to look in
+ * @param value - The id of the object we're looking for
+ */
+function contains(arr, value) {
+    var i = arr.length;
+    while (i--) {
+        if (arr[i].id === value) return true;
+    }
+    return false;
+}
 
