@@ -16,7 +16,8 @@
     <link href="css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular-route.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="js/highcharts.js"></script>
     <script src="js/ui-bootstrap.js"></script>
@@ -31,7 +32,7 @@
     <script src="js/players/edit-team-player.js"></script>
     <script src="js/dashboard.js"></script>
     <script src="js/events/create-event.js"></script>
-    <script src="js/create-event-email.js"></script>
+    <script src="js/emails/create.js"></script>
     <script src="js/md5-service.js"></script>
     <script src="js/gravatar-directive.js"></script>
         
@@ -56,6 +57,20 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav navbar-right navbar-user">
+
+            <li class="dropdown user-dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown"><gravatar-image data-gravatar-email="profile.email" data-gravatar-size="36" data-gravatar-default="mm"></gravatar-image> {{profile.first_name}} {{profile.last_name}} <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#/profile"><i class="fa fa-user"></i> Profile</a></li>
+                <!-- <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge">7</span></a></li> -->
+                <!-- <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li> -->
+                <li class="divider"></li>
+                <li><a ng-click="logout()"><i class="fa fa-power-off"></i> Log Out</a></li>
+              </ul>
+            </li>
+          </ul>
+        <div class="clearfix"></div>
           <ul class="nav navbar-nav side-nav">
             <li ng-class="{active: activetab == '/dashboard'}"><a href="#/dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
           	
@@ -95,19 +110,9 @@
               <a href="#/teams/{{team.id}}"><i class="fa fa-group"></i> {{team.name}}</a>
             </li>
           </ul>
-          <ul class="nav navbar-nav navbar-right navbar-user">
-
-            <li class="dropdown user-dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown"><gravatar-image data-gravatar-email="profile.email" data-gravatar-size="36" data-gravatar-default="mm"></gravatar-image> {{profile.first_name}} {{profile.last_name}} <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="#/profile"><i class="fa fa-user"></i> Profile</a></li>
-                <!-- <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge">7</span></a></li> -->
-                <!-- <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li> -->
-                <li class="divider"></li>
-                <li><a ng-click="logout()"><i class="fa fa-power-off"></i> Log Out</a></li>
-              </ul>
-            </li>
-          </ul>
+          
+          <div class="clearfix"></div>
+          
         </div><!-- /.navbar-collapse -->
       </nav>
         

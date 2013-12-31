@@ -6,7 +6,7 @@ var token = sessionStorage.getItem("token");
 var myezteamLogin = angular.module('myezteam-login', []);
 
 // Module for the rest of the pages
-var myezteam = angular.module('myezteam', ['highcharts-ng', 'ui.bootstrap', 'md5', 'ui-gravatar']);
+var myezteam = angular.module('myezteam', ['ngRoute', 'highcharts-ng', 'ui.bootstrap', 'md5', 'ui-gravatar']);
 
 // Set some configs
 myezteamLogin.config(function($httpProvider) {
@@ -111,7 +111,7 @@ myezteam.config(function($routeProvider, $httpProvider) {
 		    {
 		        title: 'Create Email',
 		        controller: 'CreateEventEmailController',
-		        templateUrl: 'partials/create-event-email.html',
+		        templateUrl: 'partials/emails/create.html',
 		        activetab: 'teams'
 		    })
 		.otherwise({redirectTo: '/dashboard'});

@@ -9,7 +9,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
     $scope.getTeam = function() {
         
         // Get all the players of a specific team
-	    $http.get(baseUrl+'v1/teams/'+$routeParams.id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+	    $http.get(baseUrl+'v1/teams/'+$routeParams.id + apiKey)
             .success(function(response) {
                 $scope.team = response;
                 $rootScope.title = 'Team ' + response.name;
@@ -30,7 +30,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
     $scope.getTeamOwner = function(team_id) {
 	
 		// Get all the players of a specific team
-		$http.get(baseUrl+'v1/teams/'+team_id+'/owner?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+		$http.get(baseUrl+'v1/teams/'+team_id+'/owner' + apiKey)
 		.success(function(response) {
 			$scope.teamOwner = response.first_name + " " + response.last_name;
 			$scope.error = null;
@@ -46,7 +46,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	$scope.getPlayers = function(team_id, team_name, team_type, team_location, team_description) {
 	
 		// Get all the players of a specific team
-		$http.get(baseUrl+'v1/teams/'+team_id+'/players?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+		$http.get(baseUrl+'v1/teams/'+team_id+'/players' + apiKey)
 		.success(function(response) {
 			$scope.teamId = team_id;
 			$scope.teamName = team_name;
@@ -73,7 +73,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	// Get all of a users upcoming events
 	$scope.getEvents = function(team_id, callback) {
 	
-		$http.get(baseUrl+'v1/teams/' + team_id + '/events?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+		$http.get(baseUrl+'v1/teams/' + team_id + '/events' + apiKey)
 			.success(function(response) {
 		        
 				$scope.events = response;
@@ -92,7 +92,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 				    angular.forEach($scope.events, function(event, i) {
 
 				        // Get the logged in user's response for the current event
-                        $http.get(baseUrl+'v1/responses/' + event.id + '?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+                        $http.get(baseUrl+'v1/responses/' + event.id + apiKey)
 			                .success(function(response2) {
 			                    
 			                    // If any responses exist, set the logged in user's response to the current event object, 
@@ -125,7 +125,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	// Get all of the responses for a particular event
 	$scope.getResponses = function(event_id, event_name, team_id) {
 
-	    $http.get(baseUrl+'v1/events/' + event_id + '/responses?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+	    $http.get(baseUrl+'v1/events/' + event_id + '/responses' + apiKey)
 			.success(function(event_responses) {
 				
 			    $scope.error = null;
@@ -244,7 +244,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	// Get a list of all the emails for a particular event
 	$scope.getEmails = function(event_id) {
 	    
-	    $http.get(baseUrl+'v1/events/' + event_id + '/emails?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+	    $http.get(baseUrl+'v1/events/' + event_id + '/emails' + apiKey)
 			.success(function(response) {
 		        $scope.error = null;
 				$scope.emails = response;
@@ -261,7 +261,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	    var me = null;
 	    
 	    // Get the logged in user's player_id for the particular team page that the user is on
-	    $http.get(baseUrl+'v1/players/team/' + $routeParams.id + '/me?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+	    $http.get(baseUrl+'v1/players/team/' + $routeParams.id + '/me' + apiKey)
 			.success(function(response) {
 		        $scope.error = null;
 				me = response;
@@ -274,7 +274,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
                 }
 				
 				// Rsvp the selected event with the logged in user
-                $http.post(baseUrl+'v1/responses?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d', rsvp)
+                $http.post(baseUrl+'v1/responses' + apiKey, rsvp)
                     .success(function(response) {
                         
                         // Refresh the responses and the chart
@@ -340,18 +340,26 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 
     // Removes a player from a team
     $scope.delete = function(player) {
-        
+        console.log(player);
         // Get all the players of a specific team
-		$http.delete(baseUrl+'v1/players/' + player.id + '?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d')
+		$http.delete(baseUrl+'v1/players/' + player.id + apiKey)
 		//$http({method: 'DELETE', url: baseUrl+'v1/team/'+team_id+'?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d'})
             .success(function(response) {
 			    
+			    // Set the player first/last name to empty strings if they are null
+			    player.user.first_name = player.user.first_name == null ? '' : player.user.first_name
+			    player.user.last_name = player.user.last_name == null ? '' : player.user.last_name
+			    
 			    $scope.error = null;
-				$scope.success = player.first_name + ' ' + player.last_name + ' has been removed from this team';
+				$scope.success = player.user.first_name + ' ' + player.user.last_name + '(' + player.user.email + ') has been removed from this team';
             })
             .error(function(response) {
+                // Set the player first/last name to empty strings if they are null
+			    player.user.first_name = player.user.first_name == null ? '' : player.user.first_name
+			    player.user.last_name = player.user.last_name == null ? '' : player.user.last_name
+			    
 			    $scope.success = null;
-			    $scope.error = 'An error occurred trying to delete ' + player.first_name + ' ' + player.last_name + '. Please try again later.';
+			    $scope.error = 'An error occurred trying to delete ' + player.user.first_name + ' ' + player.user.last_name + '(' + player.user.email + '). Please try again later.';
 		    });
         
         $scope.getTeam();   // Reload all the info so the players get updated
