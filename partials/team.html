@@ -40,7 +40,7 @@
 		    <tabset>
 		    
                 <tab heading="Team Info">
-                    <div class="col-lg-6" ng-show="teamName != null">
+                    <div class="col-lg-6" ng-show="team.name != null">
 			            <div class="panel panel-info">
 				            <div class="panel-heading">
 					            <!-- <div ng-repeat="team in teams.owner">
@@ -49,14 +49,20 @@
                 	            <h3 class="panel-title">Team Info</h3>
 				            </div>
               	            <div class="panel-body">
-					            <div class="list-group">
-                		            <h3>{{teamName}}</h3>
-                		            <p><strong>Type:</strong> {{teamType}}</p>
-                                    <p><strong>Default Location:</strong> {{teamLocation}}</p>
-                                    <p><strong>Description:</strong> {{teamDescription}}</p>
-                                    <p><strong>Owner:</strong> {{teamOwner}}</p>
+					            <div class="list-group" ng-mouseenter="hover(team)" ng-mouseleave="hover(team)">
+					                
+					                <!-- Edit button when hovered -->
+                                    <a class="btn btn-default btn-xs pull-right" href="#/teams/{{team.id}}/edit" ng-show="profile.id == team.owner_id && team.showDelete">
+                                        <i class="fa fa-pencil"></i> Edit
+                                    </a>
+					            
+                		            <h3>{{team.name}}</h3>
+                		            <p><strong>Type:</strong> {{team.type}}</p>
+                                    <p><strong>Default Location:</strong> {{team.default_location}}</p>
+                                    <p><strong>Description:</strong> {{team.description}}</p>
+                                    <p><strong>Owner:</strong> {{team_owner}}</p>
                                     <p><strong>Managers:</strong></p>
-                                    <ul> <!--<pre>{{players|json}}</pre>-->
+                                    <ul>
                                         <li ng-repeat="player in players | filter:{ player_type: 'Manager' }">{{player.user.first_name}} {{player.user.last_name}}</li>
                                     </ul>
 					            </div>
@@ -65,13 +71,13 @@
 		            </div>
 		
 		            <!-- Player list -->
-		            <div class="col-lg-6" ng-show="teamName != null">
+		            <div class="col-lg-6" ng-show="team.name != null">
             			<div class="panel panel-info">
             				<div class="panel-heading">
             				    <div ng-repeat="team in teams.owner">
             					    <a href="#/teams/{{team.id}}/add-player" ng-show="team.id == teamId" class="btn btn-default btn-xs pull-right" type="button"><i class="fa fa-user"></i> Add Player</a>
             					</div>
-                            	<h3 class="panel-title">Players on {{teamName}}</h3>
+                            	<h3 class="panel-title">Players</h3>
                           	</div>
                           	<div class="panel-body">
                           	

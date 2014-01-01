@@ -12,6 +12,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	    $http.get(baseUrl+'v1/teams/'+$routeParams.id + apiKey)
             .success(function(response) {
                 $scope.team = response;
+                $scope.team.showDelete = false;
                 $rootScope.title = 'Team ' + response.name;
 		    
                 $scope.getPlayers(response.id, response.name, response.type, response.default_location, response.description);
@@ -32,7 +33,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 		// Get all the players of a specific team
 		$http.get(baseUrl+'v1/teams/'+team_id+'/owner' + apiKey)
 		.success(function(response) {
-			$scope.teamOwner = response.first_name + " " + response.last_name;
+			$scope.team_owner = response.first_name + " " + response.last_name;
 			$scope.error = null;
 		})
 		.error(function(response) {
@@ -49,13 +50,11 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 		$http.get(baseUrl+'v1/teams/'+team_id+'/players' + apiKey)
 		.success(function(response) {
 			$scope.teamId = team_id;
-			$scope.teamName = team_name;
-			$scope.teamType = team_type;
-			$scope.teamLocation = team_location;
-			$scope.teamDescription = team_description;
+			//$scope.teamName = team_name;
+			//$scope.teamType = team_type;
+			//$scope.teamLocation = team_location;
+			//$scope.teamDescription = team_description;
 			$scope.players = response;
-			
-			console.log($scope.players);
 			
 			// Loop through all the teams to set a default flag to show the edit/delete buttons
 			// Note: Using angular .forEach instead of javascript for loop because it handles async in a for loop out of the box.
@@ -344,13 +343,12 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	}
 	
 	// Shows/hides the delete button when hovering over a player
-	$scope.hover = function(player) {
-        return player.showDelete = ! player.showDelete;
+	$scope.hover = function(object) {
+        return object.showDelete = ! object.showDelete;
     };
 
     // Removes a player from a team
     $scope.delete = function(player) {
-        console.log(player);
         // Get all the players of a specific team
 		$http.delete(baseUrl+'v1/players/' + player.id + apiKey)
             .success(function(response) {
