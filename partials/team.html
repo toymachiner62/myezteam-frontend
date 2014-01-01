@@ -57,7 +57,7 @@
                                     <p><strong>Owner:</strong> {{teamOwner}}</p>
                                     <p><strong>Managers:</strong></p>
                                     <ul> <!--<pre>{{players|json}}</pre>-->
-                                        <li ng-repeat="player in players | filter:{ player_type: Manager }">{{player.user.first_name}} {{player.user.last_name}}</li>
+                                        <li ng-repeat="player in players | filter:{ player_type: 'Manager' }">{{player.user.first_name}} {{player.user.last_name}}</li>
                                     </ul>
 					            </div>
 				            </div>
@@ -227,7 +227,7 @@
                                         <tbody>
                                             <tr class="" ng-repeat="res in responses | orderBy:predicate:reverse">
                                                 <td><span class="label label-{{res.response.label | lowercase}}">{{res.response.label}}</span></td>
-                                                <td>{{res.player_info.firstName}} {{res.player_info.lastName}}</td>
+                                                <td>{{res.display_name}}</td>
                                                 <td>{{res.comment}}</td>
                                             </tr>
                                         </tbody>

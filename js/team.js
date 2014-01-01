@@ -55,6 +55,8 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			$scope.teamDescription = team_description;
 			$scope.players = response;
 			
+			console.log($scope.players);
+			
 			// Loop through all the teams to set a default flag to show the edit/delete buttons
 			// Note: Using angular .forEach instead of javascript for loop because it handles async in a for loop out of the box.
 			angular.forEach($scope.players, function(player, index) {
@@ -139,9 +141,10 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 				var maybe = 0;
 				var no = 0;
 				
-				// count the response types (2 yes's, 3 maybe's, etc)
+				// Loop through all the responses
 				for(var i = 0; i < $scope.responses.length; i++) {
 				    
+				    // count the response types (2 yes's, 3 maybe's, etc)
 				    switch ($scope.responses[i].response.id)
                     {
                     case 1:
@@ -163,6 +166,13 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
                       no++;
                       no_response--;
                       break;
+                    }
+                    
+                    // Set the players display_name, based on whether they have a first and last name or not
+                    if($scope.responses[i].player_info.firstName == null && $scope.responses[i].player_info.lastName == null) {
+                        $scope.responses[i].display_name = $scope.responses[i].player_info.email;
+                    } else {
+                        $scope.responses[i].display_name = $scope.responses[i].player_info.firstName + ' ' + $scope.responses[i].player_info.lastName;
                     }
 				}
                 	

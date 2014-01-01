@@ -62,7 +62,7 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
 				$scope.error = null;
 				$scope.responses = event_responses;
 				$scope.teamId = team_id;
-				
+
 				// initially set the no_responses to the total number of responses. We'll change this as we loop through the responses
 				var no_response = $scope.responses.length;  
 				var yes = 0;
@@ -70,9 +70,10 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
 				var maybe = 0;
 				var no = 0;
 				
-				// count the response types (2 yes's, 3 maybe's, etc)
+				// Loop through all the responses
 				for(var i = 0; i < $scope.responses.length; i++) {
 				    
+				    // count the response types (2 yes's, 3 maybe's, etc)
 				    switch ($scope.responses[i].response.id)
                     {
                     case 1:
@@ -94,6 +95,13 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
                       no++;
                       no_response--;
                       break;
+                    }
+                    
+                    // Set the players display_name, based on whether they have a first and last name or not
+                    if($scope.responses[i].player_info.firstName == null && $scope.responses[i].player_info.lastName == null) {
+                        $scope.responses[i].display_name = $scope.responses[i].player_info.email;
+                    } else {
+                        $scope.responses[i].display_name = $scope.responses[i].player_info.firstName + ' ' + $scope.responses[i].player_info.lastName;
                     }
 				}
                 	
