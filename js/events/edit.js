@@ -25,8 +25,8 @@ myezteam.controller('EditEventController', ['$scope', '$http', '$routeParams', '
                 $scope.event.end = {date: null, time: new Date()};
                 
         	    // This just formats the date to yyyy-mm-dd. The slicing stuff just makes sure that single digit values are padded with zeros
-        	    $scope.event.start.date = start.getFullYear() + "-" + ("0" + (start.getMonth() + 1)).slice(-2) + "-" + ("0" + start.getDate()).slice(-2);
-        	    $scope.event.end.date = end.getFullYear() + "-" + ("0" + (end.getMonth() + 1)).slice(-2) + "-" + ("0" + end.getDate()).slice(-2);
+        	    $scope.event.start.date = start; //start.getFullYear() + "-" + ("0" + (start.getMonth() + 1)).slice(-2) + "-" + ("0" + start.getDate()).slice(-2);
+        	    $scope.event.end.date = end; //end.getFullYear() + "-" + ("0" + (end.getMonth() + 1)).slice(-2) + "-" + ("0" + end.getDate()).slice(-2);
 	            $scope.event.start.time = start; //$scopestart.getHours() + ":" + start.getMinutes() + ":" + start.getSeconds();
 	            $scope.event.end.time = end; //end.getHours() + ":" + end.getMinutes() + ":" + end.getSeconds();
         	    
@@ -57,11 +57,11 @@ myezteam.controller('EditEventController', ['$scope', '$http', '$routeParams', '
 		$http.put(baseUrl+'v1/events/' + $scope.event.id + apiKey, $scope.event)
 			.success(function(response) {
 		        $scope.error = null;
-		        $scope.success = 'Event ' + $scope.event.name + ' created successfully!';
+		        $scope.success = 'Event ' + $scope.event.name + ' edited successfully!';
 			})
 			.error(function(response) {
 				$scope.success = null;
-				$scope.error = 'An error occurred trying to create your team\'s event. Please try again later.';
+				$scope.error = 'An error occurred trying to edit your team\'s event. Please try again later.';
 			});
 	}
 	

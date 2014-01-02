@@ -95,7 +95,7 @@
 /* Give margin to all buttons that are floated right */
 .pull-right.btn,
 .pull-right.btn-group {
-    margin-left: 5px;
+    margin-left: 5px !important;
 }
 /* Adjust margin on event h3's */
 .list-group-item h3 {
