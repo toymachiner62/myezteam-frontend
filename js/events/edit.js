@@ -7,7 +7,7 @@ myezteam.controller('EditEventController', ['$scope', '$http', '$routeParams', '
 	});
 	
 	// Initially set the time picker time so the display shows something
-	//$scope.event = {start: {time: new Date()}, end: {time: new Date()}};
+	$scope.event = {start: {time: new Date()}, end: {time: new Date()}};
 	
 	// Get the event that we're editing
 	var getEvent = function() {
