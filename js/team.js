@@ -16,6 +16,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
                 $rootScope.title = 'Team ' + $scope.team.name;
 		    
                 getPlayers($scope.team);
+                $scope.getManagers();
                 $scope.getEvents($scope.team.id);
                 $scope.getTeamOwner($scope.team.id);
                 
@@ -41,6 +42,20 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			$scope.error = 'An error occurred looking for your team\'s owner. Please try again later.';
 		});
 
+	}
+	
+	// Get all the managers for the team
+	$scope.getManagers = function() {
+	    
+    	$http.get(baseUrl+'v1/teams/'+$routeParams.id + '/managers' + apiKey)
+            .success(function(response) {
+                $scope.managers = response;
+                $scope.error = null;
+            })
+            .error(function(response) {
+                $scope.success = null;
+                $scope.error = 'An error occurred looking for your team\'s managers. Please try again later.';
+            });
 	}
 		
 	// Get all the players of a specific team
@@ -296,6 +311,8 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 		        $scope.error = null;
 				me = response;
 				
+				console.log(response);
+				
 				// The rsvp response data to be posted
                 var rsvp = {
                     "response_type_id":response_id,
@@ -321,6 +338,9 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 				        $scope.success = 'Your response has been saved';
                     })
 			        .error(function(response) {
+			            
+			            console.log(me);
+			            
 				        $scope.success = null;
 			            $scope.error = 'An error occurred looking for your event\'s emails. Please try again later.';
 			        });
@@ -426,6 +446,24 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
         
         $scope.getTeam();   // Reload all the info so the players get updated
     };
+    
+    // Checks if the passed in user id is an owner of the team
+    $scope.is_owner = function(id) {
+        if($scope.team.owner_id == id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    // Checks if the passed in user id is a manager of the team
+    $scope.is_manager = function(id) {
+        if(contains($scope.managers, id)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 	
 	$scope.getTeam();	// Call on page load
 	

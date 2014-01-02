@@ -52,7 +52,7 @@
 					            <div class="list-group" ng-mouseenter="hover(team)" ng-mouseleave="hover(team)">
 					                
 					                <!-- Edit button when hovered -->
-                                    <a class="btn btn-default btn-xs pull-right" href="#/teams/{{team.id}}/edit" ng-show="profile.id == team.owner_id && team.showDelete">
+                                    <a class="btn btn-default btn-xs pull-right" href="#/teams/{{team.id}}/edit" ng-show="(is_owner(profile.id) || is_manager(profile.id)) && team.showDelete">
                                         <i class="fa fa-pencil"></i> Edit
                                     </a>
 					            
@@ -63,7 +63,7 @@
                                     <p><strong>Owner:</strong> {{team_owner}}</p>
                                     <p><strong>Managers:</strong></p>
                                     <ul>
-                                        <li ng-repeat="player in players | filter:{ manager: true }">{{player.user.first_name}} {{player.user.last_name}}</li>
+                                        <li ng-repeat="manager in managers">{{manager.first_name}} {{manager.last_name}}</li>
                                     </ul>
 					            </div>
 				            </div>
@@ -74,7 +74,7 @@
 		            <div class="col-lg-6" ng-show="team.name != null">
             			<div class="panel panel-info">
             				<div class="panel-heading">
-                                <a href="#/teams/{{team.id}}/add-player" ng-show="profile.id == team.owner_id" class="btn btn-default btn-xs pull-right" type="button">
+                                <a href="#/teams/{{team.id}}/add-player" ng-show="is_owner(profile.id) || is_manager(profile.id)" class="btn btn-default btn-xs pull-right" type="button">
                                     <i class="fa fa-user"></i> Add Player
                                 </a>
                             	<h3 class="panel-title">Players</h3>
@@ -90,7 +90,7 @@
                             	<div class="list-group" ng-repeat="player in players" ng-mouseenter="hover(player)" ng-mouseleave="hover(player)">
                               		<div class="list-group-item">
 
-                                        <div class="btn-group pull-right" ng-show="profile.id == team.owner_id && player.showDelete">
+                                        <div class="btn-group pull-right" ng-show="(is_owner(profile.id) || is_manager(profile.id)) && player.showDelete">
                                             <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                                                 <i class="fa fa-cog"></i><span class="caret"></span>
                                             </button>
@@ -123,7 +123,7 @@
             			<div class="panel panel-info">
             				<div class="panel-heading">
             				    
-                            	<a href="#/teams/{{teamId}}/events" ng-show="profile.id == team.owner_id" class="btn btn-default btn-xs pull-right" type="button" ><i class="fa fa-calendar-o"></i> Create Event</a>
+                            	<a href="#/teams/{{teamId}}/events" ng-show="is_owner(profile.id) || is_manager(profile.id)" class="btn btn-default btn-xs pull-right" type="button" ><i class="fa fa-calendar-o"></i> Create Event</a>
                             	<h3 class="panel-title inline">Upcoming Events</h3>
                           	</div>
                           	
@@ -141,7 +141,7 @@
                           		    <div class="btn-group pull-right rsvp-pill">
                           		    
                           		        <!-- Edit button when hovered -->
-                                        <a class="btn btn-default btn-xs pull-right" href="#/teams/{{team.id}}/events/{{event.id}}/edit" ng-show="profile.id == team.owner_id && event.showDelete">
+                                        <a class="btn btn-default btn-xs pull-right" href="#/teams/{{team.id}}/events/{{event.id}}/edit" ng-show="(is_owner(profile.id) || is_manager(profile.id)) && event.showDelete">
                                             <i class="fa fa-pencil"></i> Edit
                                         </a>
                           		    
@@ -185,7 +185,7 @@
             		</div>
             		
             		<!-- RSVP Emails -->
-            		<div class="col-lg-4" ng-show="profile.id == team.owner_id">
+            		<div class="col-lg-4" ng-show="is_owner(profile.id) || is_manager(profile.id)">
             			<div class="panel panel-info">
             				<div class="panel-heading">
                             	<a href="#/teams/{{teamId}}/events/{{selected.id}}/emails" class="btn btn-default btn-xs pull-right" type="button" ><i class="fa fa-envelope"></i> Create RSVP Email</a>
