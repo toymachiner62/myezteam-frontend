@@ -74,9 +74,9 @@
 		            <div class="col-lg-6" ng-show="team.name != null">
             			<div class="panel panel-info">
             				<div class="panel-heading">
-            				    <div ng-repeat="team in teams.owner">
-            					    <a href="#/teams/{{team.id}}/add-player" ng-show="team.id == teamId" class="btn btn-default btn-xs pull-right" type="button"><i class="fa fa-user"></i> Add Player</a>
-            					</div>
+                                <a href="#/teams/{{team.id}}/add-player" ng-show="profile.id == team.owner_id" class="btn btn-default btn-xs pull-right" type="button">
+                                    <i class="fa fa-user"></i> Add Player
+                                </a>
                             	<h3 class="panel-title">Players</h3>
                           	</div>
                           	<div class="panel-body">

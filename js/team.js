@@ -34,6 +34,10 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 		$http.get(baseUrl+'v1/teams/'+team_id+'/owner' + apiKey)
 		.success(function(response) {
 			$scope.team_owner = response.first_name + " " + response.last_name;
+			//$scope.is_team_owner = $scope.team.owner_id == response.id ? true : false;
+			//console.log($scope.team.owner_id);
+			//console.log(response.id);
+			//console.log($scope.team.owner_id);
 			$scope.error = null;
 		})
 		.error(function(response) {
@@ -133,7 +137,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 				
 			    $scope.error = null;
 				$scope.responses = event_responses;
-				$scope.teamId = team_id;
+				//$scope.teamId = team_id;
 				
 				// initially set the no_responses to the total number of responses. We'll change this as we loop through the responses
 				var no_response = $scope.responses.length;  
