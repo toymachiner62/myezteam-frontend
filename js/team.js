@@ -89,8 +89,10 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 				    $scope.getEmails(event_id);
 				    
 				    // Loop through all the events to set the logged in user's response on the event object
-				    // Note: Using angular .forEach instead of javascript for loop because it handles async in a for loop out of the box.
+				    // Note: Using angular .forEach instead of javascript for loop because it seems that it handles async in a for loop better than a standard for loop.
 				    angular.forEach($scope.events, function(event, i) {
+				        
+				        $scope.events[i].showDelete = false;
 
 				        // Get the logged in user's response for the current event
                         $http.get(baseUrl+'v1/responses/' + event.id + apiKey)

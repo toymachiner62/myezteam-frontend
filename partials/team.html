@@ -132,10 +132,16 @@
             						</div>
             					</div>
                           	
-                          		<div class="list-group" ng-repeat="event in events">
+                          		<div class="list-group" ng-repeat="event in events" ng-mouseenter="hover(event)" ng-mouseleave="hover(event)">
                           		
                           		    <!-- RSVP Button -->
                           		    <div class="btn-group pull-right rsvp-pill">
+                          		    
+                          		        <!-- Edit button when hovered -->
+                                        <a class="btn btn-default btn-xs pull-right" href="#/teams/{{team.id}}/events/{{event.id}}/edit" ng-show="profile.id == team.owner_id && event.showDelete">
+                                            <i class="fa fa-pencil"></i> Edit
+                                        </a>
+                          		    
                           		        <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
                                             <i class="fa fa-check"></i> RSVP
                                             <span class="caret"></span>

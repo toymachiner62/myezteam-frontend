@@ -104,7 +104,14 @@ myezteam.config(function($routeProvider, $httpProvider) {
 			{
 				title: 'Create Event',
 				controller: 'CreateEventController',
-				templateUrl: 'partials/events/create-event.html',
+				templateUrl: 'partials/events/create.html',
+				activetab: 'events'
+			})
+		.when('/teams/:id/events/:event_id/edit', 
+			{
+				title: 'Edit Event',
+				controller: 'EditEventController',
+				templateUrl: 'partials/events/edit.html',
 				activetab: 'events'
 			})
 		.when('/teams/:id/events/:event_id/emails',

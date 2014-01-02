@@ -1,0 +1,110 @@
+<div id="page-wrapper">
+	<div class="row">
+		<div class="col-lg-12">
+			<h1>New Event</h1>
+			<ol class="breadcrumb">
+				<li><a href="index.html">Dashboard</a></li>
+				<li><a href="#/teams/{{team_id}}">{{team_name}}</a></li>
+	            <li class="active">New Event</li>
+	        </ol>
+	        
+	        <div class="alert alert-success" ng-show="success != null">
+				{{success}}
+			</div>
+			
+			<div class="alert alert-danger" ng-show="error != null">
+				{{error}}
+			</div>
+	        
+		</div>
+	</div><!-- /.row -->
+	
+	<div class="modal" id="loadingWidget" style="position:absolute; top: 45%;" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-body">
+                <div id="loadingWidget" class="row-fluid ui-corner-all" style="padding: 0 .7em;">
+                    <div class="loadingContent">
+                        <p>
+                            <i class="fa fa-spinner fa-spin fa-2x"></i> Working..
+                        </p>
+                    </div>
+                </div>
+              </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+	
+	<div class="row">
+		<div class="col-lg-12">
+
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">New Event</h3>
+	            </div>
+				<div class="panel-body">
+	              
+					<form role="form" name="form" ng-submit="createEvent()">
+	
+	              		<div class="form-group">
+	              		    
+	                		        <label for="name">Event Name</label>
+	                		        <input type="text" name="name" class="form-control" ng-model="event.name">
+							        <span ng-show="form.name.$dirty && form.name.$error.required">Event Name is required</span>	
+					        
+     	         		</div>
+
+     	         		<div class="form-group">
+     	      	     		<label for="description">Description</label>
+     	      	     		<input type="text" name="description" class="form-control" ng-model="event.description">
+     	      	     		<span ng-show="form.description.$dirty && form.description.$error.required">Description is required</span>
+     	         		</div>
+     	         		
+     	         		<div class="form-group">
+     	      	     		<label for="location">Location</label>
+     	      	     		<input type="text" name="location" class="form-control" ng-model="event.location">
+     	      	     		<span ng-show="form.location.$dirty && form.location.$error.required">Location is required</span>
+     	         		</div>
+     	         		
+     	         		<div class="form-group">
+     	         		    <div class="row">
+                                <div class="col-xs-2">
+     	      	     		        <label for="start">Start Date</label>
+     	      	     		        <input type="text" name="start" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="event.start.date" show-weeks="false" ng-required="true" />
+                                    
+     	      	     		        <div ng-model="event.start.time">
+     	      	     		            <timepicker hour-step="1" minute-step="1" show-meridian="true"></timepicker>
+     	      	     		        </div>
+     	      	     		        
+     	      	     		        <span ng-show="form.start.date.$dirty && form.start.date.$error.required && form.start.time.$dirty && form.start.time.$error.required">Start Date is required</span>
+     	      	     		    </div>
+     	      	     		</div>
+     	      	     		<div class="well well-sm"><strong>Start Time:</strong> {{event.start.date | date:'EEEE, MMMM d, y'}} @ {{event.start.time | date:'h:mm a'}}</div>
+     	         		</div>
+     	         		
+     	         		<div class="form-group">
+     	      	     		<div class="row">
+                                <div class="col-xs-2">
+     	      	     		        <label for="end">End Date</label>
+     	      	     		        <input type="text" name="end" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="event.end.date" show-weeks="false" ng-required="true" />
+                                    
+     	      	     		        <div ng-model="event.end.time">
+     	      	     		            <timepicker hour-step="1" minute-step="1" show-meridian="true"></timepicker>
+     	      	     		        </div>
+     	      	     		        
+     	      	     		        <span ng-show="form.end.date.$dirty && form.end.date.$error.required && form.end.time.$dirty && form.end.time.$error.required">End Date is required</span>
+     	      	     		    </div>
+     	      	     		</div>
+     	      	     		<div class="well well-sm"><strong>End Time:</strong> {{event.end.date | date:'EEEE, MMMM d, y'}} @ {{event.end.time | date:'h:mm a'}}</div>
+     	         		</div>
+    	          		
+    	          		<button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">Save</button>
+    	          		<a href="javascript:history.back()" class="btn btn-default">Cancel</a>
+    	      
+    	          	</form>
+    	          
+				</div>
+			</div>
+		</div>
+	</div><!-- /.row -->
+</div><!-- /#page-wrapper -->
