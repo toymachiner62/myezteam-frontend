@@ -63,7 +63,7 @@
                                     <p><strong>Owner:</strong> {{team_owner}}</p>
                                     <p><strong>Managers:</strong></p>
                                     <ul>
-                                        <li ng-repeat="player in players | filter:{ player_type: 'Manager' }">{{player.user.first_name}} {{player.user.last_name}}</li>
+                                        <li ng-repeat="player in players | filter:{ manager: true }">{{player.user.first_name}} {{player.user.last_name}}</li>
                                     </ul>
 					            </div>
 				            </div>
@@ -90,16 +90,19 @@
                             	<div class="list-group" ng-repeat="player in players" ng-mouseenter="hover(player)" ng-mouseleave="hover(player)">
                               		<div class="list-group-item">
 
-                                        <!-- Delete button when hovered -->
-                                        <a class="btn btn-danger btn-xs pull-right" href="" ng-click="delete(player)" ng-show="profile.id == team.owner_id && player.showDelete">
-                                            <i class="fa fa-trash-o"></i> Delete
-                                        </a>
-                                        
-                                        <!-- Edit button when hovered -->
-                                        <a class="btn btn-default btn-xs pull-right" href="#/teams/{{team.id}}/players/{{player.id}}/edit" ng-show="profile.id == team.owner_id && player.showDelete">
-                                            <i class="fa fa-pencil"></i> Edit
-                                        </a>
-                                        
+                                        <div class="btn-group pull-right" ng-show="profile.id == team.owner_id && player.showDelete">
+                                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                                <i class="fa fa-cog"></i><span class="caret"></span>
+                                            </button>
+                                            
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#/teams/{{team.id}}/players/{{player.id}}/edit"><i class="fa fa-pencil"></i> Edit</a></li>
+                                                <li><a href="" ng-click="delete(player)"><i class="fa fa-trash-o"></i> Remove From Team</a></li>
+                                                <li ng-show="player.manager === true"><a href="" ng-click="remove_manager(player)">Remove as Manager</a></li>
+                                                <li ng-show="player.manager === false"><a href="" ng-click="add_manager(player)">Add as Manager</a></li>
+                                            </ul>
+                                        </div>
+    
             							<span class="label label-primary pull-right center-vertical" ng-show="player.player_type == 'Regular'">Regular</span>
             							<span class="label label-warning pull-right center-vertical" ng-show="player.player_type == 'Sub'">Sub</span>
                                 		<gravatar-image data-gravatar-email="player.user.email" data-gravatar-size="36" data-gravatar-default="mm"></gravatar-image>
@@ -158,7 +161,7 @@
                           		
             						<a class="list-group-item" id="{{event.id}}" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name); activateEvent(event); getEmails(event.id)">
                                     	<h3>{{event.name}}</h3>
-                    	                <p><span class="text-danger">{{event.start | date:'EEEE, MMMM d,y @ h:mm a'}}</span></p>
+                    	                <p><span class="text-danger">{{event.start | date:'EEEE MMMM d, y @ h:mm a'}}</span></p>
                     	                <p><strong>Your Response:</strong> <span class="label label-{{event.my_response | lowercase}}">{{event.my_response}}</span></p>
                             		    <p><strong>Description:</strong> {{event.description}}</p>
                             		    <p><strong>Location:</strong> {{event.location}}</p>
@@ -197,6 +200,8 @@
             					</div>
                           	
                           		<div class="list-group" ng-repeat="email in emails">
+                          		
+                          		    <a href="" ng-click="send(email)"> send now</a>
                           		
             						<a class="list-group-item">
                                 		<!-- <span class="badge">just now</span> -->

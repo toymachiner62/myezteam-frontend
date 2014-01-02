@@ -13,11 +13,11 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
             .success(function(response) {
                 $scope.team = response;
                 $scope.team.showDelete = false;
-                $rootScope.title = 'Team ' + response.name;
+                $rootScope.title = 'Team ' + $scope.team.name;
 		    
-                $scope.getPlayers(response.id, response.name, response.type, response.default_location, response.description);
-                $scope.getEvents(response.id);
-                $scope.getTeamOwner(response.id);
+                getPlayers($scope.team);
+                $scope.getEvents($scope.team.id);
+                $scope.getTeamOwner($scope.team.id);
                 
                 $scope.error = null;
             })
@@ -34,10 +34,6 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 		$http.get(baseUrl+'v1/teams/'+team_id+'/owner' + apiKey)
 		.success(function(response) {
 			$scope.team_owner = response.first_name + " " + response.last_name;
-			//$scope.is_team_owner = $scope.team.owner_id == response.id ? true : false;
-			//console.log($scope.team.owner_id);
-			//console.log(response.id);
-			//console.log($scope.team.owner_id);
 			$scope.error = null;
 		})
 		.error(function(response) {
@@ -48,23 +44,42 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	}
 		
 	// Get all the players of a specific team
-	$scope.getPlayers = function(team_id, team_name, team_type, team_location, team_description) {
+	var getPlayers = function(team) {
 	
 		// Get all the players of a specific team
-		$http.get(baseUrl+'v1/teams/'+team_id+'/players' + apiKey)
+		$http.get(baseUrl+'v1/teams/'+team.id+'/players' + apiKey)
 		.success(function(response) {
-			$scope.teamId = team_id;
-			//$scope.teamName = team_name;
-			//$scope.teamType = team_type;
-			//$scope.teamLocation = team_location;
-			//$scope.teamDescription = team_description;
+			$scope.teamId = team.id;
 			$scope.players = response;
 			
-			// Loop through all the teams to set a default flag to show the edit/delete buttons
-			// Note: Using angular .forEach instead of javascript for loop because it handles async in a for loop out of the box.
-			angular.forEach($scope.players, function(player, index) {
-			    $scope.players[index].showDelete = false;
-			});
+			// Get all the managers for a team
+    	    $http.get(baseUrl+'v1/teams/'+$routeParams.id + '/managers' + apiKey)
+                .success(function(response) {
+                    
+                    var managers = response;
+                    
+                    // Loop through all the players on the team
+			        for(var i = 0; i < $scope.players.length; i++) {
+			            
+			            // Set a default flag to show the edit/delete buttons 
+			            $scope.players[i].showDelete = false;
+			           
+			            // Set a flag whether a player is a manager or not
+			            if(contains(managers, $scope.players[i].user.id)) {
+			                console.log('setting manager true');
+                            $scope.players[i].manager = true;
+                        } else {
+                            $scope.players[i].manager = false;
+                            console.log('setting manager false');
+                        }
+			        }
+                    
+                    $scope.error = null;
+                })
+                .error(function(response) {
+                    $scope.success = null;
+    				$scope.error = 'An error occurred looking for your team\'s managers. Please try again later.';
+                });
 			
 			$scope.error = null;
 		})
@@ -74,7 +89,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 		});
 
 	}
-	
+
 	// Get all of a users upcoming events
 	$scope.getEvents = function(team_id, callback) {
 	
@@ -317,6 +332,40 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			});
 	}
 	
+	// Make player a manager of the team
+	$scope.add_manager = function(player) {
+	    
+	    var player_id = [player.user_id];
+	    
+	    $http.post(baseUrl+'v1/teams/' + $scope.team.id + '/managers' + apiKey, player_id)
+			.success(function(response) {
+		        $scope.error = null;
+		        $scope.success = player.user.first_name + ' ' + player.user.last_name + ' has been promoted to manager';
+		        
+		        getPlayers($scope.team);    // Reload the players
+			})
+			.error(function(response) {
+				$scope.success = null;
+			    $scope.error = 'An error occurred trying to promote ' + player.user.first_name + ' ' + player.user.last_name + ' to manager. Please try again later.';
+			});
+	}
+	
+	// Relieve player of manager duties
+	$scope.remove_manager = function(player) {
+	    
+	    $http.delete(baseUrl+'v1/teams/' + $scope.team.id + '/managers/' + player.user_id + apiKey)
+			.success(function(response) {
+		        $scope.error = null;
+		        $scope.success = player.user.first_name + ' ' + player.user.last_name + ' has been relieved from manager duties';
+		        
+		        getPlayers($scope.team);    // Reload the players
+			})
+			.error(function(response) {
+				$scope.success = null;
+			    $scope.error = 'An error occurred trying to relieve ' + player.user.first_name + ' ' + player.user.last_name + ' of manager duties. Please try again later.';
+			});
+	}
+	
 	// Hack/Fix to resize the highcharts graph when the tab is displayed - http://stackoverflow.com/questions/16216722/highcharts-hidden-charts-dont-get-re-size-properly
 	$scope.onEventTabClick = function() {
 	    $(window).resize();
@@ -379,5 +428,22 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
     };
 	
 	$scope.getTeam();	// Call on page load
+	
+	
+	// TEMP METHOD TO TEST THE SENDING OF EMAILS
+    $scope.send = function(email) {
+	
+		// Get all the players of a specific team
+		$http.post(baseUrl+'v1/emails/'+email.id+'/send' + apiKey)
+		.success(function(response) {
+			//$scope.team_owner = response.first_name + " " + response.last_name;
+			$scope.error = null;
+		})
+		.error(function(response) {
+			$scope.success = null;
+			$scope.error = 'An error occurred sending your event\'s email. Please try again later.';
+		});
+
+	}
 	
 }]);

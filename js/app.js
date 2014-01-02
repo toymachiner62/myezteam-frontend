@@ -358,13 +358,14 @@ function add_teams(team_list, teams_to_add, association, buttons_visible_flag) {
 
 /**
  * Checks if an object exists in an array of objects. They are considered equal if the id's of the objects match
- * @param arr   - The array to look in
- * @param value - The id of the object we're looking for
+ * @param arr       - The array to look in
+ * @param id        - The id of the object we're looking for
  */
-function contains(arr, value) {
+function contains(arr, id) {
+
     var i = arr.length;
     while (i--) {
-        if (arr[i].id === value) return true;
+        if (arr[i].id == id) return true;
     }
     return false;
 }

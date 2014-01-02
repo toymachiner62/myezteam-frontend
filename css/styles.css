@@ -93,7 +93,8 @@
     z-index: 10;
 }
 /* Give margin to all buttons that are floated right */
-.pull-right.btn {
+.pull-right.btn,
+.pull-right.btn-group {
     margin-left: 5px;
 }
 /* Adjust margin on event h3's */

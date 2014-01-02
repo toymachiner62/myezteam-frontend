@@ -47,8 +47,8 @@ myezteam.controller('EditEventController', ['$scope', '$http', '$routeParams', '
 	    // Convert dates/times to correct format the api call expects
 	    var start_date = new Date($scope.event.start.date);
 	    var end_date = new Date($scope.event.end.date);
-	    var start_time = $scope.event.start.time.getHours() + ":" + $scope.event.start.time.getMinutes() + ":" + $scope.event.start.time.getSeconds();
-	    var end_time = $scope.event.end.time.getHours() + ":" + $scope.event.end.time.getMinutes() + ":" + $scope.event.end.time.getSeconds();
+	    var start_time = ("0" + $scope.event.start.time.getHours()).slice(-2) + ":" + ("0" + $scope.event.start.time.getMinutes()).slice(-2) + ":" + ("0" + $scope.event.start.time.getSeconds()).slice(-2);
+	    var end_time = ("0" + $scope.event.end.time.getHours()).slice(-2) + ":" + ("0" + $scope.event.end.time.getMinutes()).slice(-2) + ":" + ("0" + $scope.event.end.time.getSeconds()).slice(-2);
 	    
 	    // This just formats the date to yyyy-mm-dd. The slicing stuff just makes sure that single digit values are padded with zeros
 	    $scope.event.start = start_date.getFullYear() + "-" + ("0" + (start_date.getMonth() + 1)).slice(-2) + "-" + ("0" + start_date.getDate()).slice(-2) + ' ' + start_time;
