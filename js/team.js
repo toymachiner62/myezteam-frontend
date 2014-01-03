@@ -81,11 +81,9 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			           
 			            // Set a flag whether a player is a manager or not
 			            if(contains(managers, $scope.players[i].user.id)) {
-			                console.log('setting manager true');
                             $scope.players[i].manager = true;
                         } else {
                             $scope.players[i].manager = false;
-                            console.log('setting manager false');
                         }
 			        }
                     
@@ -120,7 +118,11 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
                     var event_name = response[0].name;
                     var team_id = response[0].team_id;
 				    $scope.getResponses(event_id, event_name, team_id);
-				    $scope.getEmails(event_id);
+				    
+				    // If the logged in user is an owner or manager, get the emails
+				    if($scope.is_owner($scope.me.user_id) || $scope.is_manager($scope.me.user_id)) {
+				        $scope.getEmails(event_id);
+				    }
 				    
 				    // Loop through all the events to set the logged in user's response on the event object
 				    // Note: Using angular .forEach instead of javascript for loop because it seems that it handles async in a for loop better than a standard for loop.
@@ -303,21 +305,19 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	// RSVP to an event
 	$scope.rsvp = function(event_id, response_id) {
 	    
-	    var me = null;
+	    $scope.me = null;
 	    
 	    // Get the logged in user's player_id for the particular team page that the user is on
 	    $http.get(baseUrl+'v1/players/team/' + $routeParams.id + '/me' + apiKey)
 			.success(function(response) {
 		        $scope.error = null;
-				me = response;
-				
-				console.log(response);
+				$scope.me = response;
 				
 				// The rsvp response data to be posted
                 var rsvp = {
                     "response_type_id":response_id,
                     "event_id":event_id,
-                    "player_id":me.id
+                    "player_id":$scope.me.id
                 }
 				
 				// Rsvp the selected event with the logged in user
@@ -338,9 +338,6 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 				        $scope.success = 'Your response has been saved';
                     })
 			        .error(function(response) {
-			            
-			            console.log(me);
-			            
 				        $scope.success = null;
 			            $scope.error = 'An error occurred looking for your event\'s emails. Please try again later.';
 			        });
@@ -447,9 +444,9 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
         $scope.getTeam();   // Reload all the info so the players get updated
     };
     
-    // Checks if the passed in user id is an owner of the team
-    $scope.is_owner = function(id) {
-        if($scope.team.owner_id == id) {
+    // Checks if the passed in userid is an owner of the team
+    $scope.is_owner = function(user_id) {
+        if($scope.team.owner_id == user_id) {
             return true;
         } else {
             return false;
@@ -457,31 +454,33 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
     }
     
     // Checks if the passed in user id is a manager of the team
-    $scope.is_manager = function(id) {
-        if(contains($scope.managers, id)) {
+    $scope.is_manager = function(user_id) {
+        if(contains($scope.managers, user_id)) {
             return true;
         } else {
             return false;
         }
     }
+    
+    /**
+     * Checks if a user is a player on the team. Need this method so that managers of a team can't rsvp if they're only a manager and not a player
+     * @param event_id  - The id of the event that we want to check if the user plays on
+     * @param user_id   - The user that we want to check if they're a player of a team
+     */
+    $scope.is_player = function(user_id) {
+        
+        // Loop through all the players of the team
+        for(var i = 0; i < $scope.players.length; i++) {
+            
+            // If the current player in the loop's user id matches what was passed in
+            if($scope.players[i].user.id == user_id) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 	
 	$scope.getTeam();	// Call on page load
-	
-	
-	// TEMP METHOD TO TEST THE SENDING OF EMAILS
-    $scope.send = function(email) {
-	
-		// Get all the players of a specific team
-		$http.post(baseUrl+'v1/emails/'+email.id+'/send' + apiKey)
-		.success(function(response) {
-			//$scope.team_owner = response.first_name + " " + response.last_name;
-			$scope.error = null;
-		})
-		.error(function(response) {
-			$scope.success = null;
-			$scope.error = 'An error occurred sending your event\'s email. Please try again later.';
-		});
 
-	}
-	
 }]);

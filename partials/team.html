@@ -138,7 +138,7 @@
                           		<div class="list-group" ng-repeat="event in events" ng-mouseenter="hover(event)" ng-mouseleave="hover(event)">
                           		
                           		    <!-- RSVP Button -->
-                          		    <div class="btn-group pull-right rsvp-pill">
+                          		    <div class="btn-group pull-right rsvp-pill" ng-show="is_player(profile.id)">
                           		    
                           		        <!-- Edit button when hovered -->
                                         <a class="btn btn-default btn-xs pull-right" href="#/teams/{{team.id}}/events/{{event.id}}/edit" ng-show="(is_owner(profile.id) || is_manager(profile.id)) && event.showDelete">
@@ -162,7 +162,7 @@
             						<a class="list-group-item" id="{{event.id}}" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name); activateEvent(event); getEmails(event.id)">
                                     	<h3>{{event.name}}</h3>
                     	                <p><span class="text-danger">{{event.start | date:'EEEE MMMM d, y @ h:mm a'}}</span></p>
-                    	                <p><strong>Your Response:</strong> <span class="label label-{{event.my_response | lowercase}}">{{event.my_response}}</span></p>
+                    	                <p  ng-show="is_player(profile.id)"><strong>Your Response:</strong> <span class="label label-{{event.my_response | lowercase}}">{{event.my_response}}</span></p>
                             		    <p><strong>Description:</strong> {{event.description}}</p>
                             		    <p><strong>Location:</strong> {{event.location}}</p>
                                 		<!-- <span class="label label-warning pull-right">Manager</span> -->
@@ -200,8 +200,6 @@
             					</div>
                           	
                           		<div class="list-group" ng-repeat="email in emails">
-                          		
-                          		    <a href="" ng-click="send(email)"> send now</a>
                           		
             						<a class="list-group-item">
                                 		<!-- <span class="badge">just now</span> -->

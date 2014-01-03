@@ -294,17 +294,9 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
 		$http.delete(baseUrl+'v1/teams/' + team.id + apiKey)
             .success(function(response) {
 			    
-			    console.log("delete response = ");
-			    console.log(response);
-			    
 			    $http.get(baseUrl+'v1/teams/all' + apiKey)
 		    	.success(function(response) {
-		    	    console.log("factory response = ");
-	                console.log(response);
-	                console.log("end factory response");
-		    		
 		    		$scope.teams = response;
-		    		//return response;
 			    })
 			    .error(function(response) {
 			    	return 'An error occurred looking for your teams. Please try again later.';
