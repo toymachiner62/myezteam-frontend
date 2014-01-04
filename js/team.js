@@ -1,5 +1,5 @@
 // Controller for the team page
-myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$rootScope', 'myezteamBase', function($scope, $http, $routeParams, $rootScope, myezteamBase) {
+myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$rootScope', 'chartService', 'myezteamBase', function($scope, $http, $routeParams, $rootScope, chartService, myezteamBase) {
 
 	myezteamBase.getAuthHeader();
 	myezteamBase.getProfile(function(response) {
@@ -172,39 +172,19 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 				//$scope.teamId = team_id;
 				
 				// initially set the no_responses to the total number of responses. We'll change this as we loop through the responses
-				var no_response = $scope.responses.length;  
-				var yes = 0;
-				var probably = 0;
-				var maybe = 0;
-				var no = 0;
+				var rsvp_responses = {
+				    no_response: $scope.responses.length,
+				    yes: 0,
+				    probably: 0,
+				    maybe: 0,
+				    no: 0
+				}
+				
+				rsvp_responses = chartService.set_responses($scope.responses, rsvp_responses);
 				
 				// Loop through all the responses
 				for(var i = 0; i < $scope.responses.length; i++) {
 				    
-				    // count the response types (2 yes's, 3 maybe's, etc)
-				    switch ($scope.responses[i].response.id)
-                    {
-                    case 1:
-                      // do nothing
-                      break;
-                    case 2:
-                      yes++;
-                      no_response--;
-                      break;
-                    case 3:
-                      probably++;
-                      no_response--;
-                      break;
-                    case 4:
-                      maybe++;
-                      no_response--;
-                      break;
-                    case 5:
-                      no++;
-                      no_response--;
-                      break;
-                    }
-                    
                     // Set the players display_name, based on whether they have a first and last name or not
                     if($scope.responses[i].player_info.firstName == null && $scope.responses[i].player_info.lastName == null) {
                         $scope.responses[i].display_name = $scope.responses[i].player_info.email;
@@ -213,74 +193,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
                     }
 				}
                 	
-                // The rsvp responses data
-                var data = [
-                    {
-                        name: 'Yes (' + yes + ')',
-                        y: yes,
-                        url: '#/team/'+team_id
-                    },
-                    {
-                        name: 'Probably (' + probably + ')',
-                        y: probably,
-                        url: '#/team/'+team_id
-                    },
-                    {
-                        name: 'Maybe (' + maybe + ')',
-                        y: maybe,
-                        url: '#/team/'+team_id
-                    },
-                    {
-                        name: 'No (' + no + ')',
-                        y: no,
-                        url: '#/team/'+team_id
-                    },
-                    {
-                        name: 'No Response (' + no_response + ')',
-                        y: no_response,
-                        url: '#/team/'+team_id
-                    }
-                ];
-                
-                // Pie chart configs
-                $scope.chartConfig = {
-                    chart: {
-                        plotBackgroundColor: null,
-                        plotBorderWidth: null,
-                        plotShadow: false
-                    },
-                    title: {
-                        text: 'RSVP Responses for ' + event_name
-                    },
-                    tooltip: {
-                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                    },
-                    plotOptions: {
-                        pie: {
-                            allowPointSelect: true,
-                            cursor: 'pointer',
-                            dataLabels: {
-                                enabled: true,
-                                color: '#000000',
-                                connectorColor: '#000000',
-                                formatter: function() {
-                                    return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
-                                }
-                            }
-                        }
-                    },
-                    series: [{
-                        type: 'pie',
-                        name: 'RSVPs',
-                        events: {
-                            click: function(e) {
-            				    $location.path(e.point.options.url);
-                            }	
-                        },
-                        data: data
-                    }]
-	            }
-			
+                $scope.chartConfig = chartService.setup_chart($scope.teamId, event_name, rsvp_responses);
 			})
 			.error(function(response) {
 				$scope.success = null;
@@ -388,22 +301,6 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	    $(window).resize();
 	}
 	
-	// The colors to be used for the respones in the pie chart
-	var colors = [
-		"#2EE619", "#F0F03C", "#FAA200", "#F24129", "#737373"
-	]
-                
-	// Add a gradient to the pie chart - http://www.highcharts.com/demo/pie-gradient
-	Highcharts.getOptions().colors = Highcharts.map(colors, function(color) {
-		return {
-			radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
-				stops: [
-					[0, color],
-					[1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
-				]
-		};
-	});
-
     // Sets the event clicked as the active one
 	$scope.activateEvent = function(event) {
        $scope.selected = event; 
@@ -480,6 +377,8 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
         return false;
     }
 	
-	$scope.getTeam();	// Call on page load
+	// Call on page load
+	$scope.getTeam();	
+	chartService.set_colors();  // Set the chart's gradients colors
 
 }]);

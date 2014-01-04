@@ -217,6 +217,136 @@ myezteam.service('myezteamBase', function($http) {
 	
 });
 
+// This gets the basic information that is needed for every page like the user's information, logout method, etc
+myezteam.service('chartService', function() {
+
+	// Count the response types (2 yes's, 3 maybe's, etc)
+	this.set_responses = function(responses, rsvps) {
+	    
+	    for(var i = 0; i < responses.length; i++) {
+	        switch (responses[i].response.id)
+            {
+            case 1:
+              // do nothing
+              break;
+            case 2:
+              rsvps.yes++;
+              rsvps.no_response--;
+              break;
+            case 3:
+              rsvps.probably++;
+              rsvps.no_response--;
+              break;
+            case 4:
+              rsvps.maybe++;
+              rsvps.no_response--;
+              break;
+            case 5:
+              rsvps.no++;
+              rsvps.no_response--;
+              break;
+            }
+	    }
+	    
+	    return rsvps;
+	}
+	
+	// Set the appropriate data for the chart
+	this.setup_chart = function(team_id, event_name, rsvps) {
+	    
+	    // The rsvp responses data
+        var data = [
+            {
+                name: 'Yes (' + rsvps.yes + ')',
+                y: rsvps.yes,
+                url: '#/team/'+team_id
+            },
+            {
+                name: 'Probably (' + rsvps.probably + ')',
+                y: rsvps.probably,
+                url: '#/team/'+team_id
+            },
+            {
+                name: 'Maybe (' + rsvps.maybe + ')',
+                y: rsvps.maybe,
+                url: '#/team/'+team_id
+            },
+            {
+                name: 'No (' + rsvps.no + ')',
+                y: rsvps.no,
+                url: '#/team/'+team_id
+            },
+            {
+                name: 'No Response (' + rsvps.no_response + ')',
+                y: rsvps.no_response,
+                url: '#/team/'+team_id
+            }
+        ];
+        
+        // Pie chart configs
+        var chart_config = {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: 'RSVP Responses for ' + event_name
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        formatter: function() {
+                            return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'RSVPs',
+                events: {
+                    click: function(e) {
+    				    //$location.path(e.point.options.url);
+                    }	
+                },
+                data: data
+            }]
+        }
+        
+        return chart_config;
+	}
+
+    // Sets the chart colors and gradients
+	this.set_colors = function() {
+	    
+	    // The colors to be used for the respones in the pie chart
+    	var colors = [
+    		"#2EE619", "#F0F03C", "#FAA200", "#F24129", "#737373"
+    	]
+	    
+	    // Add a gradient to the pie chart - http://www.highcharts.com/demo/pie-gradient
+    	Highcharts.getOptions().colors = Highcharts.map(colors, function(color) {
+    		return {
+    			radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+    				stops: [
+    					[0, color],
+    					[1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+    				]
+    		};
+    	});
+	}
+
+});
+
 
 // This gets the teams that a user is associated with
 myezteam.factory('teamsFactory', function($http) {
