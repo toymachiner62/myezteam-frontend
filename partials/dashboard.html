@@ -61,14 +61,15 @@
                         	    </li>
                         	</ul>
                         </div>
-              		
-						<a class="list-group-item" id="{{event.id}}" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name, teamId); activateEvent(event)">
+                        
+						<div class="list-group-item" id="{{event.id}}" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name, teamId); activateEvent(event)">
                             <h3>{{event.name}}</h3>
                             <p><span class="text-danger">{{event.start | date:'EEEE MMMM d, y @ h:mm a'}}</span></p>
                             <p ng-show="event.show_rsvp == true"><strong>Your Response:</strong> <span class="label label-{{event.my_response | lowercase}}">{{event.my_response}}</span></p>
-                            <p><strong>Description:</strong> {{event.description}}</p>
-                            <p><strong>Location:</strong> {{event.location}}</p>
-						</a>
+                            <p><strong>Team: </strong><a href="#/teams/{{event.team_id}}">{{event.team_name}}</a></p>
+                            <p><strong>Description: </strong>{{event.description}}</p>
+                            <p><strong>Location: </strong>{{event.location}}</p>
+						</div>
 					</div>
 				</div>
 			</div>

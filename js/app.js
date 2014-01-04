@@ -219,27 +219,57 @@ myezteam.service('myezteamBase', function($http) {
 
 
 // This gets the teams that a user is associated with
-myezteam.service('teams', function($http) {
+myezteam.factory('teamsFactory', function($http) {
     
-    //var teams = {};
+    var teams = {
+        all_teams: null
+    };
     
     // Get the teams associated with the logged in user
     return {
-        getTeams: function(callback) {
+        get_teams: function(callback) {
+            console.log('teams');
+            //return teams;
+            console.log(teams.all_teams);
+            if(teams.all_teams == null) {
+                console.log('its null');
+                this.fetch_teams(function(response) {
+                    console.log('teams in factory')
+                    console.log(response);
+                    teams.all_teams = response;
+                    callback(teams.all_teams);
+                });
+            } else {
+                console.log('else');
+                console.log(teams.all_teams);
+                callback(teams.all_teams);
+            }
+            //console.log(teams);
+            //return teams;
+        },
         
+        fetch_teams: function(callback) {
             $http.get(baseUrl+'v1/teams/all' + apiKey)
 		    	.success(function(response) {
+		    		teams.all_teams = response;
 		    		callback(response);
+		    		//console.log('response');
+		    		//console.log(response);
+		    		//return response;
 			    })
 			    .error(function(response) {
-			    	return 'An error occurred looking for your teams. Please try again later.';
+			    	callback('An error occurred looking for your teams. Please try again later.');
 			    });	
+        },
+        
+        clear: function() {
+            teams.all_teams = null;
         }
-    }
+    };
 });
 
 // This controller is used to set the user profile links
-myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBase', 'teams', function($scope, $http, myezteamBase, teams) {
+myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBase', 'teamsFactory', function($scope, $http, myezteamBase, teamsFactory) {
 
     var showTeamButtons = false;
 
@@ -255,10 +285,23 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
 	
 	// Gets all of a user's teams
 	function getTeams() {
-	    
-	    teams.getTeams(function(response) {
+	    console.log('in getTeams');
+	    teamsFactory.get_teams(function(response) {
 	        
-	        var all_teams = response; 
+	        console.log('template response');
+	        console.log(response);
+	        
+	        console.log('app teams = ');
+	        //console.log(teams.get_teams());
+	        
+	        //var all_teams = teams.get_teams().all_teams; 
+	        //var all_teams = teams.get_teams();
+	        
+	        var all_teams = response;
+	        
+	        console.log('all_teams');
+	        console.log(all_teams);
+	        
 	        $scope.teams = [];
 	        
 	        // Add the teams to $scope.teams, without adding duplicates
@@ -267,6 +310,11 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
 	        $scope.teams = add_teams($scope.teams, all_teams.player, "player", showTeamButtons);
 	    });
 	}
+	
+	/*$scope.$watch('teams.all_teams', function(newValue){
+	    console.log("newValue");
+	   console.log(newValue); 
+	});*/
 	
 
     // watch current page for updates and set page value

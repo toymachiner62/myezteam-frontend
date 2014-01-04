@@ -1,5 +1,5 @@
 // Controller for the teams page
-myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'myezteamBase', function($scope, $http, $location, myezteamBase) {
+myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'teamsFactory', 'myezteamBase', function($scope, $http, $location, teamsFactory, myezteamBase) {
 
 	myezteamBase.getAuthHeader();
 	myezteamBase.getProfile(function(response) {
@@ -37,6 +37,22 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
 			                } else {
 			                    $scope.events[i].my_response = event.default_response.label;
 			                }   
+			                
+			                // Get the players teams
+			                getTeams(function(the_teams) {
+			                    
+			                    // Loop through the teams
+    			                for(var j = 0; j < the_teams.length; j++) {
+    			                    
+    			                    // If the current event's team_id matches the current team's team_id, set the team name on the event object
+    			                    if($scope.events[i].team_id == the_teams[j].id) {
+    			                        $scope.events[i].team_name = the_teams[j].name;
+    			                        break;
+    			                    }
+    			                }
+			                });
+			                
+			                
 			                 
                              // Get all the players on a given team
                             $http.get(baseUrl+'v1/teams/'+event.team_id+'/players' + apiKey)
@@ -73,6 +89,37 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'mye
 				$scope.success = null;
 				$scope.error = 'An error occurred looking for your events. Please try again later.';
 			});
+	}
+	
+	// Gets all of a user's teams
+	function getTeams(callback) {
+	    
+	    teamsFactory.get_teams(function(response) {
+	        
+	        console.log('template response');
+	        console.log(response);
+	        
+	        console.log('app teams = ');
+	        //console.log(teamsFactory.get_teams());
+	        
+	        //var all_teams = teamsFactory.get_teams(); 
+	        //var all_teams = teams.get_teams();
+	        var all_teams = response;
+	        
+	        console.log('all_teams');
+	        console.log(all_teams);
+	        
+	        var unique_teams = [];
+	        
+	        // Add the teams to $scope.teams, without adding duplicates
+	        unique_teams = add_teams(unique_teams, all_teams.owner, "owner", false);
+	        unique_teams = add_teams(unique_teams, all_teams.manager, "manager", false);
+	        unique_teams = add_teams(unique_teams, all_teams.player, "player", false);
+	        
+	        // Somehow this magic little number only calls the callback if it's actually a function
+            // http://stackoverflow.com/questions/6792663/javascript-style-optional-callbacks
+            typeof callback === 'function' && callback(unique_teams);
+	    });
 	}
 	
 	// Get all of the responses for a particular event
