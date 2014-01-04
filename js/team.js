@@ -1,6 +1,8 @@
 // Controller for the team page
 myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$rootScope', 'chartService', 'myezteamBase', function($scope, $http, $routeParams, $rootScope, chartService, myezteamBase) {
 
+    var me = null;
+
 	myezteamBase.getAuthHeader();
 	myezteamBase.getProfile(function(response) {
 		$scope.profile = response;
@@ -16,9 +18,12 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
                 $rootScope.title = 'Team ' + $scope.team.name;
 		    
                 getPlayers($scope.team);
-                $scope.getManagers();
-                $scope.getEvents($scope.team.id);
-                $scope.getTeamOwner($scope.team.id);
+                getManagers(function(managers) {
+                    //$scope.team.managers = [];
+                    $scope.team.managers = managers;
+                    $scope.getEvents($scope.team.id);
+                    $scope.getTeamOwner($scope.team.id);
+                });
                 
                 $scope.error = null;
             })
@@ -45,12 +50,14 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	}
 	
 	// Get all the managers for the team
-	$scope.getManagers = function() {
+	var getManagers = function(callback) {
 	    
     	$http.get(baseUrl+'v1/teams/'+$routeParams.id + '/managers' + apiKey)
-            .success(function(response) {
-                $scope.managers = response;
+            .success(function(managers) {
                 $scope.error = null;
+                // Somehow this magic little number only calls the callback if it's actually a function
+				// http://stackoverflow.com/questions/6792663/javascript-style-optional-callbacks
+				typeof callback === 'function' && callback(managers);
             })
             .error(function(response) {
                 $scope.success = null;
@@ -120,7 +127,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 				    $scope.getResponses(event_id, event_name, team_id);
 				    
 				    // If the logged in user is an owner or manager, get the emails
-				    if($scope.is_owner($scope.me.user_id) || $scope.is_manager($scope.me.user_id)) {
+				    if($scope.is_owner(me.user_id) || $scope.is_manager(me.user_id)) {
 				        $scope.getEmails(event_id);
 				    }
 				    
@@ -218,19 +225,19 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	// RSVP to an event
 	$scope.rsvp = function(event_id, response_id) {
 	    
-	    $scope.me = null;
+	    var me = null;
 	    
 	    // Get the logged in user's player_id for the particular team page that the user is on
 	    $http.get(baseUrl+'v1/players/team/' + $routeParams.id + '/me' + apiKey)
-			.success(function(response) {
+			.success(function(me) {
 		        $scope.error = null;
-				$scope.me = response;
+				//$scope.me = response;
 				
 				// The rsvp response data to be posted
                 var rsvp = {
                     "response_type_id":response_id,
                     "event_id":event_id,
-                    "player_id":$scope.me.id
+                    "player_id":me.id
                 }
 				
 				// Rsvp the selected event with the logged in user
@@ -259,6 +266,26 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			.error(function(response) {
 				$scope.success = null;
 			    $scope.error = 'An error occurred looking for your player info. Please try again later.';
+			});
+	}
+	
+	// Get the logged in user's data
+	var getMe = function(team_id, callback) {
+	    
+	    $http.get(baseUrl+'v1/players/team/' + team_id + '/me' + apiKey)
+			.success(function(response) {
+			    me = response;
+			    $scope.error = null;
+			    // Somehow this magic little number only calls the callback if it's actually a function
+                // http://stackoverflow.com/questions/6792663/javascript-style-optional-callbacks
+            	typeof callback === 'function' && callback(response);
+			})
+			.error(function(response) {
+				$scope.success = null;
+			    $scope.error = 'An error occurred looking for your player info. Please try again later.';
+			    // Somehow this magic little number only calls the callback if it's actually a function
+                // http://stackoverflow.com/questions/6792663/javascript-style-optional-callbacks
+            	typeof callback === 'function' && callback();
 			});
 	}
 	
@@ -342,21 +369,31 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
     };
     
     // Checks if the passed in userid is an owner of the team
-    $scope.is_owner = function(user_id) {
-        if($scope.team.owner_id == user_id) {
+    $scope.is_owner = function(owner_id, user_id) {
+        if(owner_id == user_id) {
             return true;
         } else {
             return false;
         }
     }
     
-    // Checks if the passed in user id is a manager of the team
-    $scope.is_manager = function(user_id) {
-        if(contains($scope.managers, user_id)) {
-            return true;
-        } else {
-            return false;
+    /**
+     * Checks if the logged in user is a manager of the team
+     * @param team      - The team we're checking if the user manages
+     * @param user_id   - The user we're checking if they manage the team
+     */
+    $scope.is_manager = function(team, user_id) {
+        
+        // If team exists
+        if(typeof team !== 'undefined') {
+            for(manager in team.managers) {
+                if(manager.id = user_id) {
+                    return true;    
+                }
+            } 
         }
+        
+        return false;
     }
     
     /**
@@ -378,7 +415,9 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
     }
 	
 	// Call on page load
-	$scope.getTeam();	
+	getMe($routeParams.id, function() {
+	    $scope.getTeam();
+	});
 	chartService.set_colors();  // Set the chart's gradients colors
 
 }]);

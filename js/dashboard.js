@@ -96,18 +96,16 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'tea
 	    
 	    teamsFactory.get_teams(function(response) {
 	        
-	        console.log('template response');
-	        console.log(response);
 	        
-	        console.log('app teams = ');
+	        //console.log('app teams = ');
 	        //console.log(teamsFactory.get_teams());
 	        
 	        //var all_teams = teamsFactory.get_teams(); 
 	        //var all_teams = teams.get_teams();
 	        var all_teams = response;
 	        
-	        console.log('all_teams');
-	        console.log(all_teams);
+	        //console.log('all_teams');
+	        //console.log(all_teams);
 	        
 	        var unique_teams = [];
 	        

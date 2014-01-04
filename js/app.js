@@ -358,20 +358,20 @@ myezteam.factory('teamsFactory', function($http) {
     // Get the teams associated with the logged in user
     return {
         get_teams: function(callback) {
-            console.log('teams');
+            //console.log('teams');
             //return teams;
-            console.log(teams.all_teams);
+            //console.log(teams.all_teams);
             if(teams.all_teams == null) {
-                console.log('its null');
+                //console.log('its null');
                 this.fetch_teams(function(response) {
-                    console.log('teams in factory')
-                    console.log(response);
+                    //console.log('teams in factory')
+                    //console.log(response);
                     teams.all_teams = response;
                     callback(teams.all_teams);
                 });
             } else {
-                console.log('else');
-                console.log(teams.all_teams);
+                //console.log('else');
+                //console.log(teams.all_teams);
                 callback(teams.all_teams);
             }
             //console.log(teams);
@@ -415,13 +415,13 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
 	
 	// Gets all of a user's teams
 	function getTeams() {
-	    console.log('in getTeams');
+	    //console.log('in getTeams');
 	    teamsFactory.get_teams(function(response) {
 	        
-	        console.log('template response');
-	        console.log(response);
+	        //console.log('template response');
+	        //console.log(response);
 	        
-	        console.log('app teams = ');
+	        //console.log('app teams = ');
 	        //console.log(teams.get_teams());
 	        
 	        //var all_teams = teams.get_teams().all_teams; 
@@ -429,8 +429,8 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
 	        
 	        var all_teams = response;
 	        
-	        console.log('all_teams');
-	        console.log(all_teams);
+	        //console.log('all_teams');
+	        //console.log(all_teams);
 	        
 	        $scope.teams = [];
 	        
