@@ -464,7 +464,6 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
     
     /**
      * Checks if a user is a player on the team. Need this method so that managers of a team can't rsvp if they're only a manager and not a player
-     * @param event_id  - The id of the event that we want to check if the user plays on
      * @param user_id   - The user that we want to check if they're a player of a team
      */
     $scope.is_player = function(user_id) {

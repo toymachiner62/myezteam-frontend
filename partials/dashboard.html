@@ -35,7 +35,6 @@
     </div><!-- /.modal -->
 
 	<div class="row">
-	
 	    <!-- Upcoming Events -->
 		<div class="col-lg-4">
 			<div class="panel panel-info">
@@ -48,7 +47,7 @@
               		<div class="list-group" ng-repeat="event in events">
               		
               		    <!-- RSVP Button -->
-                        <div class="btn-group pull-right rsvp-pill">
+                        <div class="btn-group pull-right rsvp-pill" ng-show="event.show_rsvp == true">
                             <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-check"></i> RSVP
                                 <span class="caret"></span>
@@ -66,7 +65,7 @@
 						<a class="list-group-item" id="{{event.id}}" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name, teamId); activateEvent(event)">
                             <h3>{{event.name}}</h3>
                             <p><span class="text-danger">{{event.start | date:'EEEE MMMM d, y @ h:mm a'}}</span></p>
-                            <p><strong>Your Response:</strong> <span class="label label-{{event.my_response | lowercase}}">{{event.my_response}}</span></p>
+                            <p ng-show="event.show_rsvp == true"><strong>Your Response:</strong> <span class="label label-{{event.my_response | lowercase}}">{{event.my_response}}</span></p>
                             <p><strong>Description:</strong> {{event.description}}</p>
                             <p><strong>Location:</strong> {{event.location}}</p>
 						</a>
