@@ -127,7 +127,7 @@
                             	<h3 class="panel-title inline">Upcoming Events</h3>
                           	</div>
                           	
-                          	<div class="panel-body">
+                          	<div class="panel-body events">
 
                           		<div class="list-group" ng-show="events.length == 0">
                           			<div class="list-group-item">
@@ -159,14 +159,14 @@
                                     	</ul>
                                     </div>
                           		
-            						<a class="list-group-item" id="{{event.id}}" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name); activateEvent(event); getEmails(event.id)">
+            						<div class="list-group-item" id="{{event.id}}" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name); activateEvent(event); getEmails(event.id)">
                                     	<h3>{{event.name}}</h3>
                     	                <p><span class="text-danger">{{event.start | date:'EEEE MMMM d, y @ h:mm a'}}</span></p>
                     	                <p  ng-show="is_player(profile.id)"><strong>Your Response:</strong> <span class="label label-{{event.my_response | lowercase}}">{{event.my_response}}</span></p>
                             		    <p><strong>Description:</strong> {{event.description}}</p>
                             		    <p><strong>Location:</strong> {{event.location}}</p>
                                 		<!-- <span class="label label-warning pull-right">Manager</span> -->
-            						</a>
+            						</div>
             					</div>
             				</div>
             			</div>
