@@ -126,16 +126,16 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
                     var team_id = response[0].team_id;
 				    $scope.getResponses(event_id, event_name, team_id);
 				    
-				    // If the logged in user is an owner or manager, get the emails
-				    if($scope.is_owner(me.user_id) || $scope.is_manager(me.user_id)) {
-				        $scope.getEmails(event_id);
-				    }
-				    
 				    // Loop through all the events to set the logged in user's response on the event object
 				    // Note: Using angular .forEach instead of javascript for loop because it seems that it handles async in a for loop better than a standard for loop.
 				    angular.forEach($scope.events, function(event, i) {
 				        
 				        $scope.events[i].showDelete = false;
+				        
+				        // If the logged in user is an owner or manager, get the emails
+    				    if($scope.is_owner($scope.team.owner_id, me.user_id) || $scope.is_manager($scope.team.owner_id, me.user_id)) {
+    				        $scope.getEmails(event_id);
+    				    }
 
 				        // Get the logged in user's response for the current event
                         $http.get(baseUrl+'v1/responses/' + event.id + apiKey)
@@ -368,7 +368,11 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
         $scope.getTeam();   // Reload all the info so the players get updated
     };
     
-    // Checks if the passed in userid is an owner of the team
+    /**
+     * Checks if the logged in user is the owner of the team
+     * @param team      - The team we're checking if the user manages
+     * @param user_id   - The user we're checking if they manage the team
+     */
     $scope.is_owner = function(owner_id, user_id) {
         if(owner_id == user_id) {
             return true;

@@ -188,7 +188,7 @@
             		<div class="col-lg-4" ng-show="is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)">
             			<div class="panel panel-info">
             				<div class="panel-heading">
-                            	<a href="#/teams/{{teamId}}/events/{{selected.id}}/emails" class="btn btn-default btn-xs pull-right" type="button" ><i class="fa fa-envelope"></i> Create RSVP Email</a>
+                            	<a ng-show="events.length != 0" href="#/teams/{{teamId}}/events/{{selected.id}}/emails" class="btn btn-default btn-xs pull-right" type="button" ><i class="fa fa-envelope"></i> Create RSVP Email</a>
                             	<h3 class="panel-title inline">RSVP Emails</h3>
                           	</div>
                           	
