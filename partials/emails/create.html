@@ -48,7 +48,7 @@
 	
 	                    <div class="form-group">
                             <label for="default">Do you want this to be the default email for all events for this team?</label>
-                            <select class="form-control" name="default" ng-model="email.default">
+                            <select class="form-control" name="default" ng-model="email.default" required>
 								<option value="false">No</option>
 								<option value="true">Yes</option>
 							</select>
@@ -62,20 +62,20 @@
 	              		
     	              		<div class="form-group">
                                 <label for="title">Title</label>
-                                <input type="text" name="title" class="form-control" ng-model="email.title">
+                                <input type="text" name="title" class="form-control" ng-model="email.title" required>
                                 <span ng-show="form.title.$dirty && form.title.$error.required">Title is required</span>	
     					        
          	         		</div>
     
          	         		<div class="form-group">
          	      	     		<label for="content">Description</label>
-         	      	     		<textarea rows="5" name="content" class="form-control" ng-model="email.content"></textarea>
+         	      	     		<textarea rows="5" name="content" class="form-control" ng-model="email.content" required></textarea>
          	      	     		<span ng-show="form.content.$dirty && form.content.$error.required">Content is required</span>
          	         		</div>
          	         		
          	         		<div class="form-group">
          	      	     		<label for="include_rsvp">Include RSVP Form</label>
-         	      	     		<select class="form-control" name="include_rsvp" ng-model="email.include_rsvp">
+         	      	     		<select class="form-control" name="include_rsvp" ng-model="email.include_rsvp" required>
     								<option value="true">Yes</option>
     								<option value="false">No</option>
     							</select>
@@ -88,7 +88,7 @@
      	         		    <legend>When To Send?</legend>
          	         		<div class="form-group">
          	      	     		<label for="send_type">When to Send?</label>
-         	      	     		<select class="form-control" name="send_type" ng-model="email.send_type" ng-disabled="email.default === true">
+         	      	     		<select class="form-control" name="send_type" ng-model="email.send_type" ng-disabled="email.default === true" required>
     								<option value="now">Now</option>
     								<option value="days_before">A Specific Number Of Days Before Event</option>
     							</select>
@@ -110,17 +110,17 @@
          	         		    <small class="text-muted">(Check all that apply)</small>
          	         		    <div class="checkbox">
          	      	     		    <label for="player_types[]">
-         	      	     		        <input type="checkbox" name="player_types[]" value="1" ng-model="email.player_types.1" />Regular
+         	      	     		        <input type="checkbox" name="player_types[]" value="1" ng-model="email.player_types[0]" ng-required="is_required(email.player_types)" />Regular
          	      	     		    </label>
          	      	     		</div>
          	      	     		<div class="checkbox">
          	      	     		    <label for="player_types[]">
-         	      	     		        <input type="checkbox" name="player_types[]" value="2" ng-model="email.player_types.2" />Sub        
+         	      	     		        <input type="checkbox" name="player_types[]" value="2" ng-model="email.player_types[1]" ng-required="is_required(email.player_types)" />Sub        
          	      	     		    </label>
          	      	     		</div>
                                 <div class="checkbox">
                                     <label for="player_types[]">
-                                        <input type="checkbox" name="player_types[]" value="3" ng-model="email.player_types.3" />Member
+                                        <input type="checkbox" name="player_types[]" value="3" ng-model="email.player_types[2]" ng-required="is_required(email.player_types)" />Member
                                     </label>
                                 </div>
                                 							
@@ -133,31 +133,31 @@
          	         		    <small class="text-muted">(Check all that apply)</small>
          	         		    <div class="checkbox">
          	      	     		    <label for="response_types[]">
-         	      	     		        <input type="checkbox" name="response_types[]" value="1" ng-model="email.response_types.1" />No Response
+         	      	     		        <input type="checkbox" name="response_types[]" value="1" ng-model="email.response_types[0]" ng-required="is_required(email.response_types)" />No Response
          	      	     		    </label>
          	      	     		</div>
          	      	     		
          	      	     		<div class="checkbox">
          	      	     		    <label for="response_types[]">
-         	      	     		        <input type="checkbox" name="response_types[]" value="2" ng-model="email.response_types.2" />Yes
+         	      	     		        <input type="checkbox" name="response_types[]" value="2" ng-model="email.response_types[1]" ng-required="is_required(email.response_types)" />Yes
          	      	     		    </label>
          	      	     		</div>
          	      	     		
          	      	     		<div class="checkbox">
          	      	     		    <label for="response_types[]">
-         	      	     		        <input type="checkbox" name="response_types[]" value="3" ng-model="email.response_types.3" />Probably
+         	      	     		        <input type="checkbox" name="response_types[]" value="3" ng-model="email.response_types[2]" ng-required="is_required(email.response_types)" />Probably
          	      	     		    </label>
          	      	     		</div>
          	      	     		
          	      	     		<div class="checkbox">
          	      	     		    <label for="response_types[]">
-         	      	     		        <input type="checkbox" name="response_types[]" value="4" ng-model="email.response_types.4" />Maybe
+         	      	     		        <input type="checkbox" name="response_types[]" value="4" ng-model="email.response_types[3]" ng-required="is_required(email.response_types)" />Maybe
          	      	     		    </label>
          	      	     		</div>
          	      	     		
          	      	     		<div class="checkbox">
          	      	     		    <label for="response_types[]">
-         	      	     		        <input type="checkbox" name="response_types[]" value="5" ng-model="email.response_types.5" />No
+         	      	     		        <input type="checkbox" name="response_types[]" value="5" ng-model="email.response_types[4]" ng-required="is_required(email.response_types)" />No
          	      	     		    </label>
          	      	     		</div>
          	      	     	
@@ -165,39 +165,7 @@
          	      	     		<span ng-show="form.response_types.$dirty && form.response_types.$error.required">Days Before is required</span>
          	         		</div>
      	         		</fieldset>
-
-     	         		<!-- <div class="form-group">
-     	         		    <div class="row">
-                                <div class="col-xs-2">
-     	      	     		        <label for="start">Start Date</label>
-     	      	     		        <input type="text" name="start" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="event.start.date" show-weeks="false" ng-required="true" />
-                                    
-     	      	     		        <div ng-model="event.start.time">
-     	      	     		            <timepicker hour-step="1" minute-step="1" show-meridian="true"></timepicker>
-     	      	     		        </div>
-     	      	     		        
-     	      	     		        <span ng-show="form.start.date.$dirty && form.start.date.$error.required && form.start.time.$dirty && form.start.time.$error.required">Start Date is required</span>
-     	      	     		    </div>
-     	      	     		</div>
-     	      	     		<div class="well well-sm"><strong>Start Time:</strong> {{event.start.date | date:'EEEE, MMMM d,y'}} @ {{event.start.time | date:'h:mm:ss a'}}</div>
-     	         		</div>
-     	         		
-     	         		<div class="form-group">
-     	      	     		<div class="row">
-                                <div class="col-xs-2">
-     	      	     		        <label for="end">End Date</label>
-     	      	     		        <input type="text" name="end" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="event.end.date" show-weeks="false" ng-required="true" />
-                                    
-     	      	     		        <div ng-model="event.end.time">
-     	      	     		            <timepicker hour-step="1" minute-step="1" show-meridian="true"></timepicker>
-     	      	     		        </div>
-     	      	     		        
-     	      	     		        <span ng-show="form.end.date.$dirty && form.end.date.$error.required && form.end.time.$dirty && form.end.time.$error.required">End Date is required</span>
-     	      	     		    </div>
-     	      	     		</div>
-     	      	     		<div class="well well-sm"><strong>End Time:</strong> {{event.end.date | date:'EEEE, MMMM d,y'}} @ {{event.end.time | date:'h:mm:ss a'}}</div>
-     	         		</div> -->
-    	          		
+	                    
     	          		<button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">Save</button>
     	          		<a href="javascript:history.back()" class="btn btn-default">Cancel</a>
     	      
