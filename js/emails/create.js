@@ -8,42 +8,20 @@ myezteam.controller('CreateEventEmailController', ['$scope', '$http', '$routePar
 	
 	// Set the checkbox values to arrays with null values so that the ng-true-value/ng-false-value work correctly
     $scope.email = {
-        //player_types: [null, null, null],
-        //response_types: [null, null, null, null, null]
         player_types: [false, false, false],
         response_types: [false, false, false, false, false]
     };
-	
-	// Initially set the time picker time so the display shows something
-	//$scope.event = {start: {time: new Date()}, end: {time: new Date()}};
-	
+
 	// Get all of a users teams
 	$scope.createEventEmail = function() {
-	console.log($scope.email);
-	console.log($routeParams);
+	//console.log($scope.email);
+	//console.log($routeParams);
 	    $scope.email.team_id = $routeParams.id  // Set the team id from the url
 	    $scope.email.event_id = $routeParams.event_id // Set the event id from the url
-	    //$scope.event.timezone = "America/Chicago"   // Timezone is always defaulted to Central time for now
 
-	    // Remove false values from player_types and response_types
-	    var player_types = [];
-	    var response_types = [];
-	    
-	    // Loop through all types and convert all the true's to the appropriate integer
-        /*for(var i = 0; i < player_types; i++) {
-            if(player_types[i] == true) {
-                // Set the integer value to 1 + the index
-                $scope.email.player_types.push(i + 1);
-            }
-        }
-	    
-	    for(type in $scope.email.response_types) {
-	        response_types[response_types.length] = type;
-	    } */
-	    
 	    // Convert player_types and response_types to integer arrays
-	    $scope.email.player_types = convert_types(player_types);
-	    $scope.email.response_types = convert_types(response_types);
+	    $scope.email.player_types = convert_types($scope.email.player_types);
+	    $scope.email.response_types = convert_types($scope.email.response_types);
 	    
 	    // Convert $scope.email.include_rsvp to a boolean
 	    if($scope.email.include_rsvp == 'true') {
@@ -114,7 +92,7 @@ myezteam.controller('CreateEventEmailController', ['$scope', '$http', '$routePar
         
         var converted_types = [];
         
-        for(var i = 0; i < types; i++) {
+        for(var i = 0; i < types.length; i++) {
             if(types[i] == true) {
                 // Set the integer value to 1 + the index
                 converted_types.push(i + 1);
