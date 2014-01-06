@@ -416,6 +416,8 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
 	// Gets all of a user's teams
 	function getTeams() {
 	    //console.log('in getTeams');
+	    teamsFactory.clear();
+	    
 	    teamsFactory.get_teams(function(response) {
 	        
 	        //console.log('template response');
@@ -472,13 +474,13 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
 		$http.delete(baseUrl+'v1/teams/' + team.id + apiKey)
             .success(function(response) {
 			    
-			    $http.get(baseUrl+'v1/teams/all' + apiKey)
+			    /*$http.get(baseUrl+'v1/teams/all' + apiKey)
 		    	.success(function(response) {
 		    		$scope.teams = response;
 			    })
 			    .error(function(response) {
 			    	return 'An error occurred looking for your teams. Please try again later.';
-			    });
+			    });*/
 			    
 			    getTeams();   // Reload all the info so the players get updated
 			    

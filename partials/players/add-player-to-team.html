@@ -60,7 +60,7 @@
      	         		
      	         		<div class="form-group">
 							<label for="type">Player Type</label>
-								<select class="form-control" name="type" ng-model="player.player_type_id">
+							<select class="form-control" name="type" ng-model="player.player_type_id" required>
 								<option value="1">Regular</option>
 								<option value="2">Sub</option>
 								<option value="3">Member</option>
@@ -69,7 +69,7 @@
      	         
      	         		<div class="form-group">
      	        	   		<label for="email">Email</label>
-     	        	   		<input type="email" name="email" class="form-control" ng-model="player.email">
+     	        	   		<input type="email" name="email" class="form-control" ng-model="player.email" required>
 							<span ng-show="form.email.$dirty && form.email.$error.required">Email is required</span>
 							<span ng-show="form.email.$dirty && form.email.$error.email">Invalid Email</span>
     	          		</div>

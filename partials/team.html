@@ -63,7 +63,7 @@
                                     <p><strong>Owner:</strong> {{team_owner}}</p>
                                     <p><strong>Managers:</strong></p>
                                     <ul>
-                                        <li ng-repeat="manager in managers">{{manager.first_name}} {{manager.last_name}}</li>
+                                        <li ng-repeat="manager in team.managers">{{manager.first_name}} {{manager.last_name}}</li>
                                     </ul>
 					            </div>
 				            </div>
@@ -74,11 +74,12 @@
 		            <div class="col-lg-6" ng-show="team.name != null">
             			<div class="panel panel-info">
             				<div class="panel-heading">
-                                <a href="#/teams/{{team.id}}/add-player" ng-show="is_owner(team.owner_id, profile.id) || is_manager(profile.id)" class="btn btn-default btn-xs pull-right" type="button">
+                                <a href="#/teams/{{team.id}}/add-player" ng-show="is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)" class="btn btn-default btn-xs pull-right" type="button">
                                     <i class="fa fa-user"></i> Add Player
                                 </a>
                             	<h3 class="panel-title">Players</h3>
                           	</div>
+                          	
                           	<div class="panel-body">
                           	
                           	    <div class="list-group" ng-show="players.length == 0">
@@ -89,7 +90,7 @@
                           	
                             	<div class="list-group" ng-repeat="player in players" ng-mouseenter="hover(player)" ng-mouseleave="hover(player)">
                               		<div class="list-group-item">
-
+                              		    
                                         <div class="btn-group pull-right" ng-show="(is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)) && player.showDelete">
                                             <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                                                 <i class="fa fa-cog"></i><span class="caret"></span>
@@ -100,11 +101,16 @@
                                                 <li><a href="" ng-click="delete(player)"><i class="fa fa-trash-o"></i> Remove From Team</a></li>
                                                 <li ng-show="player.manager === true"><a href="" ng-click="remove_manager(player)">Remove as Manager</a></li>
                                                 <li ng-show="player.manager === false"><a href="" ng-click="add_manager(player)">Add as Manager</a></li>
+                                                <li class="divider"></li>
+                                                <li><strong>Player Types:</strong></li>
+                                                <li ng-show="player.player_type.id != '1'"><a href="" ng-click="update_player_type(player, 1)">Make Regular</a></li>
+                                                <li ng-show="player.player_type.id != '2'"><a href="" ng-click="update_player_type(player, 2)">Make Sub</a></li>
+                                                <li ng-show="player.player_type.id != '3'"><a href="" ng-click="update_player_type(player, 3)">Make Member</a></li>
                                             </ul>
                                         </div>
     
-            							<span class="label label-primary pull-right center-vertical" ng-show="player.player_type == 'Regular'">Regular</span>
-            							<span class="label label-warning pull-right center-vertical" ng-show="player.player_type == 'Sub'">Sub</span>
+            							<span class="label label-primary pull-right center-vertical" ng-show="player.player_type.id == 1">Regular</span>
+            							<span class="label label-warning pull-right center-vertical" ng-show="player.player_type.id == 2">Sub</span>
                                 		<gravatar-image data-gravatar-email="player.user.email" data-gravatar-size="36" data-gravatar-default="mm"></gravatar-image>
                                 		<strong>{{player.user.first_name}} {{player.user.last_name}}</strong> <small>({{player.user.email}})</small>
                               		</div>

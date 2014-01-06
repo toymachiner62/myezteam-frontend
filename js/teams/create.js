@@ -43,6 +43,10 @@ myezteam.controller('CreateTeamController', ['$scope', '$http', 'teamsFactory', 
 				$scope.success = null;
 				$scope.error = 'An error occurred trying to create your team. Please try again later.';
 			});
-		} 
+		}
+		
+    /*$scope.$watch( function () { return teams.get_teams(); }, function () {
+        alert('data changed');
+    }, true);*/
 		
 }]);

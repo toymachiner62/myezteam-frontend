@@ -342,6 +342,34 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	$scope.hover = function(object) {
         return object.showDelete = ! object.showDelete;
     };
+    
+    /**
+     * Updates a player's player_type
+     * @param player            - The player to update
+     * @param player_type_id    - The player type to set the new player to.
+     */
+    $scope.update_player_type = function(player, player_type_id) {
+        
+        // Update a player's type
+		$http.put(baseUrl+'v1/players/' + player.id + '/' + player_type_id + apiKey)
+            .success(function(response) {
+                
+                // Set the player first/last name to empty strings if they are null
+			    player.user.first_name = player.user.first_name == null ? '' : player.user.first_name
+			    player.user.last_name = player.user.last_name == null ? '' : player.user.last_name
+			    getPlayers($scope.team);    // Reload the players
+			    $scope.error = null;
+				$scope.success = player.user.first_name + ' ' + player.user.last_name + '(' + player.user.email + ') has been updated.';
+            })
+            .error(function(response) {
+                
+                // Set the player first/last name to empty strings if they are null
+			    player.user.first_name = player.user.first_name == null ? '' : player.user.first_name
+			    player.user.last_name = player.user.last_name == null ? '' : player.user.last_name
+			    $scope.success = null;
+			    $scope.error = 'An error occurred trying to update ' + player.user.first_name + ' ' + player.user.last_name + '(' + player.user.email + '). Please try again later.';
+		    });
+    }
 
     // Removes a player from a team
     $scope.delete = function(player) {
