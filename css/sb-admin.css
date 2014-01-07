@@ -98,17 +98,25 @@ table.tablesorter thead tr th:hover {
 
   /* Side Nav */
 
+  .side-nav-wrapper {
+    margin-left: -225px;
+    left: 225px;
+    width: 225px;
+    position: fixed;
+    top: 66px;
+    height: 100%;
+    border-radius: 0;
+    border: none;
+    background-color: #222222;
+  }
+ 
   .side-nav {
-	margin-left: -225px;
-	left: 225px;
-	width: 225px;
-	position: fixed;
-	top: 66px;
 	height: 100%;
-	border-radius: 0;
-	border: none;
-	background-color: #222222;
-	overflow: visible;
+	overflow: auto;
+  }
+  
+  .side-nav>li:last-child {
+    margin-bottom:66px;
   }
 
   /* Bootstrap Default Overrides - Customized Dropdowns for the Side Nav */
@@ -155,5 +163,19 @@ table.tablesorter thead tr th:hover {
   .messages-dropdown .dropdown-menu li a {
 	white-space: normal;
   }
+  
+
+   .side-nav-wrapper.navbar-collapse {
+    max-height: none;
+    padding-right: 0;
+    padding-left: 0;
+    overflow-x: hidden;
+    height: 100% !important;
+    -webkit-overflow-scrolling: touch;
+   }
+ 
+   .collapse {
+    display:block;
+   }
 
 }

@@ -55,6 +55,43 @@
           </button>
           <a class="navbar-brand" href="index.html">My EZ Team</a>
         </div>
+        
+        <div class="side-nav-wrapper collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav side-nav">
+                
+                <li ng-class="{active: activetab == '/dashboard'}"><a href="#/dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+              	
+                <hr/>
+                
+                <a href="#/teams" class="btn btn-success btn-sm full-btn"><i class="fa fa-plus"></i> New Team</a>
+                <a href="" ng-click="toggleTeamButtons()" class="btn btn-default btn-sm full-btn"><i class="fa fa-cog"></i> Toggle Team Settings</a>
+                
+                <hr/>
+                
+                <div class="input-group" id="searchTeam">
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                    <input type="text" ng-model="searchTeam" class="form-control" placeholder="Search For Team">
+                </div>
+                
+                <li ng-repeat="team in teams | filter:searchTeam" class="team">
+                
+                    <div class="btn-group pull-right" ng-show="profile.id == team.owner_id && team.showDelete">
+                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-cog"></i><span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#/teams/{{team.id}}/edit"><i class="fa fa-pencil"></i> Edit</a></li>
+                            <li><a href="" ng-click="delete(team)"><i class="fa fa-trash-o"></i> Delete</a></li>
+                        </ul>
+                    </div>
+                    
+                    <a href="#/teams/{{team.id}}">
+                        <i class="fa fa-group"></i> {{team.name}}
+                    </a>   
+    
+                </li>
+              </ul>
+          </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
@@ -72,48 +109,6 @@
             </li>
           </ul>
         <div class="clearfix"></div>
-          <ul class="nav navbar-nav side-nav">
-            
-            <li ng-class="{active: activetab == '/dashboard'}"><a href="#/dashboard"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-          	
-            <hr/>
-            
-            <a href="#/teams" class="btn btn-success btn-sm full-btn"><i class="fa fa-plus"></i> New Team</a>
-            <a href="" ng-click="toggleTeamButtons()" class="btn btn-default btn-sm full-btn"><i class="fa fa-cog"></i> Toggle Team Settings</a>
-            
-            <hr/>
-            
-            <div class="input-group" id="searchTeam">
-                <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                <input type="text" ng-model="searchTeam" class="form-control" placeholder="Search For Team">
-            </div>
-            
-            <li ng-repeat="team in teams | filter:searchTeam" class="team">
-            
-                <div class="btn-group pull-right" ng-show="profile.id == team.owner_id && team.showDelete">
-                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-cog"></i><span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#/teams/{{team.id}}/edit"><i class="fa fa-pencil"></i> Edit</a></li>
-                        <li><a href="" ng-click="delete(team)"><i class="fa fa-trash-o"></i> Delete</a></li>
-                    </ul>
-                </div>
-                
-                <a href="#/teams/{{team.id}}">
-                    <i class="fa fa-group"></i> {{team.name}}
-                </a>   
-
-            </li>
-           <!-- <li ng-repeat="team in teams.manager | filter:searchTeam" class="team">
-              <a ng-show="team" href="#/teams/{{team.id}}"><i class="fa fa-group"></i> {{team.name}}</a>
-            </li>
-            <li ng-repeat="team in teams.player | filter:searchTeam"  class="team">
-              <a href="#/teams/{{team.id}}"><i class="fa fa-group"></i> {{team.name}}</a>
-            </li>-->
-          </ul>
-          
-          <div class="clearfix"></div>
           
         </div><!-- /.navbar-collapse -->
       </nav>
