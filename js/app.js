@@ -493,9 +493,9 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
 		    });
     };
     
-    $scope.toggle_button_visible = function(user_id) {
+    /*$scope.toggle_button_visible = function(user_id) {
 	    // If user owns or manages a team
-	}
+	}*/
     
     getTeams();  // Call on page load
     
