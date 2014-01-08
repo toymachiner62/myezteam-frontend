@@ -64,7 +64,7 @@
                 <hr/>
                 
                 <a href="#/teams" class="btn btn-success btn-sm full-btn"><i class="fa fa-plus"></i> New Team</a>
-                <a href="" ng-click="toggleTeamButtons()" class="btn btn-default btn-sm full-btn"><i class="fa fa-cog"></i> Toggle Team Settings</a>
+                <a href="" ng-click="toggleTeamButtons()" class="btn btn-default btn-sm full-btn" ng-show="toggle_button_visible(profile.id)"><i class="fa fa-cog"></i> Toggle Team Settings</a>
                 
                 <hr/>
                 
@@ -74,7 +74,7 @@
                 </div>
                 
                 <li ng-repeat="team in teams | filter:searchTeam" class="team">
-                
+
                     <div class="btn-group pull-right" ng-show="profile.id == team.owner_id && team.showDelete">
                         <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-cog"></i><span class="caret"></span>
