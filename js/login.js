@@ -37,4 +37,5 @@ myezteamLogin.controller('LoginController', ['$scope', '$http', function($scope,
 				$scope.loginError = response.message;
 			});
 	}
+	
 }]);

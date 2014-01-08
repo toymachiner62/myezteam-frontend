@@ -33,9 +33,9 @@
 
 		<div class="alert alert-danger" ng-show="loginError != null || (form.email.$dirty && form.email.$error.required) || (form.email.$dirty && form.email.$error.email) || (form.password.$dirty && form.password.$error.required)">
 			<span ng-show="loginError != null">{{loginError}}</span>
-			<span ng-show="form.email.$dirty && form.email.$error.required">Email is required</span>
-			<span ng-show="form.email.$dirty && form.email.$error.email">Invalid Email</span>
-			<!-- <span ng-show="form.email.$dirty && form.password.$error.required">Password is required</span> -->
+			<span ng-show="form.email.$dirty && form.email.$error.required">Email is required<br /></span>
+			<span ng-show="form.email.$dirty && form.email.$error.email">Invalid Email Format<br /></span>
+			<span ng-show="form.password.$dirty && form.password.$error.required">Password is required</span>
 		</div>
 		
 		<div class="modal" id="loadingWidget" style="position:absolute; top: 45%;" >
