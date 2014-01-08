@@ -419,7 +419,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
         // If team exists
         if(typeof team !== 'undefined') {
             for(manager in team.managers) {
-                if(manager.id = user_id) {
+                if(manager.id == user_id) {
                     return true;    
                 }
             } 

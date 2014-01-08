@@ -96,7 +96,7 @@
                                                 <i class="fa fa-cog"></i><span class="caret"></span>
                                             </button>
                                             
-                                            <ul class="dropdown-menu" role="menu">
+                                            <ul class="dropdown-menu" role="menu" ng-show="is_manager(team, profile.id)">
                                                 <li><a href="#/teams/{{team.id}}/players/{{player.id}}/edit"><i class="fa fa-pencil"></i> Edit</a></li>
                                                 <li><a href="" ng-click="delete(player)"><i class="fa fa-trash-o"></i> Remove From Team</a></li>
                                                 <li ng-show="player.manager === true"><a href="" ng-click="remove_manager(player)">Remove as Manager</a></li>
