@@ -372,7 +372,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
     }
 
     // Removes a player from a team
-    $scope.delete = function(player) {
+    $scope.delete_player = function(player) {
         // Get all the players of a specific team
 		$http.delete(baseUrl+'v1/players/' + player.id + apiKey)
             .success(function(response) {
@@ -394,6 +394,36 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 		    });
         
         $scope.getTeam();   // Reload all the info so the players get updated
+    };
+    
+    // Removes an event email
+    $scope.delete_email = function(email) {
+        // Get all the players of a specific team
+		$http.delete(baseUrl+'v1/emails/' + email.id + apiKey)
+            .success(function(response) {
+			    $scope.error = null;
+				$scope.success = email.title + ' has been removed';
+            })
+            .error(function(response) {
+			    $scope.success = null;
+			    $scope.error = 'An error occurred trying to delete ' + email.title + '. Please try again later.';
+		    });
+        
+        $scope.getTeam();   // Reload all the info so the emails get updated
+    };
+    
+    // Sends an event email now
+    $scope.send_now = function(email) {
+        // Get all the players of a specific team
+		$http.post(baseUrl+'v1/emails/' + email.id + '/send' + apiKey)
+            .success(function(response) {
+			    $scope.error = null;
+				$scope.success = email.title + ' has been sent';
+            })
+            .error(function(response) {
+			    $scope.success = null;
+			    $scope.error = 'An error occurred trying to send ' + email.title + '. Please try again later.';
+		    });
     };
     
     /**

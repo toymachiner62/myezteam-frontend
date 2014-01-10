@@ -43,9 +43,6 @@
                     <div class="col-lg-6" ng-show="team.name != null">
 			            <div class="panel panel-info">
 				            <div class="panel-heading">
-					            <!-- <div ng-repeat="team in teams.owner">
-					            	<button class="btn btn-danger btn-xs pull-right" type="button" ng-show="profile.id == team.owner_id && team.id == teamId" ng-click="deleteTeam(team.id)">Delete Team</button>
-					            </div> -->
                 	            <h3 class="panel-title">Team Info</h3>
 				            </div>
               	            <div class="panel-body">
@@ -97,8 +94,7 @@
                                             </button>
                                             
                                             <ul class="dropdown-menu" role="menu">
-                                                <li><a href="#/teams/{{team.id}}/players/{{player.id}}/edit"><i class="fa fa-pencil"></i> Edit</a></li>
-                                                <li><a href="" ng-click="delete(player)"><i class="fa fa-trash-o"></i> Remove From Team</a></li>
+                                                <li><a href="" ng-click="delete_player(player)"><i class="fa fa-trash-o"></i> Remove From Team</a></li>
                                                 <li ng-show="player.manager === true"><a href="" ng-click="remove_manager(player)">Remove as Manager</a></li>
                                                 <li ng-show="player.manager === false"><a href="" ng-click="add_manager(player)">Add as Manager</a></li>
                                                 <li class="divider"></li>
@@ -129,7 +125,9 @@
             			<div class="panel panel-info">
             				<div class="panel-heading">
             				    
-                            	<a href="#/teams/{{teamId}}/events" ng-show="is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)" class="btn btn-default btn-xs pull-right" type="button" ><i class="fa fa-calendar-o"></i> Create Event</a>
+                            	<a href="#/teams/{{teamId}}/events" ng-show="is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)" class="btn btn-default btn-xs pull-right" type="button" >
+                            	    <i class="fa fa-calendar-o"></i> Create Event
+                            	</a>
                             	<h3 class="panel-title inline">Upcoming Events</h3>
                           	</div>
                           	
@@ -194,7 +192,9 @@
             		<div class="col-lg-4" ng-show="is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)">
             			<div class="panel panel-info">
             				<div class="panel-heading">
-                            	<a ng-show="events.length != 0" href="#/teams/{{teamId}}/events/{{selected.id}}/emails" class="btn btn-default btn-xs pull-right" type="button" ><i class="fa fa-envelope"></i> Create RSVP Email</a>
+                            	<a ng-show="events.length != 0" href="#/teams/{{teamId}}/events/{{selected.id}}/emails" class="btn btn-default btn-xs pull-right" type="button" >
+                            	    <i class="fa fa-envelope"></i> Create RSVP Email
+                            	</a>
                             	<h3 class="panel-title inline">RSVP Emails</h3>
                           	</div>
                           	
@@ -205,17 +205,27 @@
             						</div>
             					</div>
                           	
-                          		<div class="list-group" ng-repeat="email in emails">
+                          		<div class="list-group" ng-repeat="email in emails" ng-mouseenter="hover(email)" ng-mouseleave="hover(email)">
                           		
-            						<a class="list-group-item">
-                                		<!-- <span class="badge">just now</span> -->
-                                	
+            						<div class="list-group-item">
+
+                                	    <div class="btn-group pull-right" ng-show="(is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)) && email.showDelete">
+                                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                                <i class="fa fa-cog"></i><span class="caret"></span>
+                                            </button>
+                                            
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#/teams/{{team.id}}/events/{{email.event_id}}/emails/{{email.id}}/edit"><i class="fa fa-pencil"></i> Edit</a></li>
+                                                <li><a href="" ng-click="delete_email(email)"><i class="fa fa-trash-o"></i> Remove</a></li>
+                                                <li><a href="" ng-click="send_now(email)">Send Now</a></li>
+                                            </ul>
+                                        </div>
+                                        
                                     	<h3>{{email.title}}<span ng-show="email.default == true" class="badge pull-right">Default Email</span></h3>
                                     	
-                                	
                             		    <p><strong>Description:</strong> {{email.content}}</p>
                                 		<!-- <span class="label label-warning pull-right">Manager</span> -->
-            						</a>
+            						</div>
             					</div>
                             
             				</div>

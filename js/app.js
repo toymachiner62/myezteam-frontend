@@ -62,64 +62,61 @@ myezteam.config(function($routeProvider, $httpProvider) {
 			{
 				title: 'My Profile',
 				controller: 'ProfileController',
-				templateUrl: 'partials/profile.html',
-				activetab: 'profile'
+				templateUrl: 'partials/profile.html'
 			})
 		.when('/teams',
 			{
 				title: 'Create Team',
 				controller: 'CreateTeamController',
-				templateUrl: 'partials/teams/create.html',
-				activetab: 'teams'
+				templateUrl: 'partials/teams/create.html'
 			})
 		.when('/teams/:id',
 			{
 				title: 'Team',
 				controller: 'TeamController',
-				templateUrl: 'partials/team.html',
-				activetab: 'teams'
+				templateUrl: 'partials/team.html'
 			})
 		.when('/teams/:id/edit',
 			{
 				title: 'Edit Team',
 				controller: 'EditTeamController',
-				templateUrl: 'partials/teams/edit.html',
-				activetab: 'teams'
+				templateUrl: 'partials/teams/edit.html'
 			})
 		.when('/teams/:id/add-player',
 			{
 				title: 'Add Player',
 				controller: 'AddPlayerToTeamController',
-				templateUrl: 'partials/players/add-player-to-team.html',
-				activetab: 'teams'
+				templateUrl: 'partials/players/add-player-to-team.html'
 			})
 		.when('/teams/:id/players/:player_id/edit',
 			{
 				title: 'Edit Player',
 				controller: 'EditTeamPlayerController',
-				templateUrl: 'partials/players/edit-team-player.html',
-				activetab: 'teams'
+				templateUrl: 'partials/players/edit-team-player.html'
 			})
 		.when('/teams/:id/events', 
 			{
 				title: 'Create Event',
 				controller: 'CreateEventController',
-				templateUrl: 'partials/events/create.html',
-				activetab: 'events'
+				templateUrl: 'partials/events/create.html'
 			})
 		.when('/teams/:id/events/:event_id/edit', 
 			{
 				title: 'Edit Event',
 				controller: 'EditEventController',
-				templateUrl: 'partials/events/edit.html',
-				activetab: 'events'
+				templateUrl: 'partials/events/edit.html'
 			})
 		.when('/teams/:id/events/:event_id/emails',
 		    {
 		        title: 'Create Email',
 		        controller: 'CreateEventEmailController',
-		        templateUrl: 'partials/emails/create.html',
-		        activetab: 'teams'
+		        templateUrl: 'partials/emails/create.html'
+		    })
+		.when('/teams/:id/events/:event_id/emails/:email_id/edit',
+		    {
+		        title: 'Edit Email',
+		        controller: 'EditEventEmailController',
+		        templateUrl: 'partials/emails/edit.html'
 		    })
 		.otherwise({redirectTo: '/dashboard'});
 		
@@ -167,19 +164,18 @@ myezteam.run(['$location', '$rootScope', function($location, $rootScope) {
 			$rootScope.title = current.$$route.title;
 		}
 	});
-    
-    // Register listener to watch route changes. 
+	
+	// Register listener to watch route changes. 
     // We use this to make sure a user is logged in when they try to retrieve data
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
         
-        // If there is no token, that means the user is not logged in.
+        // If a token does not exist, that means the user is not logged in already so redirect them to the login page.
         if(sessionStorage.getItem("token") == null) {
-           
             // Redirect to login page
-            window.location.href = "login.html";
-        }         
+            window.location.href = "index.html";
+        }  
     });
-	
+
 	// This gives the nav link that the user is currently on, the class 'active'
 	var path = function() {
 		return $location.path();
@@ -212,7 +208,7 @@ myezteam.service('myezteamBase', function($http) {
     // Logs the user out and redirects to the login page
     this.logout = function() {
         sessionStorage.removeItem("token");
-        window.location = "login.html";
+        window.location = "index.html";
     }
 	
 });

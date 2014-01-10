@@ -1,11 +1,11 @@
 <div id="page-wrapper">
 	<div class="row">
 		<div class="col-lg-12">
-			<h1>New Event</h1>
+			<h1>Edit Event</h1>
 			<ol class="breadcrumb">
 				<li><a href="index.html">Dashboard</a></li>
 				<li><a href="#/teams/{{team_id}}">{{team_name}}</a></li>
-	            <li class="active">New Event</li>
+	            <li class="active">Edit Event</li>
 	        </ol>
 	        
 			<div class="alert alert-success" ng-show="success != null">
@@ -40,12 +40,12 @@
 		
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<h3 class="panel-title">New Email For {{event_name}}</h3>
+					<h3 class="panel-title">Edit Email For {{event_name}}</h3>
 	            </div>
 				<div class="panel-body">
 	              
-					<form role="form" name="form" ng-submit="createEventEmail()">
-	
+					<form role="form" name="form" ng-submit="updateEventEmail()">
+
 	                    <div class="form-group">
                             <label for="default">Do you want this to be the default email for all events for this team?</label>
                             <select class="form-control" name="default" ng-model="email.default" required>
@@ -124,8 +124,8 @@
                                     </label>
                                 </div>
                                 							
-         	      	     		<!-- <input type="text" name="include_rsvp_form" class="form-control" ng-model="email.include_rsvp_form"> -->
-         	      	     		<span ng-show="form.player_types.$dirty && form.player_types.$error.required">Player Types are required</span>
+         	      	     		<!-- <input type="text" name="include_rsvp" class="form-control" ng-model="email.include_rsvp"> -->
+         	      	     		<span ng-show="form.player_types.$dirty && form.player_types.$error.required">Days Before is required</span>
          	         		</div>
          	         		
          	         		<div class="form-group">
@@ -161,8 +161,8 @@
          	      	     		    </label>
          	      	     		</div>
          	      	     	
-         	      	     		<!-- <input type="text" name="include_rsvp_form" class="form-control" ng-model="email.include_rsvp_form"> -->
-         	      	     		<span ng-show="form.response_types.$dirty && form.response_types.$error.required">Response Types are required</span>
+         	      	     		<!-- <input type="text" name="include_rsvp" class="form-control" ng-model="email.include_rsvp"> -->
+         	      	     		<span ng-show="form.response_types.$dirty && form.response_types.$error.required">Days Before is required</span>
          	         		</div>
      	         		</fieldset>
 	                    
