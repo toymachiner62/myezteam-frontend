@@ -106,5 +106,10 @@
 .events div.list-group-item:hover {
     cursor:pointer;
 }
+.label {
+    margin-right: 5px;
+}.label:last-child {
+    margin-right: 0;
+}
 
 

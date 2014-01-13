@@ -94,19 +94,22 @@
                                             </button>
                                             
                                             <ul class="dropdown-menu" role="menu">
-                                                <li><a href="" ng-click="delete_player(player)"><i class="fa fa-trash-o"></i> Remove From Team</a></li>
-                                                <li ng-show="player.manager === true"><a href="" ng-click="remove_manager(player)">Remove as Manager</a></li>
-                                                <li ng-show="player.manager === false"><a href="" ng-click="add_manager(player)">Add as Manager</a></li>
-                                                <li class="divider"></li>
+                                                <li ng-show="!player.owner"><a href="" ng-click="delete_player(player)"><i class="fa fa-trash-o"></i> Remove From Team</a></li>
+                                                <li ng-show="!player.owner && player.manager === true"><a href="" ng-click="remove_manager(player)">Remove as Manager</a></li>
+                                                <li ng-show="!player.owner && player.manager === false"><a href="" ng-click="add_manager(player)">Add as Manager</a></li>
+                                                <li ng-show="!player.owner" class="divider"></li>
                                                 <li><strong>Player Types:</strong></li>
                                                 <li ng-show="player.player_type.id != '1'"><a href="" ng-click="update_player_type(player, 1)">Make Regular</a></li>
                                                 <li ng-show="player.player_type.id != '2'"><a href="" ng-click="update_player_type(player, 2)">Make Sub</a></li>
                                                 <li ng-show="player.player_type.id != '3'"><a href="" ng-click="update_player_type(player, 3)">Make Member</a></li>
                                             </ul>
                                         </div>
-    
+                                        
             							<span class="label label-primary pull-right center-vertical" ng-show="player.player_type.id == 1">Regular</span>
             							<span class="label label-warning pull-right center-vertical" ng-show="player.player_type.id == 2">Sub</span>
+            							<span class="label label-danger pull-right center-vertical" ng-show="player.player_type.id == 3">Member</span>
+            							<span class="label label-default pull-right center-vertical" ng-show="player.owner">Owner</span>
+                                        <span class="label label-default pull-right center-vertical" ng-show="player.manager">Manager</span>
                                 		<gravatar-image data-gravatar-email="player.user.email" data-gravatar-size="36" data-gravatar-default="mm"></gravatar-image>
                                 		<strong>{{player.user.first_name}} {{player.user.last_name}}</strong> <small>({{player.user.email}})</small>
                               		</div>

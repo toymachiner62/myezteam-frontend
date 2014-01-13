@@ -18,12 +18,12 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
                 $rootScope.title = 'Team ' + $scope.team.name;
 		    
                 getPlayers($scope.team);
-                getManagers(function(managers) {
+                //getManagers(function(managers) {
                     //$scope.team.managers = [];
-                    $scope.team.managers = managers;
+                    /*$scope.team.managers = managers;
                     $scope.getEvents($scope.team.id);
-                    $scope.getTeamOwner($scope.team.id);
-                });
+                    $scope.getTeamOwner($scope.team.id);*/
+                //});
                 
                 $scope.error = null;
             })
@@ -75,10 +75,14 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			$scope.players = response;
 			
 			// Get all the managers for a team
-    	    $http.get(baseUrl+'v1/teams/'+$routeParams.id + '/managers' + apiKey)
-                .success(function(response) {
+    	    //$http.get(baseUrl+'v1/teams/'+$routeParams.id + '/managers' + apiKey)
+            //    .success(function(response) {
+            getManagers(function(managers) {
+                    //var managers = response;
                     
-                    var managers = response;
+                    $scope.team.managers = managers;
+                    $scope.getEvents($scope.team.id);
+                    $scope.getTeamOwner($scope.team.id);
                     
                     // Loop through all the players on the team
 			        for(var i = 0; i < $scope.players.length; i++) {
@@ -87,19 +91,27 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			            $scope.players[i].showDelete = false;
 			           
 			            // Set a flag whether a player is a manager or not
-			            if(contains(managers, $scope.players[i].user.id)) {
+			            if($scope.is_manager($scope.team, $scope.players[i].user.id)) {
                             $scope.players[i].manager = true;
                         } else {
                             $scope.players[i].manager = false;
                         }
+                        
+                        // Set a flag whether a player is the owner or not
+                        if($scope.is_owner($scope.team.owner_id, $scope.players[i].user.id)) {
+                            $scope.players[i].owner = true;
+                        } else {
+                            $scope.players[i].owner = false;
+                        }
 			        }
+            });
                     
-                    $scope.error = null;
-                })
-                .error(function(response) {
-                    $scope.success = null;
-    				$scope.error = 'An error occurred looking for your team\'s managers. Please try again later.';
-                });
+               //     $scope.error = null;
+               // })
+               // .error(function(response) {
+              //      $scope.success = null;
+    		//		$scope.error = 'An error occurred looking for your team\'s managers. Please try again later.';
+              //  });
 			
 			$scope.error = null;
 		})
@@ -447,9 +459,9 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
     $scope.is_manager = function(team, user_id) {
         
         // If team exists
-        if(typeof team !== 'undefined') {
-            for(manager in team.managers) {
-                if(manager.id == user_id) {
+        if(typeof team !== 'undefined' && typeof team.managers !== 'undefined') {
+            for(var i = 0; i < team.managers.length; i++) {
+                if(team.managers[i].id == user_id) {
                     return true;    
                 }
             } 
