@@ -59,7 +59,6 @@ myezteam.controller('EditEventController', ['$scope', '$http', '$routeParams', '
 			.success(function(response) {
 		        $scope.error = null;
 		        $scope.success = 'Event ' + $scope.event.name + ' edited successfully!';
-		        $scope.event = null;   // clear form fields
 		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			})
 			.error(function(response) {

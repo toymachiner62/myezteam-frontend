@@ -27,7 +27,6 @@ myezteam.controller('EditEventEmailController', ['$scope', '$http', '$routeParam
 			.success(function(response) {
 		        $scope.error = null;
 		        $scope.success = 'Email for  ' + $scope.email.title + ' created successfully!';
-		        $scope.email = null;   // clear form fields
 		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			})
 			.error(function(response) {
@@ -93,7 +92,7 @@ myezteam.controller('EditEventEmailController', ['$scope', '$http', '$routeParam
      */
     $scope.is_required = function(types) {
 
-        if(typeof $scope.email !== 'undefined') {
+        if($scope.email != null && typeof $scope.email !== 'undefined') {
             for(var i = 0; i < types.length; i++) {
                 if(types[i] == true) {
                     return false;
@@ -150,9 +149,11 @@ myezteam.controller('EditEventEmailController', ['$scope', '$http', '$routeParam
     
     // Watches $scope.email.default for changes. If the value changes, convert it to a boolean datatype and set some other variables
     $scope.$watch('email.default', function() {
+      
+        console.log($scope.email);
         
-        // If $scope.email exists
-        if(typeof $scope.email !== 'undefined') {
+        // If $scope.email.default exists
+        if($scope.email != null && typeof $scope.email !== 'undefined' && typeof $scope.email.default !== 'undefined') {
             if($scope.email.default == 'true') {
                 $scope.email.default = true;
                 $scope.email.send_type = 'days_before'
