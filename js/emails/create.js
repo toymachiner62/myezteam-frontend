@@ -79,10 +79,12 @@ myezteam.controller('CreateEventEmailController', ['$scope', '$http', '$routePar
      * @param types - An array (player_types or response_types)
      */
     $scope.is_required = function(types) {
-
-        for(var i = 0; i < types.length; i++) {
-            if(types[i] == true) {
-                return false;
+        
+        if(types != null && typeof types !== 'undefined') {
+            for(var i = 0; i < types.length; i++) {
+                if(types[i] == true) {
+                    return false;
+                }
             }
         }
         
@@ -111,7 +113,7 @@ myezteam.controller('CreateEventEmailController', ['$scope', '$http', '$routePar
     $scope.$watch('email.default', function() {
         
         // If $scope.email exists
-        if(typeof $scope.email !== 'undefined') {
+        if($scope.email != null && typeof $scope.email !== 'undefined') {
             if($scope.email.default == 'true') {
                 $scope.email.default = true;
                 $scope.email.send_type = 'days_before'
