@@ -86,13 +86,7 @@ myezteam.config(function($routeProvider, $httpProvider) {
 			{
 				title: 'Add Player',
 				controller: 'AddPlayerToTeamController',
-				templateUrl: 'partials/players/add-player-to-team.html'
-			})
-		.when('/teams/:id/players/:player_id/edit',
-			{
-				title: 'Edit Player',
-				controller: 'EditTeamPlayerController',
-				templateUrl: 'partials/players/edit-team-player.html'
+				templateUrl: 'partials/players/add.html'
 			})
 		.when('/teams/:id/events', 
 			{

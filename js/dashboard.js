@@ -80,11 +80,13 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'tea
                             		.error(function(response3) {
                             			$scope.success = null;
                             			$scope.error = 'An error occurred looking for a teams players. Please try again later.';
+		                                $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
                             		}); 
 			                })
 			            .error(function(response2) {
 			                $scope.success = null;
 			                $scope.error = 'An error occurred retrieving your rsvp responses for the events. Please try again later.';
+		                    $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			            });
 				});
 				}
@@ -92,6 +94,7 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'tea
 			.error(function(response) {
 				$scope.success = null;
 				$scope.error = 'An error occurred looking for your events. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			});
 	}
 	
@@ -160,6 +163,7 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'tea
 			.error(function(response) {
 				$scope.success = null;
 				$scope.error = 'An error occurred looking for your events. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			});
 	}
 	
@@ -176,6 +180,7 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'tea
 			.error(function(response) {
 				$scope.success = null;
 			    $scope.error = 'An error occurred looking for your player info. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			    // Somehow this magic little number only calls the callback if it's actually a function
                 // http://stackoverflow.com/questions/6792663/javascript-style-optional-callbacks
             	typeof callback === 'function' && callback();
@@ -215,16 +220,19 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'tea
                         
                         $scope.error = null;
 				        $scope.success = 'Your response has been saved';
+		                $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
                     })
 			        .error(function(response) {
 				        $scope.success = null;
 			            $scope.error = 'An error occurred looking for your event\'s emails. Please try again later.';
+		                $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			        });
 			
 			})
 			.error(function(response) {
 				$scope.success = null;
 			    $scope.error = 'An error occurred looking for your player info. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			});
 	}
 

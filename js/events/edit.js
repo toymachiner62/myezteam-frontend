@@ -35,6 +35,7 @@ myezteam.controller('EditEventController', ['$scope', '$http', '$routeParams', '
 			.error(function(response) {
 				$scope.success = null;
 				$scope.error = 'An error occurred trying to edit your team. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			});
 	}
 	
@@ -58,10 +59,13 @@ myezteam.controller('EditEventController', ['$scope', '$http', '$routeParams', '
 			.success(function(response) {
 		        $scope.error = null;
 		        $scope.success = 'Event ' + $scope.event.name + ' edited successfully!';
+		        $scope.event = null;   // clear form fields
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			})
 			.error(function(response) {
 				$scope.success = null;
 				$scope.error = 'An error occurred trying to edit your team\'s event. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			});
 	}
 	
@@ -76,9 +80,10 @@ myezteam.controller('EditEventController', ['$scope', '$http', '$routeParams', '
             .error(function(response) {
                 $scope.success = null;
 				$scope.error = 'An error occurred trying to get some data. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
             });
     }
-		
+
     // Initially get the team name for the breadcrumbs
 	$scope.getTeam();
     getEvent();

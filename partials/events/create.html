@@ -73,7 +73,7 @@
      	      	     		        <input type="text" name="start" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="event.start.date" show-weeks="false" ng-required="true" />
                                     
      	      	     		        <div ng-model="event.start.time">
-     	      	     		            <timepicker hour-step="1" minute-step="1" show-meridian="true"></timepicker>
+     	      	     		            <timepicker hour-step="1" minute-step="5" show-meridian="true"></timepicker>
      	      	     		        </div>
      	      	     		        
      	      	     		        <span ng-show="form.start.date.$dirty && form.start.date.$error.required && form.start.time.$dirty && form.start.time.$error.required">Start Date is required</span>
@@ -89,7 +89,7 @@
      	      	     		        <input type="text" name="end" class="form-control" datepicker-popup="MM/dd/yyyy" ng-model="event.end.date" show-weeks="false" ng-required="true" />
                                     
      	      	     		        <div ng-model="event.end.time">
-     	      	     		            <timepicker hour-step="1" minute-step="1" show-meridian="true"></timepicker>
+     	      	     		            <timepicker hour-step="1" minute-step="5" show-meridian="true"></timepicker>
      	      	     		        </div>
      	      	     		        
      	      	     		        <span ng-show="form.end.date.$dirty && form.end.date.$error.required && form.end.time.$dirty && form.end.time.$error.required">End Date is required</span>

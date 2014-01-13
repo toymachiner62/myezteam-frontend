@@ -16,20 +16,13 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
                 $scope.team = response;
                 $scope.team.showDelete = false;
                 $rootScope.title = 'Team ' + $scope.team.name;
-		    
                 getPlayers($scope.team);
-                //getManagers(function(managers) {
-                    //$scope.team.managers = [];
-                    /*$scope.team.managers = managers;
-                    $scope.getEvents($scope.team.id);
-                    $scope.getTeamOwner($scope.team.id);*/
-                //});
-                
                 $scope.error = null;
             })
             .error(function(response) {
                 $scope.success = null;
 				$scope.error = 'An error occurred looking for your team\'s players. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
             });
     }
     
@@ -45,6 +38,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 		.error(function(response) {
 			$scope.success = null;
 			$scope.error = 'An error occurred looking for your team\'s owner. Please try again later.';
+            $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 		});
 
 	}
@@ -62,6 +56,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
             .error(function(response) {
                 $scope.success = null;
                 $scope.error = 'An error occurred looking for your team\'s managers. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
             });
 	}
 		
@@ -75,49 +70,40 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			$scope.players = response;
 			
 			// Get all the managers for a team
-    	    //$http.get(baseUrl+'v1/teams/'+$routeParams.id + '/managers' + apiKey)
-            //    .success(function(response) {
             getManagers(function(managers) {
-                    //var managers = response;
                     
-                    $scope.team.managers = managers;
-                    $scope.getEvents($scope.team.id);
-                    $scope.getTeamOwner($scope.team.id);
+                $scope.team.managers = managers;
+                $scope.getEvents($scope.team.id);
+                $scope.getTeamOwner($scope.team.id);
                     
-                    // Loop through all the players on the team
-			        for(var i = 0; i < $scope.players.length; i++) {
+                // Loop through all the players on the team
+		        for(var i = 0; i < $scope.players.length; i++) {
 			            
-			            // Set a default flag to show the edit/delete buttons 
-			            $scope.players[i].showDelete = false;
+		            // Set a default flag to show the edit/delete buttons 
+		            $scope.players[i].showDelete = false;
 			           
-			            // Set a flag whether a player is a manager or not
-			            if($scope.is_manager($scope.team, $scope.players[i].user.id)) {
-                            $scope.players[i].manager = true;
-                        } else {
-                            $scope.players[i].manager = false;
-                        }
+		            // Set a flag whether a player is a manager or not
+		            if($scope.is_manager($scope.team, $scope.players[i].user.id)) {
+                        $scope.players[i].manager = true;
+                    } else {
+                        $scope.players[i].manager = false;
+                    }
                         
-                        // Set a flag whether a player is the owner or not
-                        if($scope.is_owner($scope.team.owner_id, $scope.players[i].user.id)) {
-                            $scope.players[i].owner = true;
-                        } else {
-                            $scope.players[i].owner = false;
-                        }
-			        }
+                    // Set a flag whether a player is the owner or not
+                    if($scope.is_owner($scope.team.owner_id, $scope.players[i].user.id)) {
+                        $scope.players[i].owner = true;
+                    } else {
+                        $scope.players[i].owner = false;
+                    }
+		        }
             });
-                    
-               //     $scope.error = null;
-               // })
-               // .error(function(response) {
-              //      $scope.success = null;
-    		//		$scope.error = 'An error occurred looking for your team\'s managers. Please try again later.';
-              //  });
-			
+
 			$scope.error = null;
 		})
 		.error(function(response) {
 			$scope.success = null;
 			$scope.error = 'An error occurred looking for your players. Please try again later.';
+		    $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 		});
 
 	}
@@ -168,6 +154,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			                .error(function(response2) {
 				                $scope.success = null;
 			                    $scope.error = 'An error occurred retrieving your rsvp responses for the events. Please try again later.';
+		                        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			                });
 				    });
 				}
@@ -177,6 +164,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			.error(function(response) {
 				$scope.success = null;
 			    $scope.error = 'An error occurred looking for your events. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			});
 	}
 	
@@ -188,7 +176,6 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 				
 			    $scope.error = null;
 				$scope.responses = event_responses;
-				//$scope.teamId = team_id;
 				
 				// initially set the no_responses to the total number of responses. We'll change this as we loop through the responses
 				var rsvp_responses = {
@@ -217,6 +204,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			.error(function(response) {
 				$scope.success = null;
 				$scope.error = 'An error occurred looking for your events. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			});
 	}
 	
@@ -231,6 +219,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			.error(function(response) {
 				$scope.success = null;
 			    $scope.error = 'An error occurred looking for your event\'s emails. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			});
 	}
 
@@ -243,7 +232,6 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	    $http.get(baseUrl+'v1/players/team/' + $routeParams.id + '/me' + apiKey)
 			.success(function(me) {
 		        $scope.error = null;
-				//$scope.me = response;
 				
 				// The rsvp response data to be posted
                 var rsvp = {
@@ -268,16 +256,19 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
                         
                         $scope.error = null;
 				        $scope.success = 'Your response has been saved';
+		                $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
                     })
 			        .error(function(response) {
 				        $scope.success = null;
 			            $scope.error = 'An error occurred looking for your event\'s emails. Please try again later.';
+		                $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			        });
 			
 			})
 			.error(function(response) {
 				$scope.success = null;
 			    $scope.error = 'An error occurred looking for your player info. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			});
 	}
 	
@@ -295,6 +286,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			.error(function(response) {
 				$scope.success = null;
 			    $scope.error = 'An error occurred looking for your player info. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			    // Somehow this magic little number only calls the callback if it's actually a function
                 // http://stackoverflow.com/questions/6792663/javascript-style-optional-callbacks
             	typeof callback === 'function' && callback();
@@ -316,6 +308,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			.error(function(response) {
 				$scope.success = null;
 			    $scope.error = 'An error occurred trying to promote ' + player.user.first_name + ' ' + player.user.last_name + ' to manager. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			});
 	}
 	
@@ -332,6 +325,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			.error(function(response) {
 				$scope.success = null;
 			    $scope.error = 'An error occurred trying to relieve ' + player.user.first_name + ' ' + player.user.last_name + ' of manager duties. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			});
 	}
 	
@@ -372,6 +366,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			    getPlayers($scope.team);    // Reload the players
 			    $scope.error = null;
 				$scope.success = player.user.first_name + ' ' + player.user.last_name + '(' + player.user.email + ') has been updated.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
             })
             .error(function(response) {
                 
@@ -380,6 +375,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			    player.user.last_name = player.user.last_name == null ? '' : player.user.last_name
 			    $scope.success = null;
 			    $scope.error = 'An error occurred trying to update ' + player.user.first_name + ' ' + player.user.last_name + '(' + player.user.email + '). Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 		    });
     }
 
@@ -395,6 +391,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			    
 			    $scope.error = null;
 				$scope.success = player.user.first_name + ' ' + player.user.last_name + '(' + player.user.email + ') has been removed from this team';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
             })
             .error(function(response) {
                 // Set the player first/last name to empty strings if they are null
@@ -403,6 +400,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 			    
 			    $scope.success = null;
 			    $scope.error = 'An error occurred trying to delete ' + player.user.first_name + ' ' + player.user.last_name + '(' + player.user.email + '). Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 		    });
         
         $scope.getTeam();   // Reload all the info so the players get updated
@@ -415,10 +413,12 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
             .success(function(response) {
 			    $scope.error = null;
 				$scope.success = email.title + ' has been removed';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
             })
             .error(function(response) {
 			    $scope.success = null;
 			    $scope.error = 'An error occurred trying to delete ' + email.title + '. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 		    });
         
         $scope.getTeam();   // Reload all the info so the emails get updated
@@ -431,10 +431,12 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
             .success(function(response) {
 			    $scope.error = null;
 				$scope.success = email.title + ' has been sent';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
             })
             .error(function(response) {
 			    $scope.success = null;
 			    $scope.error = 'An error occurred trying to send ' + email.title + '. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 		    });
     };
     

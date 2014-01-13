@@ -6,9 +6,6 @@ myezteam.controller('CreateEventController', ['$scope', '$http', '$routeParams',
 		$scope.profile = response;
 	});
 	
-	// Initially set the time picker time so the display shows something
-	$scope.event = {start: {time: new Date()}, end: {time: new Date()}};
-	
 	// Get all of a users teams
 	$scope.createEvent = function() {
 	
@@ -29,10 +26,13 @@ myezteam.controller('CreateEventController', ['$scope', '$http', '$routeParams',
 			.success(function(response) {
 		        $scope.error = null;
 		        $scope.success = 'Event ' + $scope.event.name + ' created successfully!';
+		        $scope.event = null;   // clear form fields
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			})
 			.error(function(response) {
 				$scope.success = null;
 				$scope.error = 'An error occurred trying to create your team\'s event. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			});
 	}
 	
@@ -47,9 +47,26 @@ myezteam.controller('CreateEventController', ['$scope', '$http', '$routeParams',
             .error(function(response) {
                 $scope.success = null;
 				$scope.error = 'An error occurred trying to get some data. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
             });
     }
+    
+    /**
+     * Creates a new Date object with the time rounded to the nearest hour
+     * @param end   - A boolean that determines if we should add an hour to the date or not
+     */
+    var getRoundedTime = function(end) {
+        var date = new Date();
+        date.setHours(date.getHours() + Math.round(date.getMinutes()/60));
+        if(end) {
+            date.setHours(date.getHours() + 1);
+        }
+        date.setMinutes(0);
+        return date;
+    }
 		
+    // Initially set the time picker time so the display shows something
+	$scope.event = {start: {time: getRoundedTime(false)}, end: {time: getRoundedTime(true)}};
     // Initially get the team name for the breadcrumbs
 	$scope.getTeam();
 

@@ -8,8 +8,7 @@ myezteam.controller('EditEventEmailController', ['$scope', '$http', '$routeParam
 	
 	// Get all of a users teams
 	$scope.updateEventEmail = function() {
-	//console.log($scope.email);
-	//console.log($routeParams);
+
 	    $scope.email.team_id = $routeParams.id  // Set the team id from the url
 	    $scope.email.event_id = $routeParams.event_id // Set the event id from the url
 
@@ -28,10 +27,13 @@ myezteam.controller('EditEventEmailController', ['$scope', '$http', '$routeParam
 			.success(function(response) {
 		        $scope.error = null;
 		        $scope.success = 'Email for  ' + $scope.email.title + ' created successfully!';
+		        $scope.email = null;   // clear form fields
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			})
 			.error(function(response) {
 				$scope.success = null;
 				$scope.error = 'An error occurred trying to create your event\'s email. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
 			});
 	}
 	
@@ -46,6 +48,7 @@ myezteam.controller('EditEventEmailController', ['$scope', '$http', '$routeParam
             .error(function(response) {
                 $scope.success = null;
 				$scope.error = 'An error occurred trying to get some data. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
             });
     } 
     
@@ -61,6 +64,7 @@ myezteam.controller('EditEventEmailController', ['$scope', '$http', '$routeParam
             .error(function(response) {
                 $scope.success = null;
 				$scope.error = 'An error occurred trying to get some data. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
             });
     } 
     
@@ -79,6 +83,7 @@ myezteam.controller('EditEventEmailController', ['$scope', '$http', '$routeParam
             .error(function(response) {
                 $scope.success = null;
 				$scope.error = 'An error occurred trying to get some data. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
             });
     }
     
@@ -134,11 +139,7 @@ myezteam.controller('EditEventEmailController', ['$scope', '$http', '$routeParam
         // Set all the appropriate values to true
         for(var i = 0; i < types.length; i++) {
             
-            console.log(types[i]);
-            console.log(typeof types[i]);
-            
             if(typeof types[i] == 'number') {
-            //if(types[i] == true) {
                 // Set the integer value to 1 - the index
                 converted_types[types[i] - 1] = true;
             }
@@ -161,38 +162,6 @@ myezteam.controller('EditEventEmailController', ['$scope', '$http', '$routeParam
             }
         }
    });
-   
-    // Watches $scope.email.response_types for changes. If the value changes, make sure to remove all 
-    //      the "null" values from the array os the array returned only contains integers which correspond 
-    //      to the response_types in the db
-   /* $scope.$watch('email.response_types', function() {
-        
-        // If $scope.email exists
-        if(typeof $scope.email !== 'undefined') {
-            for(var i = 0; i < $scope.email.response_types.length; i++) {
-                console.log('type = '+$scope.email.response_types[i]);
-                if($scope.email.response_types[i] == 'null') {
-                    $scope.email.response_types[i] = null;
-                }
-            }
-        }
-   });
-   
-   // Watches $scope.email.player_types for changes. If the value changes, make sure to remove all 
-    //      the "null" values from the array os the array returned only contains integers which correspond 
-    //      to the player_types in the db
-    $scope.$watch('email.player_types', function() {
-        
-        // If $scope.email exists
-        if(typeof $scope.email !== 'undefined') {
-            for(var i = 0; i < $scope.email.player_types.length; i++) {
-                console.log('type = '+$scope.email.player_types[i]);
-                if($scope.email.player_types[i] == 'null') {
-                    $scope.email.player_types[i] = null;
-                }
-            }
-        }
-   }); */
 		
     // Initially get the team name for the breadcrumbs
 	$scope.getTeam();
