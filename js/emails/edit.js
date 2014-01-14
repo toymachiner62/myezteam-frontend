@@ -150,8 +150,6 @@ myezteam.controller('EditEventEmailController', ['$scope', '$http', '$routeParam
     // Watches $scope.email.default for changes. If the value changes, convert it to a boolean datatype and set some other variables
     $scope.$watch('email.default', function() {
       
-        console.log($scope.email);
-        
         // If $scope.email.default exists
         if($scope.email != null && typeof $scope.email !== 'undefined' && typeof $scope.email.default !== 'undefined') {
             if($scope.email.default == 'true') {

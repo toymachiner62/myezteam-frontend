@@ -14,8 +14,6 @@ myezteam.controller('CreateEventEmailController', ['$scope', '$http', '$routePar
 
 	// Get all of a users teams
 	$scope.createEventEmail = function() {
-	//console.log($scope.email);
-	//console.log($routeParams);
 	    $scope.email.team_id = $routeParams.id  // Set the team id from the url
 	    $scope.email.event_id = $routeParams.event_id // Set the event id from the url
 
