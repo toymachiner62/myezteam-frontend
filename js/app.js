@@ -506,16 +506,19 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
  */
 function add_teams(team_list, teams_to_add, association, buttons_visible_flag) {
     
-    // Loop through all the teams to be added
-    for(var i = 0; i < teams_to_add.length; i++) {
+    if(typeof teams_to_add !== 'undefined') {
+    
+        // Loop through all the teams to be added
+        for(var i = 0; i < teams_to_add.length; i++) {
 
-        // Add a flag to show the edit/delete buttons and a user association (player, owner, manager) to these objects
-        teams_to_add[i].showDelete = buttons_visible_flag;
-        teams_to_add[i].association = association;
-			        
-        // If the array doesn't already contain the team, add it
-        if(!contains(team_list, teams_to_add[i].id)) {
-            team_list.push(teams_to_add[i]);
+            // Add a flag to show the edit/delete buttons and a user association (player, owner, manager) to these objects
+            teams_to_add[i].showDelete = buttons_visible_flag;
+            teams_to_add[i].association = association;
+    			        
+            // If the array doesn't already contain the team, add it
+            if(!contains(team_list, teams_to_add[i].id)) {
+                team_list.push(teams_to_add[i]);
+            }
         }
     }
 			
