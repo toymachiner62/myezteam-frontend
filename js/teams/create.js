@@ -14,8 +14,6 @@ myezteam.controller('CreateTeamController', ['$scope', '$http', 'teamsFactory', 
 				$scope.error = null;
 				$scope.success = 'Team ' + $scope.team.name + ' created successfully!';
 				
-				teamsFactory.clear();
-				
 				// Refresh the team list in the menu so it contains the new team
 				teamsFactory.get_teams(function(all_teams) {
 	        
