@@ -338,55 +338,55 @@ myezteam.service('chartService', function() {
 });
 
 
-// This gets the teams that a user is associated with
-myezteam.factory('teamsFactory', function($http) {
-    
-    var teams = {
-        all_teams: null
-    };
+// This gets the teams that a user is associated with.
+myezteam.factory('teamsFactory', ['$rootScope', '$http', function($rootScope, $http) {
     
     // Get the teams associated with the logged in user
     return {
+        all_teams: null,
+        // Get the teams
         get_teams: function(callback) {
-            //console.log('teams');
-            //return teams;
-            //console.log(teams.all_teams);
-            if(teams.all_teams == null) {
-                //console.log('its null');
+            if(this.all_teams == null) {
                 this.fetch_teams(function(response) {
-                    //console.log('teams in factory')
-                    //console.log(response);
-                    teams.all_teams = response;
-                    callback(teams.all_teams);
+                    this.all_teams = response;
+                    callback(this.all_teams);
                 });
             } else {
-                //console.log('else');
-                //console.log(teams.all_teams);
-                callback(teams.all_teams);
+                callback(this.all_teams);
             }
-            //console.log(teams);
-            //return teams;
         },
-        
+        // Format's all the teams into 1 nice list regardless of owner/manager/player
+        formatTeams: function(teams, showTeamButtons) {
+	    
+	        var new_teams = [];
+	    
+            // Add the teams to $scope.teams, without adding duplicates
+	        new_teams = add_teams(new_teams, teams.owner, "owner", showTeamButtons);
+	        new_teams = add_teams(new_teams, teams.manager, "manager", showTeamButtons);
+	        new_teams = add_teams(new_teams, teams.player, "player", showTeamButtons);
+	    
+	        return new_teams;
+	    },
+        // Actually get the teams from the db
         fetch_teams: function(callback) {
             $http.get(baseUrl+'v1/teams/all' + apiKey)
 		    	.success(function(response) {
-		    		teams.all_teams = response;
+		    		this.all_teams = response;
 		    		callback(response);
-		    		//console.log('response');
-		    		//console.log(response);
-		    		//return response;
 			    })
 			    .error(function(response) {
 			    	callback('An error occurred looking for your teams. Please try again later.');
 			    });	
         },
-        
-        clear: function() {
-            teams.all_teams = null;
+        // Tell all controller's that are watching for an update that the team list has been updated
+        broadcast: function() {
+            this.all_teams = null;
+            this.get_teams(function(teams) {
+                $rootScope.$broadcast( 'teamsFactory.update', teams);
+            });
         }
     };
-});
+}]);
 
 // This controller is used to set the user profile links
 myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBase', 'teamsFactory', function($scope, $http, myezteamBase, teamsFactory) {
@@ -404,48 +404,22 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
     }
 	
 	// Gets all of a user's teams
-	function getTeams() {
-	    //console.log('in getTeams');
-	    teamsFactory.clear();
+	var getTeams = function() {
 	    
 	    teamsFactory.get_teams(function(response) {
 	        
-	        //console.log('template response');
-	        //console.log(response);
-	        
-	        //console.log('app teams = ');
-	        //console.log(teams.get_teams());
-	        
-	        //var all_teams = teams.get_teams().all_teams; 
-	        //var all_teams = teams.get_teams();
-	        
 	        var all_teams = response;
+	      
+	        $scope.teams = teamsFactory.formatTeams(all_teams, showTeamButtons);
 	        
-	        //console.log('all_teams');
-	        //console.log(all_teams);
-	        
-	        $scope.teams = [];
-	        
-	        // Add the teams to $scope.teams, without adding duplicates
-	        $scope.teams = add_teams($scope.teams, all_teams.owner, "owner", showTeamButtons);
-	        $scope.teams = add_teams($scope.teams, all_teams.manager, "manager", showTeamButtons);
-	        $scope.teams = add_teams($scope.teams, all_teams.player, "player", showTeamButtons);
 	    });
 	}
-	
-	/*$scope.$watch('teams.all_teams', function(newValue){
-	    console.log("newValue");
-	   console.log(newValue); 
-	});*/
-	
 
-    // watch current page for updates and set page value
-    /*$scope.$watch(teams.getTeams, function(newValue, oldValue, scope) {
-        if (newValue && newValue !== oldValue) {
-            $scope.teams = newVal;
-        }
-    });*/
-    
+	// If an update is broadcasted with the new updated team list, re-format them.
+	$scope.$on( 'teamsFactory.update', function( event, teams ) {
+        $scope.teams = teamsFactory.formatTeams(teams);
+    });
+
     // Shows/hides the edit/delete buttons
     $scope.toggleTeamButtons = function() {
         
@@ -463,15 +437,7 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
         // Get all the players of a specific team
 		$http.delete(baseUrl+'v1/teams/' + team.id + apiKey)
             .success(function(response) {
-			    
-			    /*$http.get(baseUrl+'v1/teams/all' + apiKey)
-		    	.success(function(response) {
-		    		$scope.teams = response;
-			    })
-			    .error(function(response) {
-			    	return 'An error occurred looking for your teams. Please try again later.';
-			    });*/
-			    
+
 			    getTeams();   // Reload all the info so the players get updated
 			    
 			    $scope.error = null;
@@ -483,13 +449,8 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
 		    });
     };
     
-    /*$scope.toggle_button_visible = function(user_id) {
-	    // If user owns or manages a team
-	}*/
-    
     getTeams();  // Call on page load
-    
-	
+
 }]);
 
 /*#################################
