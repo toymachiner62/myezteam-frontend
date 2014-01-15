@@ -8,7 +8,9 @@ var myezteamLogin = angular.module('myezteam-login', []);
 // Module for the rest of the pages
 var myezteam = angular.module('myezteam', ['ngRoute', 'highcharts-ng', 'ui.bootstrap', 'md5', 'ui-gravatar']);
 
-// Set some configs
+/*#################################
+* Login Config - Login page configs
+*#################################*/
 myezteamLogin.config(function($httpProvider) {
     	
 		// This loads the ajax loading image when necessary
@@ -46,7 +48,9 @@ myezteamLogin.config(function($httpProvider) {
     $httpProvider.responseInterceptors.push(interceptor);
 });
 
-// Set some configs
+/*#################################
+* Config - Set some configs for the app
+*#################################*/
 myezteam.config(function($routeProvider, $httpProvider) {
     
     // Setup the routing
@@ -149,7 +153,9 @@ myezteam.config(function($routeProvider, $httpProvider) {
     $httpProvider.responseInterceptors.push(interceptor);
 });
 
-// Set some actions to be performed when running the app
+/*#################################
+* Run - Set some actions to be performed when running the app
+*#################################*/
 myezteam.run(['$location', '$rootScope', function($location, $rootScope) {
 	
 	// This sets the page title
@@ -179,7 +185,9 @@ myezteam.run(['$location', '$rootScope', function($location, $rootScope) {
 	});
 }]);
 
-// This gets the basic information that is needed for every page like the user's information, logout method, etc
+/*#################################
+* myezteamBase - This gets the basic information that is needed for every page like the user's information, logout method, etc
+*#################################*/
 myezteam.service('myezteamBase', function($http) {
 
     // Set authorization token so we know the user has logged in.
@@ -207,7 +215,9 @@ myezteam.service('myezteamBase', function($http) {
 	
 });
 
-// This gets the basic information that is needed for every page like the user's information, logout method, etc
+/*#################################
+* chartService - This sets up all the stuff for the chart service
+*#################################*/
 myezteam.service('chartService', function() {
 
 	// Count the response types (2 yes's, 3 maybe's, etc)
@@ -337,8 +347,9 @@ myezteam.service('chartService', function() {
 
 });
 
-
-// This gets the teams that a user is associated with.
+/*#################################
+* teamsFactory - This gets the teams that a user is associated with.
+*#################################*/
 myezteam.factory('teamsFactory', ['$rootScope', '$http', function($rootScope, $http) {
     
     // Get the teams associated with the logged in user
@@ -388,7 +399,9 @@ myezteam.factory('teamsFactory', ['$rootScope', '$http', function($rootScope, $h
     };
 }]);
 
-// This controller is used to set the user profile links
+/*#################################
+* TemplateProfileController
+*#################################*/
 myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBase', 'teamsFactory', function($scope, $http, myezteamBase, teamsFactory) {
 
     var showTeamButtons = false;
@@ -405,13 +418,8 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
 	
 	// Gets all of a user's teams
 	var getTeams = function() {
-	    
-	    teamsFactory.get_teams(function(response) {
-	        
-	        var all_teams = response;
-	      
+	    teamsFactory.get_teams(function(all_teams) {
 	        $scope.teams = teamsFactory.formatTeams(all_teams, showTeamButtons);
-	        
 	    });
 	}
 

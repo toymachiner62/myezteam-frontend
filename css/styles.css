@@ -111,5 +111,12 @@
 }.label:last-child {
     margin-right: 0;
 }
+/* Used to make sure email buttons have white text */
+.btn.label-yes,
+.btn.label-probably,
+.btn.label-maybe,
+.btn.label-no {
+    color: #FFFFFF;
+}
 
 
