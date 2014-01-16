@@ -148,10 +148,19 @@
                           		    <div class="btn-group pull-right rsvp-pill" ng-show="is_player(profile.id)">
                           		    
                           		        <!-- Edit button when hovered -->
-                                        <a class="btn btn-default btn-xs pull-right" href="#/teams/{{team.id}}/events/{{event.id}}/edit" ng-show="(is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)) && event.showDelete">
-                                            <i class="fa fa-pencil"></i> Edit
-                                        </a>
-                          		    
+                                        <div class="btn-group pull-right" ng-show="(is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)) && event.showDelete">
+                                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                                <i class="fa fa-cog"></i><span class="caret"></span>
+                                            </button>
+                                            
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#/teams/{{team.id}}/events/{{event.id}}/edit" ng-show="(is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)) && event.showDelete">
+                                                    <i class="fa fa-pencil"></i> Edit
+                                                </a></li>
+                                                <li><a href="" ng-click="delete_event(event)"><i class="fa fa-trash-o"></i> Remove</a></li>
+                                            </ul>
+                                        </div>
+                                    
                           		        <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
                                             <i class="fa fa-check"></i> RSVP
                                             <span class="caret"></span>

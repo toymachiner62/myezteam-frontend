@@ -27,12 +27,6 @@ myezteam.controller('EditTeamController', ['$scope', '$http', '$routeParams', 't
 			.success(function(response) {
 				$scope.error = null;
 				$scope.success = 'Team ' + $scope.team.name + ' edited successfully!';
-				
-				/*// Refresh the team list in the menu so it contains the new team
-				teamsFactory.get_teams(function(teams) {
-	                $scope.teams = teams;    
-	            });*/
-	            
 	            teamsFactory.broadcast();   // Tell the rest of the controllers there's been a change
 			})
 			.error(function(response) {

@@ -424,6 +424,24 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
         $scope.getTeam();   // Reload all the info so the emails get updated
     };
     
+    // Removes an event
+    $scope.delete_event = function(event) {
+        // Get all the players of a specific team
+		$http.delete(baseUrl+'v1/events/' + event.id + apiKey)
+            .success(function(response) {
+			    $scope.error = null;
+				$scope.success = event.name + ' has been removed';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
+            })
+            .error(function(response) {
+			    $scope.success = null;
+			    $scope.error = 'An error occurred trying to delete ' + event.name + '. Please try again later.';
+		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
+		    });
+        
+        $scope.getTeam();   // Reload all the info so the emails get updated
+    };
+    
     // Sends an event email now
     $scope.send_now = function(email) {
         // Get all the players of a specific team
