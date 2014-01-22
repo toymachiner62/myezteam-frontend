@@ -60,7 +60,9 @@
                                     <p><strong>Owner:</strong> {{team_owner}}</p>
                                     <p><strong>Managers:</strong></p>
                                     <ul>
-                                        <li ng-repeat="manager in team.managers">{{manager.first_name}} {{manager.last_name}}</li>
+                                        <li ng-repeat="manager in team.managers">
+                                            {{manager.display_name}}
+                                        </li>
                                     </ul>
 					            </div>
 				            </div>

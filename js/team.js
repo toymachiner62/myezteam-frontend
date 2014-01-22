@@ -48,6 +48,17 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	    
     	$http.get(baseUrl+'v1/teams/'+$routeParams.id + '/managers' + apiKey)
             .success(function(managers) {
+                
+                
+                // Set the players display_name, based on whether they have a first and last name or not
+                for(var i = 0; i < managers.length; i++) {
+                    if(managers[i].first_name == null && managers[i].last_name == null) {
+                        managers[i].display_name = managers[i].email;
+                    } else {
+                        managers[i].display_name = managers[i].first_name + ' ' + managers[i].last_name;
+                    }
+                }
+                
                 $scope.error = null;
                 // Somehow this magic little number only calls the callback if it's actually a function
 				// http://stackoverflow.com/questions/6792663/javascript-style-optional-callbacks
@@ -301,7 +312,13 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	    $http.post(baseUrl+'v1/teams/' + $scope.team.id + '/managers' + apiKey, player_id)
 			.success(function(response) {
 		        $scope.error = null;
-		        $scope.success = player.user.first_name + ' ' + player.user.last_name + ' has been promoted to manager';
+			    
+			    // If the player has a name
+			    if(player.user.first_name != null) {
+		            $scope.success = player.user.first_name + ' ' + player.user.last_name + ' has been promoted to manager';
+			    } else {
+			        $scope.success = player.user.email + ' has been promoted to manager';
+			    }
 		        
 		        getPlayers($scope.team);    // Reload the players
 			})
