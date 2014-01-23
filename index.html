@@ -38,8 +38,8 @@
 			<span ng-show="form.password.$dirty && form.password.$error.required">Password is required</span>
 		</div>
 		
-        <input type="email" name="email" class="form-control" placeholder="Email address" ng-model="user.email" required autofocus>
-        <input type="password" name="password" class="form-control" placeholder="Password" ng-model="user.password" required>
+        <input type="email" name="email" class="form-control" placeholder="Email address" ng-model="user.email" autocomplete="off" required autofocus>
+        <input type="password" name="password" class="form-control" placeholder="Password" ng-model="user.password" autocomplete="off" required>
         
         <label class="checkbox">
           <input type="checkbox" value="remember-me" ng-model="user.remember"> Remember me
