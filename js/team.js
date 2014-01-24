@@ -222,16 +222,19 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	// Get a list of all the emails for a particular event
 	$scope.getEmails = function(event_id) {
 	    
-	    $http.get(baseUrl+'v1/events/' + event_id + '/emails' + apiKey)
-			.success(function(response) {
-		        $scope.error = null;
-				$scope.emails = response;
-			})
-			.error(function(response) {
-				$scope.success = null;
-			    $scope.error = 'An error occurred looking for your event\'s emails. Please try again later.';
-		        $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
-			});
+	    // If the logged in user is an owner or manager, get the emails
+    	if($scope.is_owner($scope.team.owner_id, me.user_id) || $scope.is_manager($scope.team.owner_id, me.user_id)) {
+	        $http.get(baseUrl+'v1/events/' + event_id + '/emails' + apiKey)
+		    	.success(function(response) {
+		            $scope.error = null;
+				    $scope.emails = response;
+			    })
+			    .error(function(response) {
+				    $scope.success = null;
+			        $scope.error = 'An error occurred looking for your event\'s emails. Please try again later.';
+		            $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
+			    });
+    	}
 	}
 
 	// RSVP to an event
