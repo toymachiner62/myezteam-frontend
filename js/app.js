@@ -11,39 +11,55 @@ var myezteam = angular.module('myezteam', ['ngRoute', 'highcharts-ng', 'ui.boots
 /*#################################
 * Login Config - Login page configs
 *#################################*/
-myezteamLogin.config(function($httpProvider) {
+myezteamLogin.config(function($routeProvider, $httpProvider) {
+    
+    // Setup the routing
+	$routeProvider
+	    .when('/login', 
+			{
+				title: 'Login',
+				controller: 'LoginController',
+				templateUrl: 'partials/login.html'
+			})
+		.when('/signup', 
+			{
+				title: 'Signup',
+				controller: 'SignupController',
+				templateUrl: 'partials/signup.html'
+			})
+		.otherwise({redirectTo: '/login'});
     	
-		// This loads the ajax loading image when necessary
-		var $http,
-        interceptor = ['$q', '$injector', function ($q, $injector) {
-            var error;
+	// This loads the ajax loading image when necessary
+	var $http,
+    interceptor = ['$q', '$injector', function ($q, $injector) {
+        var error;
 
-            function success(response) {
-                // get $http via $injector because of circular dependency problem
-                $http = $http || $injector.get('$http');
-                if($http.pendingRequests.length < 1) {
-                    $('#loadingWidget').hide();
-                    $('#loadingBackdrop').hide();
-                }
-                return response;
+        function success(response) {
+            // get $http via $injector because of circular dependency problem
+            $http = $http || $injector.get('$http');
+            if($http.pendingRequests.length < 1) {
+                $('#loadingWidget').hide();
+                $('#loadingBackdrop').hide();
             }
+            return response;
+        }
 
-            function error(response) {
-                // get $http via $injector because of circular dependency problem
-                $http = $http || $injector.get('$http');
-                if($http.pendingRequests.length < 1) {
-                    $('#loadingWidget').hide();
-                    $('#loadingBackdrop').hide();
-                }
-                return $q.reject(response);
+        function error(response) {
+            // get $http via $injector because of circular dependency problem
+            $http = $http || $injector.get('$http');
+            if($http.pendingRequests.length < 1) {
+                $('#loadingWidget').hide();
+                $('#loadingBackdrop').hide();
             }
+            return $q.reject(response);
+        }
 
-            return function (promise) {
-                $('#loadingWidget').show();
-                $('#loadingBackdrop').show();
-                return promise.then(success, error);
-            }
-        }];
+        return function (promise) {
+            $('#loadingWidget').show();
+            $('#loadingBackdrop').show();
+            return promise.then(success, error);
+        }
+    }];
 
     $httpProvider.responseInterceptors.push(interceptor);
 });
@@ -182,6 +198,19 @@ myezteam.run(['$location', '$rootScope', function($location, $rootScope) {
 	};
 	$rootScope.$watch(path, function(newVal, oldVal) {
 		$rootScope.activetab = newVal;
+	});
+}]);
+
+/*#################################
+* Run - Set some actions to be performed when running the app
+*#################################*/
+myezteamLogin.run(['$location', '$rootScope', function($location, $rootScope) {
+	
+	// This sets the page title
+	$rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
+		if(typeof current.$$route !== 'undefined') {
+			$rootScope.title = current.$$route.title;
+		}
 	});
 }]);
 

@@ -1,0 +1,28 @@
+<div class="container">
+    
+  <form class="form-signin" name="form" ng-submit="signup()" autocomplete="off">
+ 
+    <h1>My EZ Team</h1>
+    <h3 class="form-signin-heading">Signup</h3>
+
+	<div class="alert alert-danger" ng-show="error != null || (form.email.$dirty && form.email.$error.required) || (form.email.$dirty && form.email.$error.email) || (form.password.$dirty && form.password.$error.required)">
+		<span ng-show="error != null">{{error}}</span>
+		<span ng-show="form.email.$dirty && form.email.$error.required">Email is required<br /></span>
+		<span ng-show="form.email.$dirty && form.email.$error.email">Invalid Email Format<br /></span>
+		<span ng-show="form.password.$dirty && form.password.$error.required">Password is required</span>
+	</div>
+	
+	<input type="text" name="first_name" class="form-control" placeholder="First Name" ng-model="user.first_name" autocomplete="off" required autofocus>
+	<input type="text" name="last_name" class="form-control" placeholder="Last Name" ng-model="user.last_name" autocomplete="off" required autofocus>
+    <input type="email" name="email" class="form-control" placeholder="Email address" ng-model="user.email" autocomplete="off" required autofocus>
+    <input type="password" name="password" class="form-control" placeholder="Password" ng-model="user.password" autocomplete="off" required>
+    
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+    <hr />
+    <a href="#/login" class="btn btn-sm btn-block btn-default">Already have an account?</a>
+
+  </form>
+  
+  
+
+</div> <!-- /container -->

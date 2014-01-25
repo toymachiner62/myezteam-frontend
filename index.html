@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Tom Caflisch">
 
-    <title>Login | My EZ Team</title>
+    <title ng-bind="title + ' | My EZ Team'">My EZ Team</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
@@ -20,36 +20,14 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/login.js"></script>
+    <script src="js/signup.js"></script>
   </head>
 
   <body>
+  
+    <!-- Load partial here -->
+	<div ng-view></div>
 
-    <div class="container" ng-controller="LoginController">
-    
-      <form class="form-signin" name="form" ng-submit="login()" autocomplete="off">
-     
-        <h1>My EZ Team</h1>
-        <h3 class="form-signin-heading">Login</h3>
-
-		<div class="alert alert-danger" ng-show="loginError != null || (form.email.$dirty && form.email.$error.required) || (form.email.$dirty && form.email.$error.email) || (form.password.$dirty && form.password.$error.required)">
-			<span ng-show="loginError != null">{{loginError}}</span>
-			<span ng-show="form.email.$dirty && form.email.$error.required">Email is required<br /></span>
-			<span ng-show="form.email.$dirty && form.email.$error.email">Invalid Email Format<br /></span>
-			<span ng-show="form.password.$dirty && form.password.$error.required">Password is required</span>
-		</div>
-		
-        <input type="email" name="email" class="form-control" placeholder="Email address" ng-model="user.email" autocomplete="off" required autofocus>
-        <input type="password" name="password" class="form-control" placeholder="Password" ng-model="user.password" autocomplete="off" required>
-        
-        <label class="checkbox">
-          <input type="checkbox" value="remember-me" ng-model="user.remember"> Remember me
-        </label>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    
-      </form>
-
-    </div> <!-- /container -->
-    
     <div class="modal" id="loadingWidget" style="position:absolute; top: 45%;" >
         <div class="modal-dialog">
             <div class="modal-content">
