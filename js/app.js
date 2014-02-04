@@ -3,7 +3,7 @@ var apiKey = '?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d';
 var token = sessionStorage.getItem("token");
 
 // Module for the login page
-var myezteamLogin = angular.module('myezteam-login', []);
+var myezteamLogin = angular.module('myezteam-login', ['ngRoute']);
 
 // Module for the rest of the pages
 var myezteam = angular.module('myezteam', ['ngRoute', 'highcharts-ng', 'ui.bootstrap', 'md5', 'ui-gravatar']);
@@ -12,7 +12,7 @@ var myezteam = angular.module('myezteam', ['ngRoute', 'highcharts-ng', 'ui.boots
 * Login Config - Login page configs
 *#################################*/
 
-myezteamLogin.config(function($routeProvider, $httpProvider, $provide) {
+myezteamLogin.config(["$routeProvider", "$httpProvider", "$provide", function($routeProvider, $httpProvider, $provide) {
     
     // Setup the routing
 	$routeProvider
@@ -129,7 +129,7 @@ myezteamLogin.config(function($routeProvider, $httpProvider, $provide) {
     $provide.decorator("textareaDirective", inputDecoration);
     //TODO decorate selectDirective (see binding "change" for `Single()` and `Multiple()`)
     
-});
+}]);
 
 myezteamLogin.factory("inputsWatcher", ["$interval", "$rootScope", function($interval, $rootScope){
     var INTERVAL_MS = 500;
