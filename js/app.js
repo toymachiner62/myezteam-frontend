@@ -3,16 +3,16 @@ var apiKey = '?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d';
 var token = sessionStorage.getItem("token");
 
 // Module for the login page
-var myezteamLogin = angular.module('myezteam-login', ['ngRoute']);
+var myezteamLogin = angular.module('myezteam-login', ['ngRoute', 'chieffancypants.loadingBar', 'ngAnimate']);
 
 // Module for the rest of the pages
-var myezteam = angular.module('myezteam', ['ngRoute', 'highcharts-ng', 'ui.bootstrap', 'md5', 'ui-gravatar']);
+var myezteam = angular.module('myezteam', ['ngRoute', 'highcharts-ng', 'ui.bootstrap', 'md5', 'ui-gravatar', 'chieffancypants.loadingBar', 'ngAnimate']);
 
 /*#################################
 * Login Config - Login page configs
 *#################################*/
 
-myezteamLogin.config(["$routeProvider", "$httpProvider", "$provide", function($routeProvider, $httpProvider, $provide) {
+myezteamLogin.config(["$routeProvider", "$httpProvider" /*, "$provide"*/, function($routeProvider, $httpProvider /*, $provide */) {
     
     // Setup the routing
 	$routeProvider
@@ -31,11 +31,15 @@ myezteamLogin.config(["$routeProvider", "$httpProvider", "$provide", function($r
 		.otherwise({redirectTo: '/login'});
     	
 	// This loads the ajax loading image when necessary
-	var $http,
+	/*var $http,
     interceptor = ['$q', '$injector', function ($q, $injector) {
+    
+    	console.log('in myezteamLogin thing');
+    	
         var error;
 
         function success(response) {
+        	console.log('in myezteamLogin success');
             // get $http via $injector because of circular dependency problem
             $http = $http || $injector.get('$http');
             if($http.pendingRequests.length < 1) {
@@ -46,6 +50,7 @@ myezteamLogin.config(["$routeProvider", "$httpProvider", "$provide", function($r
         }
 
         function error(response) {
+        	console.log('in myezteamLogin error');
             // get $http via $injector because of circular dependency problem
             $http = $http || $injector.get('$http');
             if($http.pendingRequests.length < 1) {
@@ -56,13 +61,14 @@ myezteamLogin.config(["$routeProvider", "$httpProvider", "$provide", function($r
         }
 
         return function (promise) {
+        	console.log('in myezteamLogin promise');
             $('#loadingWidget').show();
             $('#loadingBackdrop').show();
             return promise.then(success, error);
         }
     }];
 
-    $httpProvider.responseInterceptors.push(interceptor);
+    $httpProvider.responseInterceptors.push(interceptor); */
     
     
     
@@ -71,7 +77,7 @@ myezteamLogin.config(["$routeProvider", "$httpProvider", "$provide", function($r
     // https://github.com/angular/angular.js/issues/1460#issuecomment-28662156
     // Could break future Angular releases (if use `compile()` instead of `link())
     // TODO support select
-    var inputDecoration = ["$delegate", "inputsWatcher", function($delegate, inputsWatcher) {
+    /*var inputDecoration = ["$delegate", "inputsWatcher", function($delegate, inputsWatcher) {
         var directive = $delegate[0];
         var link = directive.link;
 
@@ -117,21 +123,21 @@ myezteamLogin.config(["$routeProvider", "$httpProvider", "$provide", function($r
          directive.link = linkDecoration;
          */
         // So use `compile()` instead
-        directive.compile = function compile(element, attrs, transclude){
+        /*directive.compile = function compile(element, attrs, transclude){
             return linkDecoration;
         };
         delete directive.link;
 
         return $delegate;
-    }];
+    }]; */
 
-    $provide.decorator("inputDirective", inputDecoration);
-    $provide.decorator("textareaDirective", inputDecoration);
+    //$provide.decorator("inputDirective", inputDecoration);
+    //$provide.decorator("textareaDirective", inputDecoration);
     //TODO decorate selectDirective (see binding "change" for `Single()` and `Multiple()`)
     
 }]);
 
-myezteamLogin.factory("inputsWatcher", ["$interval", "$rootScope", function($interval, $rootScope){
+/*myezteamLogin.factory("inputsWatcher", ["$interval", "$rootScope", function($interval, $rootScope){
     var INTERVAL_MS = 500;
     var promise;
     var handlers = [];
@@ -155,7 +161,7 @@ myezteamLogin.factory("inputsWatcher", ["$interval", "$rootScope", function($int
             }
         }
     }
-}]);
+}]); */
 
 /*#################################
 * Config - Set some configs for the app
@@ -228,11 +234,14 @@ myezteam.config(function($routeProvider, $httpProvider) {
 		.otherwise({redirectTo: '/dashboard'});
 		
 		// This loads the ajax loading image when necessary
-		var $http,
+		/*var $http,
         interceptor = ['$q', '$injector', function ($q, $injector) {
+        
+        console.log('in myezteam thing');
             var error;
 
             function success(response) {
+            	console.log('in myezteam success');
                 // get $http via $injector because of circular dependency problem
                 $http = $http || $injector.get('$http');
                 if($http.pendingRequests.length < 1) {
@@ -243,6 +252,7 @@ myezteam.config(function($routeProvider, $httpProvider) {
             }
 
             function error(response) {
+            	console.log('in myezteam error');
                 // get $http via $injector because of circular dependency problem
                 $http = $http || $injector.get('$http');
                 if($http.pendingRequests.length < 1) {
@@ -253,13 +263,14 @@ myezteam.config(function($routeProvider, $httpProvider) {
             }
 
             return function (promise) {
+            	console.log('in myezteam promise');
                 $('#loadingWidget').show();
                 $('#loadingBackdrop').show();
                 return promise.then(success, error);
             }
         }];
 
-    $httpProvider.responseInterceptors.push(interceptor);
+    $httpProvider.responseInterceptors.push(interceptor); */
 });
 
 /*#################################
