@@ -11,10 +11,9 @@ var myezteam = angular.module('myezteam', ['ngRoute', 'highcharts-ng', 'ui.boots
 /*#################################
 * Login Config - Login page configs
 *#################################*/
-
-myezteamLogin.config(["$routeProvider", "$httpProvider" /*, "$provide"*/, function($routeProvider, $httpProvider /*, $provide */) {
+myezteamLogin.config(["$routeProvider", "$httpProvider", function($routeProvider, $httpProvider) {
     
-    // Setup the routing
+  // Setup the routing
 	$routeProvider
 	    .when('/login', 
 			{
@@ -29,146 +28,15 @@ myezteamLogin.config(["$routeProvider", "$httpProvider" /*, "$provide"*/, functi
 				templateUrl: 'partials/signup.html'
 			})
 		.otherwise({redirectTo: '/login'});
-    	
-	// This loads the ajax loading image when necessary
-	/*var $http,
-    interceptor = ['$q', '$injector', function ($q, $injector) {
-    
-    	console.log('in myezteamLogin thing');
-    	
-        var error;
-
-        function success(response) {
-        	console.log('in myezteamLogin success');
-            // get $http via $injector because of circular dependency problem
-            $http = $http || $injector.get('$http');
-            if($http.pendingRequests.length < 1) {
-                $('#loadingWidget').hide();
-                $('#loadingBackdrop').hide();
-            }
-            return response;
-        }
-
-        function error(response) {
-        	console.log('in myezteamLogin error');
-            // get $http via $injector because of circular dependency problem
-            $http = $http || $injector.get('$http');
-            if($http.pendingRequests.length < 1) {
-                $('#loadingWidget').hide();
-                $('#loadingBackdrop').hide();
-            }
-            return $q.reject(response);
-        }
-
-        return function (promise) {
-        	console.log('in myezteamLogin promise');
-            $('#loadingWidget').show();
-            $('#loadingBackdrop').show();
-            return promise.then(success, error);
-        }
-    }];
-
-    $httpProvider.responseInterceptors.push(interceptor); */
-    
-    
-    
-    // Due to browsers issue, it's impossible to detect without a timeout any changes of autofilled inputs
-    // https://github.com/angular/angular.js/issues/1460
-    // https://github.com/angular/angular.js/issues/1460#issuecomment-28662156
-    // Could break future Angular releases (if use `compile()` instead of `link())
-    // TODO support select
-    /*var inputDecoration = ["$delegate", "inputsWatcher", function($delegate, inputsWatcher) {
-        var directive = $delegate[0];
-        var link = directive.link;
-
-        function linkDecoration(scope, element, attrs, ngModel){
-            var handler;
-            // By default model.$viewValue is equals to undefined
-            if(attrs.type == "checkbox"){
-                inputsWatcher.registerInput(handler = function(){
-                    var value = element[0].checked;
-                    // By default element is not checked
-                    if (value && ngModel.$viewValue !== value) {
-                        ngModel.$setViewValue(value);
-                    }
-                });
-            }else if(attrs.type == "radio"){
-                inputsWatcher.registerInput(handler = function(){
-                    var value = attrs.value;
-                    // By default element is not checked
-                    if (element[0].checked && ngModel.$viewValue !== value) {
-                        ngModel.$setViewValue(value);
-                    }
-                });
-            }else{
-                inputsWatcher.registerInput(handler = function(){
-                    var value = element.val();
-                    // By default value is an empty string
-                    if ((ngModel.$viewValue !== undefined || value !== "") && ngModel.$viewValue !== value) {
-                        ngModel.$setViewValue(value);
-                    }
-                });
-            }
-
-            scope.$on("$destroy", function(){
-                inputsWatcher.unregisterInput(handler);
-            });
-
-            // Exec original `link()`
-            link.apply(this, [].slice.call(arguments, 0));
-        }
-
-        // Decorate `link()` don't work for `inputDirective` (why?)
-        /*
-         directive.link = linkDecoration;
-         */
-        // So use `compile()` instead
-        /*directive.compile = function compile(element, attrs, transclude){
-            return linkDecoration;
-        };
-        delete directive.link;
-
-        return $delegate;
-    }]; */
-
-    //$provide.decorator("inputDirective", inputDecoration);
-    //$provide.decorator("textareaDirective", inputDecoration);
-    //TODO decorate selectDirective (see binding "change" for `Single()` and `Multiple()`)
     
 }]);
-
-/*myezteamLogin.factory("inputsWatcher", ["$interval", "$rootScope", function($interval, $rootScope){
-    var INTERVAL_MS = 500;
-    var promise;
-    var handlers = [];
-
-    function execHandlers(){
-        for(var i = 0, l = handlers.length; i < l; i++){
-            handlers[i]();
-        }
-    }
-
-    return {
-        registerInput: function registerInput(handler){
-            if(handlers.push(handler) == 1){
-                promise = $interval(execHandlers, INTERVAL_MS);
-            }
-        },
-        unregisterInput: function unregisterInput(handler){
-            handlers.splice(handlers.indexOf(handler), 1);
-            if(handlers.length == 0){
-                $interval.cancel(promise);
-            }
-        }
-    }
-}]); */
 
 /*#################################
 * Config - Set some configs for the app
 *#################################*/
 myezteam.config(function($routeProvider, $httpProvider) {
     
-    // Setup the routing
+  // Setup the routing
 	$routeProvider
 	    .when('/dashboard', 
 			{
@@ -220,57 +88,25 @@ myezteam.config(function($routeProvider, $httpProvider) {
 				templateUrl: 'partials/events/edit.html'
 			})
 		.when('/teams/:id/events/:event_id/emails',
-		    {
-		        title: 'Create Email',
-		        controller: 'CreateEventEmailController',
-		        templateUrl: 'partials/emails/create.html'
-		    })
+		  {
+				title: 'Create Email',
+				controller: 'CreateEventEmailController',
+				templateUrl: 'partials/emails/create.html'
+		  })
 		.when('/teams/:id/events/:event_id/emails/:email_id/edit',
-		    {
-		        title: 'Edit Email',
-		        controller: 'EditEventEmailController',
-		        templateUrl: 'partials/emails/edit.html'
-		    })
+		  {
+				title: 'Edit Email',
+				controller: 'EditEventEmailController',
+				templateUrl: 'partials/emails/edit.html'
+		  })
+		.when('/responses/email_rsvp/*', 
+			{
+				title: 'RSVP Response',
+				controller: 'EmailResponseController',
+				templateUrl: 'partials/email_responses/index.html'
+			})
 		.otherwise({redirectTo: '/dashboard'});
 		
-		// This loads the ajax loading image when necessary
-		/*var $http,
-        interceptor = ['$q', '$injector', function ($q, $injector) {
-        
-        console.log('in myezteam thing');
-            var error;
-
-            function success(response) {
-            	console.log('in myezteam success');
-                // get $http via $injector because of circular dependency problem
-                $http = $http || $injector.get('$http');
-                if($http.pendingRequests.length < 1) {
-                    $('#loadingWidget').hide();
-                    $('#loadingBackdrop').hide();
-                }
-                return response;
-            }
-
-            function error(response) {
-            	console.log('in myezteam error');
-                // get $http via $injector because of circular dependency problem
-                $http = $http || $injector.get('$http');
-                if($http.pendingRequests.length < 1) {
-                    $('#loadingWidget').hide();
-                    $('#loadingBackdrop').hide();
-                }
-                return $q.reject(response);
-            }
-
-            return function (promise) {
-            	console.log('in myezteam promise');
-                $('#loadingWidget').show();
-                $('#loadingBackdrop').show();
-                return promise.then(success, error);
-            }
-        }];
-
-    $httpProvider.responseInterceptors.push(interceptor); */
 });
 
 /*#################################
