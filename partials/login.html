@@ -12,6 +12,10 @@
 			<span ng-show="form.password.$dirty && form.password.$error.required">Password is required</span>
 		</div>
 		
+		<div class="alert alert-success" ng-show="success != null">
+			{{success}}
+		</div>
+		
         <input type="email" name="email" class="form-control" placeholder="Email address" ng-model="user.email" autocomplete="off" required autofocus>
         <input type="password" name="password" class="form-control" placeholder="Password" ng-model="user.password" autocomplete="off" required>
         
@@ -20,8 +24,18 @@
         </label>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         <hr />
-        <a href="#/signup" class="btn btn-sm btn-block btn-default">Don't have an account yet?</a>
-    
+        
+        <div class="form-group">
+        	<div class="row">
+        		<div class="col-md-6">
+							<a href="#/reset" class="btn btn-sm btn-block btn-default">Forgot Password?</a>
+						</div>
+						<div class="col-md-6">
+							<a href="#/signup" class="btn btn-sm btn-block btn-default">Need an Account?</a>
+						</div>
+					</div>
+        </div>
+        
       </form>
       
       

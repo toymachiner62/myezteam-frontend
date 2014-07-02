@@ -1,0 +1,36 @@
+<div class="container">
+    
+  <form class="form-signin" name="form" ng-submit="reset()" autocomplete="off">
+ 
+    <h1>My EZ Team</h1>
+    <h3 class="form-signin-heading">Reset Password</h3>
+
+	<div class="alert alert-danger" ng-show="error != null || (form.email.$dirty && form.email.$error.required) || (form.email.$dirty && form.email.$error.email) || (form.password.$dirty && form.password.$error.required)">
+		<span ng-show="error != null">{{error}}</span>
+		<span ng-show="form.email.$dirty && form.email.$error.required">Email is required<br /></span>
+		<span ng-show="form.email.$dirty && form.email.$error.email">Invalid Email Format<br /></span>
+	</div>
+	
+	<div class="alert alert-success" ng-show="success != null">
+		{{success}}
+	</div>
+	
+    <input type="email" name="email" class="form-control" placeholder="Email address" ng-model="user.email" autocomplete="off" required autofocus>
+    
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Reset</button>
+    <hr />
+    
+    <div class="form-group">
+    	<div class="row">
+      	<div class="col-md-6">
+					<a href="#/reset" class="btn btn-sm btn-block btn-default">Need an Account?</a>
+				</div>
+				<div class="col-md-6">
+					<a href="#/login" class="btn btn-sm btn-block btn-default">Have an Account?</a>
+				</div>
+			</div>
+    </div>
+
+  </form>
+  
+</div> <!-- /container -->

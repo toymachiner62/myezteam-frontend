@@ -27,6 +27,18 @@ myezteamLogin.config(["$routeProvider", "$httpProvider", function($routeProvider
 				controller: 'SignupController',
 				templateUrl: 'partials/signup.html'
 			})
+		.when('/reset',
+			{
+				title: 'Reset Password',
+				controller: 'ResetPasswordController',
+				templateUrl: 'partials/reset.html'
+			})
+		.when('/change-password/:key',
+			{
+				title: 'Change Password',
+				controller: 'ChangePasswordController',
+				templateUrl: 'partials/change-password.html'
+			})
 		.otherwise({redirectTo: '/login'});
     
 }]);
