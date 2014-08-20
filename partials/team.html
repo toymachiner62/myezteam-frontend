@@ -175,6 +175,10 @@
                                                 <a href="" ng-click="rsvp(event.id, 5)" >No</a>
                                     	    </li>
                                     	</ul>
+                                    	
+                                    	<button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="set_current_event(event)">RSVP</button>
+                                    	
+                                    	
                                     </div>
                           		
             						<div class="list-group-item" id="{{event.id}}" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name); activateEvent(event); getEmails(event.id)">
@@ -291,3 +295,34 @@
 	</div><!-- /.row -->
 
 </div><!-- /#page-wrapper -->
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">RSVP</h4>
+      </div>
+      <div class="modal-body">
+      	<input type="radio" name="response" value="yes" ng-model="response" /><label for="response">Yes</label>
+      	<input type="radio" name="response" value="probably" ng-model="response" /><label for="response">Probably</label>
+      	<input type="radio" name="response" value="maybe" ng-model="response" /><label for="response">Maybe</label>
+      	<input type="radio" name="response" value="no" ng-model="response" /><label for="response">No</label>
+      	
+      	<textarea ng-model="response.comment"></textarea>
+        <!--
+<a href="" ng-click="rsvp(event.id, 2)" >Yes</a>
+				<a href="" ng-click="rsvp(event.id, 3)" >Probably</a>
+				<a href="" ng-click="rsvp(event.id, 4)" >Maybe</a>
+				<a href="" ng-click="rsvp(event.id, 5)" >No</a>
+-->
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

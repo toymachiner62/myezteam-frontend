@@ -478,6 +478,10 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 		    });
     };
     
+    $scope.set_current_event = function(event) {
+	  	$scope.current_event = event;
+    };
+    
     /**
      * Checks if the logged in user is the owner of the team
      * @param team      - The team we're checking if the user manages
