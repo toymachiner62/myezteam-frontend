@@ -141,7 +141,7 @@
 									<div class="list-group" ng-repeat="event in events" ng-mouseenter="hover(event)" ng-mouseleave="hover(event)">
                           		
 										<!-- RSVP Button -->
-										<div class="pull-right rsvp-pill" ng-show="is_player(profile.id)">
+ 										<div class="pull-right rsvp-pill" ng-show="is_player(profile.id)">
                           		    
 											<!-- Edit button when hovered -->
 											<div class="pull-right" ng-show="(is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)) && event.showDelete">
@@ -171,11 +171,12 @@
 											<p><strong>Description:</strong> {{event.description}}</p>
 											<p><strong>Location:</strong> {{event.location}}</p>
 											<!-- <span class="label label-warning pull-right">Manager</span> -->
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+										</div><!-- /.list-group-item -->
+									</div><!-- /.rsvp-pill -->
+									
+								</div><!-- /.list-group -->
+							</div><!-- /.panel-body -->
+						</div><!-- /.panel-info -->
             
             		<!-- RSVP Graph -->
 		            <div class="col-lg-4">
@@ -279,73 +280,4 @@
 
 </div><!-- /#page-wrapper -->
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">RSVP to {{current_event.name}}</h4>
-        <br />
-        <small>{{current_event.start | date:'EEEE MMMM d, y @ h:mm a'}}</small>
-      </div>
-      <div class="modal-body" style="overflow:hidden">
-      
-      <form role="form-horizontal">
-      	<div class="form-group">
-      		<div class="col-md-offset-2 col-md-10">
-      			<div class="radio">
-							<label>
-								<input type="radio" name="response" value="2" ng-model="response.value">
-								Yes
-							</label>
-						</div>
-      		</div>
-				</div>
-				<div class="form-group">
-					<div class="col-md-offset-2 col-md-10">
-						<div class="radio">
-							<label>
-								<input type="radio" name="response" value="3" ng-model="response.value">
-								Probably
-							</label>
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-md-offset-2 col-md-10">
-						<div class="radio">
-							<label>
-								<input type="radio" name="response" value="4" ng-model="response.value">
-								Maybe
-							</label>
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-md-offset-2 col-md-10">
-						<div class="radio">
-							<label>
-								<input type="radio" name="response" value="5" ng-model="response.value">
-								No
-							</label>
-						</div>
-					</div>
-				</div>
-      
-				<div class="form-group">
-	   			<div class="col-md-2"><label>Comment</label></div>
-	   			<div class="col-md-10">
-			 			<textarea ng-model="response.comment" class="form-control" rows="3"></textarea>
-	   			</div>
-				</div>
-      </form>
-      
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="rsvp(current_event.id, response.value, response.comment)">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+<ng-include src="'partials/rsvp_modal.html'"></ng-include>

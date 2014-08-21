@@ -1,5 +1,5 @@
 // Controller for the teams page
-myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'teamsFactory', 'chartService', 'myezteamBase', function($scope, $http, $location, teamsFactory, chartService, myezteamBase) {
+myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'teamsFactory', 'chartService', 'myezteamBase', '$route', function($scope, $http, $location, teamsFactory, chartService, myezteamBase, $route) {
 
 	myezteamBase.getAuthHeader();
 	myezteamBase.getProfile(function(response) {
@@ -181,7 +181,7 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'tea
 	}
 	
 	// RSVP to an event
-	$scope.rsvp = function(event_id, team_id, response_id) {
+	$scope.rsvp = function(event_id, team_id, response_id, comment) {
 	    
 	    var me = null;
 	    
@@ -195,7 +195,8 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'tea
                 var rsvp = {
                     "response_type_id":response_id,
                     "event_id":event_id,
-                    "player_id":me.id
+                    "player_id":me.id,
+                    "comment":comment
                 }
 				
 				// Rsvp the selected event with the logged in user
@@ -237,6 +238,14 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'tea
 	$scope.activeClass = function(event) {
 		return event === $scope.selected ? 'active' : undefined;
 	}
+	
+	$scope.route = $route.current.activetab;
+	console.log('route = ');
+	console.log($scope.route);
+	
+	$scope.set_current_event = function(event) {
+	  $scope.current_event = event;
+  };
 	
 	// Call on page load
 	$scope.getEvents();	

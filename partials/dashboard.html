@@ -2,9 +2,9 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<h1>My Dashboard</h1>
-            <ol class="breadcrumb">
-              <li class="active"><i class="icon-dashboard"></i> Dashboard</li>
-            </ol>
+			<ol class="breadcrumb">
+				<li class="active"><i class="icon-dashboard"></i> Dashboard</li>
+			</ol>
             
 			<div class="alert alert-success" ng-show="success != null">
 				{{success}}
@@ -19,73 +19,78 @@
 	
 	<!-- Loading widget -->
 	<div class="modal" id="loadingWidget" style="position:absolute; top: 45%;" >
-        <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-body">
-                <div id="loadingWidget" class="row-fluid ui-corner-all" style="padding: 0 .7em;">
-                    <div class="loadingContent">
-                        <p>
-                            <i class="fa fa-spinner fa-spin fa-2x"></i> Working..
-                        </p>
-                    </div>
-                </div>
-              </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-	<div class="row">
-	    <!-- Upcoming Events -->
-		<div class="col-lg-4">
-			<div class="panel panel-info">
-				<div class="panel-heading">
-                	<!-- <a href="#/teams/create" class="btn btn-default btn-xs pull-right" type="button">Create Team</a> -->
-                	<h3 class="panel-title inline">Upcoming Events</h3>
-              	</div>
-              	
-              	<div class="panel-body events">
-              		<div class="list-group" ng-repeat="event in events">
-              		
-              		    <!-- RSVP Button -->
-                        <div class="btn-group pull-right rsvp-pill" ng-show="event.show_rsvp == true">
-                            <button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-check"></i> RSVP
-                                <span class="caret"></span>
-                            </button>
-                        	<ul class="dropdown-menu">
-                                <li>
-                                    <a href="" ng-click="rsvp(event.id, event.team_id, 2)" >Yes</a>
-                                    <a href="" ng-click="rsvp(event.id, event.team_id, 3)" >Probably</a>
-                                    <a href="" ng-click="rsvp(event.id, event.team_id, 4)" >Maybe</a>
-                                    <a href="" ng-click="rsvp(event.id, event.team_id, 5)" >No</a>
-                        	    </li>
-                        	</ul>
-                        </div>
-                        
-						<div class="list-group-item" id="{{event.id}}" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name, teamId); activateEvent(event)">
-                            <h3>{{event.name}}</h3>
-                            <p><span class="text-danger">{{event.start | date:'EEEE MMMM d, y @ h:mm a'}}</span></p>
-                            <p ng-show="event.show_rsvp == true"><strong>Your Response:</strong> <span class="label label-{{event.my_response | lowercase}}">{{event.my_response}}</span></p>
-                            <p><strong>Team: </strong><a href="#/teams/{{event.team_id}}">{{event.team_name}}</a></p>
-                            <p><strong>Description: </strong>{{event.description}}</p>
-                            <p><strong>Location: </strong>{{event.location}}</p>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div id="loadingWidget" class="row-fluid ui-corner-all" style="padding: 0 .7em;">
+						<div class="loadingContent">
+							<p>
+								<i class="fa fa-spinner fa-spin fa-2x"></i> Working..
+							</p>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<div class="row">
+		<!-- Upcoming Events -->
+		<div class="col-lg-4">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<!-- <a href="#/teams/create" class="btn btn-default btn-xs pull-right" type="button">Create Team</a> -->
+					<h3 class="panel-title inline">Upcoming Events</h3>
+				</div><!-- /.panel-heading -->
+              	
+				<div class="panel-body events">
+					<div class="list-group" ng-repeat="event in events">
+              		
+						<!-- RSVP Button -->
+						<!--
+<div class="btn-group pull-right rsvp-pill" ng-show="event.show_rsvp == true">
+							<button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
+								<i class="fa fa-check"></i> RSVP
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="" ng-click="rsvp(event.id, event.team_id, 2)" >Yes</a>
+									<a href="" ng-click="rsvp(event.id, event.team_id, 3)" >Probably</a>
+                  <a href="" ng-click="rsvp(event.id, event.team_id, 4)" >Maybe</a>
+                  <a href="" ng-click="rsvp(event.id, event.team_id, 5)" >No</a>
+								</li>
+							</ul>
+						</div>
+--><!-- /.rsvp-pill -->
+						
+						<!-- RSVP button -->
+						<button class="rsvp-pill pull-right btn btn-primary btn-xs btn-info" data-toggle="modal" data-target="#myModal" ng-click="set_current_event(event)"><i class="fa fa-check" ng-show="event.show_rsvp == true"></i> RSVP</button>
+                        
+						<div class="list-group-item" id="{{event.id}}" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name, teamId); activateEvent(event)">
+            	<h3>{{event.name}}</h3>
+            	<p><span class="text-danger">{{event.start | date:'EEEE MMMM d, y @ h:mm a'}}</span></p>
+            	<p ng-show="event.show_rsvp == true"><strong>Your Response:</strong> <span class="label label-{{event.my_response | lowercase}}">{{event.my_response}}</span></p>
+            	<p><strong>Team: </strong><a href="#/teams/{{event.team_id}}">{{event.team_name}}</a></p>
+            	<p><strong>Description: </strong>{{event.description}}</p>
+            	<p><strong>Location: </strong>{{event.location}}</p>
+						</div><!-- /.list-group-item -->
+					</div><!-- /.list-group -->
+				</div><!-- /.panel-body -->
+			</div><!-- /.panel-info -->
+		</div><!-- /.col-lg-4 -->
 
         <!-- RSVP Graph -->
 		<div class="col-lg-4">
 			<div class="panel panel-info">
 				<div class="panel-heading">
-                	<h3 class="panel-title">RSVP Chart</h3>
-              	</div>
-              	<div class="panel-body">
-                	<highchart id="chart" config="chartConfig"></highchart>
+					<h3 class="panel-title">RSVP Chart</h3>
+				</div>
+				<div class="panel-body">
+					<highchart id="chart" config="chartConfig"></highchart>
 				</div>
 			</div>
-		</div>
+		</div><!-- /.col-lg-4 -->
 		
 		<!-- RSVP Breakdown -->
 		<div class="col-lg-4">
@@ -120,3 +125,5 @@
 	</div><!-- /.row -->
 
 </div><!-- /#page-wrapper -->
+
+<ng-include src="'partials/rsvp_modal.html'"></ng-include>

@@ -240,11 +240,6 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	// RSVP to an event
 	$scope.rsvp = function(event_id, response_id, comment) {
 	    
-	    console.log('event_id = '+event_id);
-	    console.log('response_id = '+response_id);
-	    console.log('response = ');
-	    console.log($scope.response);
-	    
 	    var me = null;
 	    
 	    // Get the logged in user's player_id for the particular team page that the user is on
