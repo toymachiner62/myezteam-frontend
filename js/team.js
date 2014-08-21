@@ -238,41 +238,47 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 	}
 
 	// RSVP to an event
-	$scope.rsvp = function(event_id, response_id) {
+	$scope.rsvp = function(event_id, response_id, comment) {
+	    
+	    console.log('event_id = '+event_id);
+	    console.log('response_id = '+response_id);
+	    console.log('response = ');
+	    console.log($scope.response);
 	    
 	    var me = null;
 	    
 	    // Get the logged in user's player_id for the particular team page that the user is on
 	    $http.get(baseUrl+'v1/players/team/' + $routeParams.id + '/me' + apiKey)
-			.success(function(me) {
-		        $scope.error = null;
+	    		 .success(function(me) {
+		      		$scope.error = null;
 				
-				// The rsvp response data to be posted
-                var rsvp = {
-                    "response_type_id":response_id,
-                    "event_id":event_id,
-                    "player_id":me.id
-                }
+							// The rsvp response data to be posted
+							var rsvp = {
+								"response_type_id":response_id,
+								"event_id":event_id,
+								"player_id":me.id,
+								"comment": comment
+							}
 				
-				// Rsvp the selected event with the logged in user
-                $http.post(baseUrl+'v1/responses' + apiKey, rsvp)
-                    .success(function(response) {
+							// Rsvp the selected event with the logged in user
+							$http.post(baseUrl+'v1/responses' + apiKey, rsvp)
+								 	 .success(function(response) {
                         
-                        // Refresh the responses and the chart
-                        var selected = $scope.selected;
-                        $scope.getEvents($routeParams.id, function() {
-                            $scope.getResponses(selected.id, selected.name); 
-                            $scope.activateEvent(selected);
-                            $scope.getEmails(selected.id);
+									 	 	// Refresh the responses and the chart
+                      var selected = $scope.selected;
+                      $scope.getEvents($routeParams.id, function() {
+												$scope.getResponses(selected.id, selected.name); 
+												$scope.activateEvent(selected);
+												$scope.getEmails(selected.id);
                             
-                            $('#'+selected.id).addClass('active');
-                        }); 
+												$('#'+selected.id).addClass('active');
+                      }); 
                         
-                        $scope.error = null;
-				        $scope.success = 'Your response has been saved';
-		                $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
+                      $scope.error = null;
+											$scope.success = 'Your response has been saved';
+											$("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
                     })
-			        .error(function(response) {
+										.error(function(response) {
 				        $scope.success = null;
 			            $scope.error = 'An error occurred looking for your event\'s emails. Please try again later.';
 		                $("html, body").animate({ scrollTop: 0 }, "slow");  // scroll to top of page so success/error message is visible
