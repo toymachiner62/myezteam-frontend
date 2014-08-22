@@ -39,6 +39,12 @@ myezteamLogin.config(["$routeProvider", "$httpProvider", function($routeProvider
 				controller: 'ChangePasswordController',
 				templateUrl: 'partials/change-password.html'
 			})
+		.when('/responses/email_rsvp/:event_id/:player_id/:response_type_id/:response_key',
+			{
+				title: 'RSVP Response',
+				controller: 'EmailResponseController',
+				templateUrl: 'partials/email_responses/index.html'
+			})
 		.otherwise({redirectTo: '/login'});
 
 }]);
@@ -111,12 +117,6 @@ myezteam.config(function($routeProvider, $httpProvider) {
 				controller: 'EditEventEmailController',
 				templateUrl: 'partials/emails/edit.html'
 		  })
-		.when('/responses/email_rsvp/:event_id/:player_id/:response_type_id/:response_key',
-			{
-				title: 'RSVP Response',
-				controller: 'EmailResponseController',
-				templateUrl: 'partials/email_responses/index.html'
-			})
 		.otherwise({redirectTo: '/dashboard'});
 
 });
@@ -137,10 +137,19 @@ myezteam.run(['$location', '$rootScope', function($location, $rootScope) {
   // We use this to make sure a user is logged in when they try to retrieve data
   $rootScope.$on( "$routeChangeStart", function(event, next, current) {
 
-    console.log('$location.path = '+$location.path);
+    console.log('$location.path = ');
+		console.log($location.path());
+
+
+//localhost:8000/main.html#/responses/email_rsvp/1529/1526/3/8e59a0deb215c3092ebac4c0e7b18d4a
+
+//|| !$location.path().startsWith('/responses/email_rsvp/')
+
 
     // If a token does not exist, that means the user is not logged in already so redirect them to the login page.
-    if(sessionStorage.getItem("token") == null || $location.path == '') {
+		// OR if the current url is not the result of clicking an rsvp link in an email
+    if(sessionStorage.getItem("token") == null) {
+
       // Redirect to login page
       window.location.href = "index.html";
     }
@@ -489,4 +498,14 @@ function contains(arr, id) {
         if (arr[i].id == id) return true;
     }
     return false;
+}
+
+/**
+* Determines whether a string starts with another string
+*
+* @param str	- The string to check if exists
+* @returns 	- True or false whether the string starts with the other string
+*/
+String.prototype.startsWith = function(str) {
+	return data.lastIndexOf(str, 0) === 0;
 }
