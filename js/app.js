@@ -12,16 +12,16 @@ var myezteam = angular.module('myezteam', ['ngRoute', 'highcharts-ng', 'ui.boots
 * Login Config - Login page configs
 *#################################*/
 myezteamLogin.config(["$routeProvider", "$httpProvider", function($routeProvider, $httpProvider) {
-    
+
   // Setup the routing
 	$routeProvider
-	    .when('/login', 
+	    .when('/login',
 			{
 				title: 'Login',
 				controller: 'LoginController',
 				templateUrl: 'partials/login.html'
 			})
-		.when('/signup', 
+		.when('/signup',
 			{
 				title: 'Signup',
 				controller: 'SignupController',
@@ -40,24 +40,24 @@ myezteamLogin.config(["$routeProvider", "$httpProvider", function($routeProvider
 				templateUrl: 'partials/change-password.html'
 			})
 		.otherwise({redirectTo: '/login'});
-    
+
 }]);
 
 /*#################################
 * Config - Set some configs for the app
 *#################################*/
 myezteam.config(function($routeProvider, $httpProvider) {
-    
+
   // Setup the routing
 	$routeProvider
-	    .when('/dashboard', 
+	    .when('/dashboard',
 			{
 				title: 'My Dashboard',
 				controller: 'DashboardController',
 				templateUrl: 'partials/dashboard.html',
 				activetab: 'dashboard'
 			})
-		.when('/profile', 
+		.when('/profile',
 			{
 				title: 'My Profile',
 				controller: 'ProfileController',
@@ -87,13 +87,13 @@ myezteam.config(function($routeProvider, $httpProvider) {
 				controller: 'AddPlayerToTeamController',
 				templateUrl: 'partials/players/add.html'
 			})
-		.when('/teams/:id/events', 
+		.when('/teams/:id/events',
 			{
 				title: 'Create Event',
 				controller: 'CreateEventController',
 				templateUrl: 'partials/events/create.html'
 			})
-		.when('/teams/:id/events/:event_id/edit', 
+		.when('/teams/:id/events/:event_id/edit',
 			{
 				title: 'Edit Event',
 				controller: 'EditEventController',
@@ -111,38 +111,40 @@ myezteam.config(function($routeProvider, $httpProvider) {
 				controller: 'EditEventEmailController',
 				templateUrl: 'partials/emails/edit.html'
 		  })
-		.when('/responses/email_rsvp/*', 
+		.when('/responses/email_rsvp/:event_id/:player_id/:response_type_id/:response_key',
 			{
 				title: 'RSVP Response',
 				controller: 'EmailResponseController',
 				templateUrl: 'partials/email_responses/index.html'
 			})
 		.otherwise({redirectTo: '/dashboard'});
-		
+
 });
 
 /*#################################
 * Run - Set some actions to be performed when running the app
 *#################################*/
 myezteam.run(['$location', '$rootScope', function($location, $rootScope) {
-	
+
 	// This sets the page title
 	$rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
 		if(typeof current.$$route !== 'undefined') {
 			$rootScope.title = current.$$route.title;
 		}
 	});
-	
-	// Register listener to watch route changes. 
-    // We use this to make sure a user is logged in when they try to retrieve data
-    $rootScope.$on( "$routeChangeStart", function(event, next, current) {
-        
-        // If a token does not exist, that means the user is not logged in already so redirect them to the login page.
-        if(sessionStorage.getItem("token") == null) {
-            // Redirect to login page
-            window.location.href = "index.html";
-        }  
-    });
+
+	// Register listener to watch route changes.
+  // We use this to make sure a user is logged in when they try to retrieve data
+  $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+
+    console.log('$location.path = '+$location.path);
+
+    // If a token does not exist, that means the user is not logged in already so redirect them to the login page.
+    if(sessionStorage.getItem("token") == null || $location.path == '') {
+      // Redirect to login page
+      window.location.href = "index.html";
+    }
+  });
 
 	// This gives the nav link that the user is currently on, the class 'active'
 	var path = function() {
@@ -157,7 +159,7 @@ myezteam.run(['$location', '$rootScope', function($location, $rootScope) {
 * Run - Set some actions to be performed when running the app
 *#################################*/
 myezteamLogin.run(['$location', '$rootScope', function($location, $rootScope) {
-	
+
 	// This sets the page title
 	$rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
 		if(typeof current.$$route !== 'undefined') {
@@ -175,7 +177,7 @@ myezteam.service('myezteamBase', function($http) {
 	this.getAuthHeader = function() {
 		return $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.getItem('token');
 	}
-	
+
     // Get some profile information
 	this.getProfile = function(callback) {
 		// Get the logged in users info
@@ -185,15 +187,15 @@ myezteam.service('myezteamBase', function($http) {
 			})
 			.error(function(response) {
 				return 'An error occurred looking for your info. Please try again later.';
-			});	
+			});
 	}
-    
+
     // Logs the user out and redirects to the login page
     this.logout = function() {
         sessionStorage.removeItem("token");
         window.location = "index.html";
     }
-	
+
 });
 
 /*#################################
@@ -203,7 +205,7 @@ myezteam.service('chartService', function() {
 
 	// Count the response types (2 yes's, 3 maybe's, etc)
 	this.set_responses = function(responses, rsvps) {
-	    
+
 	    for(var i = 0; i < responses.length; i++) {
 	        switch (responses[i].response.id)
             {
@@ -228,13 +230,13 @@ myezteam.service('chartService', function() {
               break;
             }
 	    }
-	    
+
 	    return rsvps;
 	}
-	
+
 	// Set the appropriate data for the chart
 	this.setup_chart = function(team_id, event_name, rsvps) {
-	    
+
 	    // The rsvp responses data
         var data = [
             {
@@ -263,7 +265,7 @@ myezteam.service('chartService', function() {
                 url: '#/team/'+team_id
             }
         ];
-        
+
         // Pie chart configs
         var chart_config = {
             chart: {
@@ -297,23 +299,23 @@ myezteam.service('chartService', function() {
                 events: {
                     click: function(e) {
     				    //$location.path(e.point.options.url);
-                    }	
+                    }
                 },
                 data: data
             }]
         }
-        
+
         return chart_config;
 	}
 
     // Sets the chart colors and gradients
 	this.set_colors = function() {
-	    
+
 	    // The colors to be used for the respones in the pie chart
     	var colors = [
     		"#2EE619", "#F0F03C", "#FAA200", "#F24129", "#737373"
     	]
-	    
+
 	    // Add a gradient to the pie chart - http://www.highcharts.com/demo/pie-gradient
     	Highcharts.getOptions().colors = Highcharts.map(colors, function(color) {
     		return {
@@ -332,7 +334,7 @@ myezteam.service('chartService', function() {
 * teamsFactory - This gets the teams that a user is associated with.
 *#################################*/
 myezteam.factory('teamsFactory', ['$rootScope', '$http', function($rootScope, $http) {
-    
+
     // Get the teams associated with the logged in user
     return {
         all_teams: null,
@@ -349,14 +351,14 @@ myezteam.factory('teamsFactory', ['$rootScope', '$http', function($rootScope, $h
         },
         // Format's all the teams into 1 nice list regardless of owner/manager/player
         formatTeams: function(teams, showTeamButtons) {
-	    
+
 	        var new_teams = [];
-	    
+
             // Add the teams to $scope.teams, without adding duplicates
 	        new_teams = add_teams(new_teams, teams.owner, "owner", showTeamButtons);
 	        new_teams = add_teams(new_teams, teams.manager, "manager", showTeamButtons);
 	        new_teams = add_teams(new_teams, teams.player, "player", showTeamButtons);
-	    
+
 	        return new_teams;
 	    },
         // Actually get the teams from the db
@@ -368,7 +370,7 @@ myezteam.factory('teamsFactory', ['$rootScope', '$http', function($rootScope, $h
 			    })
 			    .error(function(response) {
 			    	callback('An error occurred looking for your teams. Please try again later.');
-			    });	
+			    });
         },
         // Tell all controller's that are watching for an update that the team list has been updated
         broadcast: function() {
@@ -391,12 +393,12 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
 	myezteamBase.getProfile(function(response) {
 		$scope.profile = response;
 	});
-    
+
     // Logs a user out
     $scope.logout = function() {
-        myezteamBase.logout();   
+        myezteamBase.logout();
     }
-	
+
 	// Gets all of a user's teams
 	var getTeams = function() {
 	    teamsFactory.get_teams(function(all_teams) {
@@ -411,9 +413,9 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
 
     // Shows/hides the edit/delete buttons
     $scope.toggleTeamButtons = function() {
-        
+
         showTeamButtons = !showTeamButtons;
-        
+
         // Loop through all the teams to set a default flag to show the edit/delete buttons
 		for(var i = 0; i < $scope.teams.length; i++) {
             $scope.teams[i].showDelete = showTeamButtons;
@@ -422,13 +424,13 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
 
     // Deletes a team
     $scope.delete = function(team) {
-        
+
         // Get all the players of a specific team
 		$http.delete(baseUrl+'v1/teams/' + team.id + apiKey)
             .success(function(response) {
 
 			    getTeams();   // Reload all the info so the players get updated
-			    
+
 			    $scope.error = null;
 				$scope.success = team.name + ' has been deleted';
             })
@@ -437,7 +439,7 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
 			    $scope.error = 'An error occurred trying to delete ' + team.name + '. Please try again later.';
 		    });
     };
-    
+
     getTeams();  // Call on page load
 
 }]);
@@ -448,30 +450,30 @@ myezteam.controller('TemplateProfileController', ['$scope', '$http', 'myezteamBa
 
 /**
  * Adds an array of teams to another array. Does NOT add duplicate teams
- * 
+ *
  * @param team_list  - The list of teams to be added to
  * @param teams_to_add - The list of teams to add
  * @param association    - The logged in user's association to the team (owner, manager, or player)
- * @param buttons_visible_flag   - A flag on whether the show the edit/delete buttons 
+ * @param buttons_visible_flag   - A flag on whether the show the edit/delete buttons
  */
 function add_teams(team_list, teams_to_add, association, buttons_visible_flag) {
-    
+
     if(typeof teams_to_add !== 'undefined') {
-    
+
         // Loop through all the teams to be added
         for(var i = 0; i < teams_to_add.length; i++) {
 
             // Add a flag to show the edit/delete buttons and a user association (player, owner, manager) to these objects
             teams_to_add[i].showDelete = buttons_visible_flag;
             teams_to_add[i].association = association;
-    			        
+
             // If the array doesn't already contain the team, add it
             if(!contains(team_list, teams_to_add[i].id)) {
                 team_list.push(teams_to_add[i]);
             }
         }
     }
-			
+
     return team_list;
 }
 
@@ -488,4 +490,3 @@ function contains(arr, id) {
     }
     return false;
 }
-

@@ -8,5 +8,6 @@ myezteam.controller('EmailResponseController', ['$scope', '$http', '$routeParams
 	});
 	
 	// Stuff here
+	
 
 }]);
