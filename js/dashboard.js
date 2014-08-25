@@ -240,8 +240,6 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'tea
 	}
 	
 	$scope.route = $route.current.activetab;
-	console.log('route = ');
-	console.log($scope.route);
 	
 	$scope.set_current_event = function(event) {
 	  $scope.current_event = event;
