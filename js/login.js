@@ -41,7 +41,6 @@ myezteamLogin.controller('LoginController', ['$scope', '$http', function($scope,
 	// On page load, check if a user is already logged in
 	// If a token exist, that means the user is logged in already so redirect them to the main page.
     if(sessionStorage.getItem("token") != null) {
-       console.log("token = "+sessionStorage.getItem("token"));
         // Redirect to login page
         window.location.href = "main.html";
     }

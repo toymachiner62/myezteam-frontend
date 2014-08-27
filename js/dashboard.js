@@ -103,10 +103,6 @@ myezteam.controller('DashboardController', ['$scope', '$http', '$location', 'tea
 	    
 	    teamsFactory.get_teams(function(response) {
 	        var all_teams = response;
-	        
-	        //console.log('all_teams');
-	        //console.log(all_teams);
-	        
 	        var unique_teams = [];
 	        
 	        // Add the teams to $scope.teams, without adding duplicates

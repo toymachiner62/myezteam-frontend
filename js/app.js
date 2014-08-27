@@ -137,15 +137,6 @@ myezteam.run(['$location', '$rootScope', function($location, $rootScope) {
   // We use this to make sure a user is logged in when they try to retrieve data
   $rootScope.$on( "$routeChangeStart", function(event, next, current) {
 
-    console.log('$location.path = ');
-		console.log($location.path());
-
-
-//localhost:8000/main.html#/responses/email_rsvp/1529/1526/3/8e59a0deb215c3092ebac4c0e7b18d4a
-
-//|| !$location.path().startsWith('/responses/email_rsvp/')
-
-
     // If a token does not exist, that means the user is not logged in already so redirect them to the login page.
 		// OR if the current url is not the result of clicking an rsvp link in an email
     if(sessionStorage.getItem("token") == null) {
