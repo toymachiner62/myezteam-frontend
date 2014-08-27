@@ -155,12 +155,15 @@
 													<li><a href="#/teams/{{team.id}}/events/{{event.id}}/edit" ng-show="(is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)) && event.showDelete">
 														<i class="fa fa-pencil"></i> Edit
 													</a></li>
+													<li><a ng-show="(is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)) && event.showDelete" data-toggle="modal" data-target="#myModal" ng-click="set_current_event(event); setRsvpAsPlayer(true)">
+														<i class="fa fa-check"></i> RSVP As Player
+													</a></li>
 													<li><a href="" ng-click="delete_event(event)"><i class="fa fa-trash-o"></i> Remove</a></li>
 												</ul>
 											</div>
                                     
 											<!-- RSVP button -->
-											<button class="btn btn-primary btn-xs btn-info" data-toggle="modal" data-target="#myModal" ng-click="set_current_event(event)"><i class="fa fa-check"></i> RSVP</button>
+											<button class="btn btn-primary btn-xs btn-info" data-toggle="modal" data-target="#myModal" ng-click="set_current_event(event); setRsvpAsPlayer(false)"><i class="fa fa-check"></i> RSVP</button>
                                     	            	
 										</div>
                           		

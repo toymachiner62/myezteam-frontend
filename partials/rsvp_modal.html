@@ -9,8 +9,14 @@
         <small>{{current_event.start | date:'EEEE MMMM d, y @ h:mm a'}}</small>
       </div>
       <div class="modal-body" style="overflow:hidden">
-      
+			
       <form role="form-horizontal">
+      	<div class="form-group" ng-show="rsvpAsPlayer">
+      		<div class="col-md-2"><label>RSVP as</label></div>
+					<div class="col-md-10">
+						<select ng-model="response.player" ng-options="player.display_name for player in players track by player.id"></select>
+					</div>
+				</div>
       	<div class="form-group">
       		<div class="col-md-offset-2 col-md-10">
       			<div class="radio">
@@ -63,9 +69,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        
         <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="rsvp(current_event.id, current_event.team_id, response.value, response.comment)" ng-show="route == 'dashboard'">Save changes</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="rsvp(current_event.id, response.value, response.comment)" ng-show="route != 'dashboard'">Save changes</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="rsvp(current_event.id, response.value, response.comment, response.player.id)" ng-show="route != 'dashboard'">Save changes</button>
       </div>
     </div>
   </div>
