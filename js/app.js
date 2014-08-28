@@ -6,7 +6,7 @@ var token = sessionStorage.getItem("token");
 var myezteamLogin = angular.module('myezteam-login', ['ngRoute', 'chieffancypants.loadingBar', 'ngAnimate']);
 
 // Module for the rest of the pages
-var myezteam = angular.module('myezteam', ['ngRoute', 'highcharts-ng', 'ui.bootstrap', 'md5', 'ui-gravatar', 'chieffancypants.loadingBar', 'ngAnimate']);
+var myezteam = angular.module('myezteam', ['ngRoute', 'ngResource', 'highcharts-ng', 'ui.bootstrap', 'md5', 'ui-gravatar', 'chieffancypants.loadingBar', 'ngAnimate']);
 
 /*#################################
 * Login Config - Login page configs

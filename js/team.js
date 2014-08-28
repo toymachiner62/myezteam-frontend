@@ -1,6 +1,6 @@
 // Controller for the team page
-myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$rootScope', 'chartService', 'myezteamBase',
-	function($scope, $http, $routeParams, $rootScope, chartService, myezteamBase) {
+myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$rootScope', 'chartService', 'myezteamBase', 'Events',
+	function($scope, $http, $routeParams, $rootScope, chartService, myezteamBase, Events) {
 
 		var me = null;
 
@@ -286,8 +286,9 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 					}
 
 					// Rsvp the selected event with the logged in user
-					$http.post(baseUrl + 'v1/responses' + apiKey, rsvp)
-						.success(function(response) {
+					//$http.post(baseUrl + 'v1/responses' + apiKey, rsvp)
+					Events.rsvp(rsvp, function(response) {
+						//.success(function(response) {
 
 							// Refresh the responses and the chart
 							var selected = $scope.selected;
@@ -306,15 +307,16 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 								scrollTop: 0
 							}, "slow"); // scroll to top of page so success/error message is visible
 							
-						})
-						.error(function(response) {
+							//})
+						}, function(err) {
+						//.error(function(response) {
 							$scope.success = null;
 							$scope.error = 'An error occurred looking for your event\'s emails. Please try again later.';
 							$("html, body").animate({
 								scrollTop: 0
 							}, "slow"); // scroll to top of page so success/error message is visible
-						});
-
+							//});
+					});
 				})
 				.error(function(response) {
 					$scope.success = null;
@@ -323,7 +325,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 						scrollTop: 0
 					}, "slow"); // scroll to top of page so success/error message is visible
 				});
-		}
+		};
 
 		// Get the logged in user's data
 		var getMe = function(team_id, callback) {
