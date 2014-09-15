@@ -160,4 +160,6 @@
 
 /* End angular-loading-bar override styles */
 
-
+footer {
+	text-align: center;
+}
