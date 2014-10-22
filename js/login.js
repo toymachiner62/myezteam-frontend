@@ -16,19 +16,14 @@ myezteamLogin.controller('LoginController', ['$scope', '$http', function($scope,
 		// Authenticate the user
 		$http.post(baseUrl+'v1/auth/login' + apiKey, $scope.user)
 			.success(function(response) {
-				sessionStorage.setItem("token", response.token);
+				sessionStorage.setItem("myezteamToken", response.token);
 				$scope.loginError = null;
 
 				// If a user checked the "remember me" box, set their email/password in localStorage
 				if($scope.user.remember) {
-					localStorage.setItem("email", $scope.user.email);
-					localStorage.setItem("password", $scope.user.password);
-					localStorage.setItem("remember", $scope.user.remember);
-
+					localStorage.setItem('myezteamToken', response.token);		// Set this so the user is remembered on the computer					
 				} else {
-					localStorage.removeItem("email");
-					localStorage.removeItem("password");
-					localStorage.removeItem("remember");
+					localStorage.removeItem('myezteamToken');
 				}
 				
 				window.location = 'main.html';
@@ -40,9 +35,9 @@ myezteamLogin.controller('LoginController', ['$scope', '$http', function($scope,
 	
 	// On page load, check if a user is already logged in
 	// If a token exist, that means the user is logged in already so redirect them to the main page.
-    if(sessionStorage.getItem("token") != null) {
-        // Redirect to login page
-        window.location.href = "main.html";
-    }
+  if(sessionStorage.getItem("myezteamToken") != null) {
+		// Redirect to login page
+		window.location.href = "main.html";
+  }
 	
 }]);

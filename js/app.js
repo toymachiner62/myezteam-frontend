@@ -1,6 +1,6 @@
 var baseUrl = 'http://ws.myezteam.com/';
 var apiKey = '?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d';
-var token = sessionStorage.getItem("token");
+var token = sessionStorage.getItem("myezteamToken");
 
 // Module for the login page
 var myezteamLogin = angular.module('myezteam-login', ['ngRoute', 'chieffancypants.loadingBar', 'ngAnimate']);
@@ -139,7 +139,7 @@ myezteam.run(['$location', '$rootScope', function($location, $rootScope) {
 
     // If a token does not exist, that means the user is not logged in already so redirect them to the login page.
 		// OR if the current url is not the result of clicking an rsvp link in an email
-    if(sessionStorage.getItem("token") == null) {
+    if(sessionStorage.getItem("myezteamToken") == null) {
 
       // Redirect to login page
       window.location.href = "index.html";
@@ -166,6 +166,13 @@ myezteamLogin.run(['$location', '$rootScope', function($location, $rootScope) {
 			$rootScope.title = current.$$route.title;
 		}
 	});
+
+  // If a token exists, redirect the to the main page.
+  if(localStorage.getItem("myezteamToken") != null) {
+		sessionStorage.setItem('myezteamToken', localStorage.getItem('myezteamToken'));
+    window.location.href = "main.html";
+  }
+
 }]);
 
 /*#################################
@@ -175,7 +182,7 @@ myezteam.service('myezteamBase', function($http) {
 
     // Set authorization token so we know the user has logged in.
 	this.getAuthHeader = function() {
-		return $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.getItem('token');
+		return $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.getItem('myezteamToken');
 	}
 
     // Get some profile information
@@ -192,7 +199,8 @@ myezteam.service('myezteamBase', function($http) {
 
     // Logs the user out and redirects to the login page
     this.logout = function() {
-        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("myezteamToken");				// Clear the authenticated session
+				localStorage.removeItem('myezteamToken');	// Clear the "remember me"
         window.location = "index.html";
     }
 
