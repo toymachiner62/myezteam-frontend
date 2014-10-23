@@ -167,6 +167,9 @@ myezteamLogin.run(['$location', '$rootScope', function($location, $rootScope) {
 		}
 	});
 
+	console.log($location.path());
+	console.log($location.path().startsWith('/responses/email_rsvp/'));
+
 	// If a user clicked any link, except an email rsvp link
 	if(!$location.path().startsWith('/responses/email_rsvp/')) {
 		
