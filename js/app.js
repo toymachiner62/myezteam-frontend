@@ -168,7 +168,7 @@ myezteamLogin.run(['$location', '$rootScope', function($location, $rootScope) {
 	});
 
 	// If a user clicked any link, except an email rsvp link
-	if(!$location.path.startsWith('/responses/email_rsvp/')) {
+	if(!$location.path().startsWith('/responses/email_rsvp/')) {
 		
 		// If a user has previously asked to be remembered, set the session storage token and redirect
 		if(localStorage.getItem("myezteamToken") != null) {
@@ -516,5 +516,5 @@ function contains(arr, id) {
 * @returns 	- True or false whether the string starts with the other string
 */
 String.prototype.startsWith = function(str) {
-	return data.lastIndexOf(str, 0) === 0;
+	return str.lastIndexOf(str, 0) === 0;
 }
