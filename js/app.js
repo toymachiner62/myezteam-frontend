@@ -519,5 +519,5 @@ function contains(arr, id) {
 * @returns 	- True or false whether the string starts with the other string
 */
 String.prototype.startsWith = function(str) {
-	return str.lastIndexOf(str, 0) === 0;
+	return this.lastIndexOf(str, 0) === 0;
 }
