@@ -166,10 +166,15 @@ myezteamLogin.run(['$location', '$rootScope', function($location, $rootScope) {
 			$rootScope.title = current.$$route.title;
 		}
 	});
+	
+	// If a user has previously asked to be remembered, set the session storage token and redirect
+	if(localStorage.getItem("myezteamToken") != null) {
+		sessionStorage.setItem('myezteamToken', localStorage.getItem('myezteamToken'));
+		window.location.href = "main.html";
+	}
 
-  // If a token exists, redirect the to the main page.
-  if(localStorage.getItem("myezteamToken") != null) {
-		console.log('in this thing');
+  // If a user is logged in (if a sessionStorage token exists), redirect the to the main page.
+  if(sessionStorage.getItem('myezteamToken') != null) {
 		sessionStorage.setItem('myezteamToken', localStorage.getItem('myezteamToken'));
     window.location.href = "main.html";
   }
