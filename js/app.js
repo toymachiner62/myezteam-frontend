@@ -169,6 +169,7 @@ myezteamLogin.run(['$location', '$rootScope', function($location, $rootScope) {
 
   // If a token exists, redirect the to the main page.
   if(localStorage.getItem("myezteamToken") != null) {
+		console.log('in this thing');
 		sessionStorage.setItem('myezteamToken', localStorage.getItem('myezteamToken'));
     window.location.href = "main.html";
   }
