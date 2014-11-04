@@ -1,5 +1,5 @@
 <div id="page-wrapper">
-	<div class="row">
+    <div class="row">
 		<div class="col-lg-12">
 			<h1>Team {{team.name}}</h1>
       	<ol class="breadcrumb">
@@ -93,7 +93,7 @@
 												</button>
                                             
 												<ul class="dropdown-menu" role="menu">
-													<li ng-show="!player.owner"><a href="" ng-click="delete_player(player)"><i class="fa fa-trash-o"></i> Remove From Team</a></li>
+													<li><a href="" ng-click="delete_player(player)"><i class="fa fa-trash-o"></i> Remove From Team</a></li>
 													<li ng-show="!player.owner && player.manager === true"><a href="" ng-click="remove_manager(player)">Remove as Manager</a></li>
 													<li ng-show="!player.owner && player.manager === false"><a href="" ng-click="add_manager(player)">Add as Manager</a></li>
 													<li ng-show="!player.owner" class="divider"></li>
@@ -139,34 +139,31 @@
             			</div>
                           	
 									<div class="list-group" ng-repeat="event in events" ng-mouseenter="hover(event)" ng-mouseleave="hover(event)">
-                          		
+
+										<!-- Edit button when hovered -->
+										<div class="pull-right rsvp-pill" ng-show="(is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)) && event.showDelete">
+											<!-- Settings Button -->
+											<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+												<i class="fa fa-cog"></i><span class="caret"></span>
+											</button>
+
+											<!-- Settings dropdown -->
+											<ul class="dropdown-menu" role="menu">
+												<li><a href="#/teams/{{team.id}}/events/{{event.id}}/edit" ng-show="(is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)) && event.showDelete">
+													<i class="fa fa-pencil"></i> Edit
+												</a></li>
+												<li><a ng-show="(is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)) && event.showDelete" data-toggle="modal" data-target="#myModal" ng-click="set_current_event(event); setRsvpAsPlayer(true)">
+													<i class="fa fa-check"></i> RSVP As Player
+												</a></li>
+												<li><a href="" ng-click="delete_event(event)"><i class="fa fa-trash-o"></i> Remove</a></li>
+											</ul>
+										</div>
+
 										<!-- RSVP Button -->
  										<div class="pull-right rsvp-pill" ng-show="is_player(profile.id)">
-                          		    
-											<!-- Edit button when hovered -->
-											<div class="pull-right" ng-show="(is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)) && event.showDelete">
-												<!-- Settings Button -->
-												<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-													<i class="fa fa-cog"></i><span class="caret"></span>
-												</button>
-                                            
-												<!-- Settings dropdown -->
-												<ul class="dropdown-menu" role="menu">
-													<li><a href="#/teams/{{team.id}}/events/{{event.id}}/edit" ng-show="(is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)) && event.showDelete">
-														<i class="fa fa-pencil"></i> Edit
-													</a></li>
-													<li><a ng-show="(is_owner(team.owner_id, profile.id) || is_manager(team, profile.id)) && event.showDelete" data-toggle="modal" data-target="#myModal" ng-click="set_current_event(event); setRsvpAsPlayer(true)">
-														<i class="fa fa-check"></i> RSVP As Player
-													</a></li>
-													<li><a href="" ng-click="delete_event(event)"><i class="fa fa-trash-o"></i> Remove</a></li>
-												</ul>
-											</div>
-                                    
-											<!-- RSVP button -->
 											<button class="btn btn-primary btn-xs btn-info" data-toggle="modal" data-target="#myModal" ng-click="set_current_event(event); setRsvpAsPlayer(false)"><i class="fa fa-check"></i> RSVP</button>
-                                    	            	
 										</div>
-                          		
+
 										<div class="list-group-item" id="{{event.id}}" ng-class="activeClass(event)" ng-click="getResponses(event.id, event.name); activateEvent(event); getEmails(event.id)">
 											<h3>{{event.name}}</h3>
 											<p><span class="text-danger">{{event.start | date:'EEEE MMMM d, y @ h:mm a'}}</span></p>
