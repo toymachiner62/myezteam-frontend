@@ -39,5 +39,17 @@ myezteamLogin.controller('LoginController', ['$scope', '$http', function($scope,
 		// Redirect to login page
 		window.location.href = "main.html";
   }
+
+	/**
+	 * Sets a dirty flag on the passed in field.
+	 *
+	 * Used to only show error messages when blurring out of a field
+	 *
+	 * @param field
+	 */
+	$scope.fieldDirty = function(field) {
+		$scope[field] = {};
+		$scope[field].dirty = true;
+	}
 	
 }]);

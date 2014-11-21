@@ -13,6 +13,18 @@ myezteamLogin.controller('SignupController', ['$scope', '$http', '$location', fu
 			.error(function(response) {
 				$scope.error = response.message;
 			});
-	}
+	};
+
+	/**
+	 * Sets a dirty flag on the passed in field.
+	 *
+	 * Used to only show error messages when blurring out of a field
+	 *
+	 * @param field
+	 */
+	$scope.fieldDirty = function(field) {
+		$scope[field] = {};
+		$scope[field].dirty = true;
+	};
 
 }]);

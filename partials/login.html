@@ -1,59 +1,58 @@
 <div class="container">
     
-      <form class="form-signin" name="form" ng-submit="login()" autocomplete="off">
+	<form class="form-signin" name="form" ng-submit="login()" autocomplete="off">
      
-        <h1>My EZ Team</h1>
-        <h3 class="form-signin-heading">Login</h3>
+		<h1>My EZ Team</h1>
+		<h3 class="form-signin-heading">Login</h3>
 
-		<div class="alert alert-danger" ng-show="loginError != null || (form.email.$dirty && form.email.$error.required) || (form.email.$dirty && form.email.$error.email) || (form.password.$dirty && form.password.$error.required)">
+		<div class="alert alert-danger" ng-show="loginError != null || (email.dirty && form.email.$error.required) || (email.dirty && form.email.$error.email) || (password.dirty && form.password.$error.required)">
 			<span ng-show="loginError != null">{{loginError}}</span>
-			<span ng-show="form.email.$dirty && form.email.$error.required">Email is required<br /></span>
-			<span ng-show="form.email.$dirty && form.email.$error.email">Invalid Email Format<br /></span>
-			<span ng-show="form.password.$dirty && form.password.$error.required">Password is required</span>
+			<span ng-show="email.dirty && form.email.$error.required">Email is required<br /></span>
+			<span ng-show="email.dirty && form.email.$error.email">Invalid Email Format<br /></span>
+			<span ng-show="password.dirty && form.password.$error.required">Password is required</span>
 		</div>
 		
 		<div class="alert alert-success" ng-show="success != null">
 			{{success}}
 		</div>
 		
-        <input type="email" name="email" class="form-control" placeholder="Email address" ng-model="user.email" autocomplete="off" required autofocus>
-        <input type="password" name="password" class="form-control" placeholder="Password" ng-model="user.password" autocomplete="off" required>
+		<input type="email" name="email" class="form-control" placeholder="Email address" ng-model="user.email" ng-blur="fieldDirty('email')" autocomplete="off" required autofocus>
+		<input type="password" name="password" class="form-control" placeholder="Password" ng-model="user.password" ng-blur="fieldDirty('password')" autocomplete="off" required>
         
-        <label class="checkbox">
-          <input type="checkbox" value="remember-me" ng-model="user.remember"> Remember me
-        </label>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        <hr />
-        
-        <div class="form-group">
-        	<div class="row">
-        		<div class="col-md-6">
-							<a href="#/reset" class="btn btn-sm btn-block btn-default">Forgot Password?</a>
-						</div>
-						<div class="col-md-6">
-							<a href="#/signup" class="btn btn-sm btn-block btn-default">Need an Account?</a>
-						</div>
-					</div>
-        </div>
-        
-      </form>
-      
-      
+		<label class="checkbox">
+			<input type="checkbox" value="remember-me" ng-model="user.remember"> Remember me
+		</label>
 
-    </div> <!-- /container -->
-    
-    <div class="modal" id="loadingWidget" style="position:absolute; top: 45%;" >
-        <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-body">
-                <div id="loadingWidget" class="row-fluid ui-corner-all" style="padding: 0 .7em;">
-                    <div class="loadingContent">
-                        <p>
-                            <i class="fa fa-spinner fa-spin fa-2x"></i> Working..
-                        </p>
-                    </div>
-                </div>
-              </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+		<hr />
+        
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-6">
+					<a href="#/reset" class="btn btn-sm btn-block btn-default">Forgot Password?</a>
+				</div>
+				<div class="col-md-6">
+					<a href="#/signup" class="btn btn-sm btn-block btn-default">Need an Account?</a>
+				</div>
+			</div>
+		</div>
+        
+	</form>
+</div> <!-- /container -->
+
+<!-- Loading icon -->
+<div class="modal" id="loadingWidget" style="position:absolute; top: 45%;" >
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div id="loadingWidget" class="row-fluid ui-corner-all" style="padding: 0 .7em;">
+					<div class="loadingContent">
+						<p>
+							<i class="fa fa-spinner fa-spin fa-2x"></i> Working..
+						</p>
+					</div>
+				</div>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
