@@ -332,11 +332,34 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 
 			$http.get(baseUrl + 'v1/players/team/' + team_id + '/me' + apiKey)
 				.success(function(response) {
-					me = response;
-					$scope.error = null;
-					// Somehow this magic little number only calls the callback if it's actually a function
-					// http://stackoverflow.com/questions/6792663/javascript-style-optional-callbacks
-					typeof callback === 'function' && callback(response);
+
+
+					$http.get(baseUrl + 'v1/users' + apiKey)
+						.success(function(userReponse) {
+
+							me = response;
+
+							// Temp hack. Get the user and mash the id with
+							if(!me) {
+								me = {};
+								me.user_id = userReponse.id;
+							}
+
+							$scope.error = null;
+
+							// Somehow this magic little number only calls the callback if it's actually a function
+							// http://stackoverflow.com/questions/6792663/javascript-style-optional-callbacks
+							typeof callback === 'function' && callback(response);
+
+						})
+						.error(function(err) {
+							$scope.success = null;
+							$scope.error = 'An error occurred looking for your user info. Please try again later.';
+							$("html, body").animate({
+								scrollTop: 0
+							}, "slow");
+							typeof callback === 'function' && callback();
+						});
 				})
 				.error(function(response) {
 					$scope.success = null;
@@ -559,8 +582,8 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 		/**
 		 * Checks if the logged in user is the owner of the team
 		 *
-		 * @param team      - The team we're checking if the user manages
-		 * @param user_id   - The user we're checking if they manage the team
+		 * @param team      - The team we're checking if the user owns
+		 * @param user_id   - The user we're checking if they own the team
 		 */
 		$scope.is_owner = function(owner_id, user_id) {
 			if (owner_id == user_id) {
