@@ -46,12 +46,10 @@
 	              
 					<form role="form" name="form" ng-submit="createEvent()">
 	
-	              		<div class="form-group">
-	              		    
-	                		        <label for="name">Event Name</label>
-	                		        <input type="text" name="name" class="form-control" ng-model="event.name">
-							        <span ng-show="form.name.$dirty && form.name.$error.required">Event Name is required</span>	
-					        
+	              	<div class="form-group">  
+	                		<label for="name">Event Name</label>
+	                		<input type="text" name="name" class="form-control" ng-model="event.name">
+							       	<span ng-show="form.name.$dirty && form.name.$error.required">Event Name is required</span>	
      	         		</div>
 
      	         		<div class="form-group">
