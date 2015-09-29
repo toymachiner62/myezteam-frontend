@@ -159,7 +159,7 @@ myezteam.controller('TeamController', ['$scope', '$http', '$routeParams', '$root
 							$scope.events[i].showDelete = false;
 
 							// If the logged in user is an owner or manager, get the emails
-							if ($scope.is_owner($scope.team.owner_id, me.user_id) || $scope.is_manager($scope.team.owner_id, me.user_id)) {
+							if ($scope.is_owner($scope.team.owner_id, me.user_id) || $scope.is_manager($scope.team, me.user_id)) {
 								$scope.getEmails(event_id);
 							}
 
