@@ -1,4 +1,4 @@
-var baseUrl = 'http://ws.myezteam.com/';
+var baseUrl = 'http://ws.myezteam.com:8080/';
 var apiKey = '?api_key=9c0ba686-e06c-4a2c-821b-bae2a235fd3d';
 var token = sessionStorage.getItem("myezteamToken");
 
